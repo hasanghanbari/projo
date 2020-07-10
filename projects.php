@@ -56,7 +56,6 @@ $admins_tasks = new ManageAdmins_Tasks();
 				$prjtitle = $_POST['prjtitle'];
 				$prjdesc = $_POST['prjdesc'];
 				$prjcomments = $_POST['prjcomments'];
-				$prjdate= date("Y-m-d H:i:s");
 				$aid=1;
 				if (empty($prjcode) || empty($prjtitle)) {
 					$error = _FILL_IN_REQUIRED ;
@@ -68,7 +67,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					        $error=_INVALID_CODE;
 					    }
 					    else{
-							if ($project->Add($prjcode, $prjtitle, $prjdesc, $prjlogo, $prjcomments, $prjdate, $aid)==1) {
+							if ($project->Add($prjcode, $prjtitle, $prjdesc, $prjlogo, $prjcomments, $aid)==1) {
 								$success= _RECORD_ADDED_SUCCESSFULLI;
 								$prjcode= $prjtitle= $prjdesc= $prjlogo= $prjcomments= '';
 							}

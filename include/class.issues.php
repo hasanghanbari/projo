@@ -8,12 +8,12 @@ class ManageIssues{
 		$this->link = $db_connection->connect();
 		return $this->link;
 	}
-	function Add($tyid, $prjid, $iversion, $icode, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive,$idate, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version, $aid)
+	function Add($tyid, $prjid, $iversion, $icode, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version, $aid)
 	{
 		global $prefix;
 		global $dev;
-		$query = $this->link->prepare("INSERT INTO `issues`(tyid, prjid, iversion, icode, ititle, idesc, iproirity, icomplexity, ineeded_time, ifile1, ifile2, ifile3, iarchive, idate, iwho_fullname, iwho_email, iwho_tel, idone, idone_date, idone_version, aid) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-		$values = array($tyid, $prjid, $iversion, $icode, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive,$idate, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version, $aid);
+		$query = $this->link->prepare("INSERT INTO `issues`(tyid, prjid, iversion, icode, ititle, idesc, iproirity, icomplexity, ineeded_time, ifile1, ifile2, ifile3, iarchive, iwho_fullname, iwho_email, iwho_tel, idone, idone_date, idone_version, aid) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		$values = array($tyid, $prjid, $iversion, $icode, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version, $aid);
 		$query->execute($values);
 		$counts = $query->rowcount();
 		if ($dev==1) {

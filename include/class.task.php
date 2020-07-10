@@ -8,12 +8,12 @@ class ManageTasks{
 		$this->link = $db_connection->connect();
 		return $this->link;
 	}
-	function Add($prjid, $tskcode, $tsktitle, $tskdesc,$tskdate, $tskdone, $tskdone_date, $aid)
+	function Add($prjid, $tskcode, $tsktitle, $tskdesc, $tskdone, $tskdone_date, $aid)
 	{
 		global $prefix;
 		global $dev;
-		$query = $this->link->prepare("INSERT INTO `tasks`(prjid, tskcode, tsktitle, tskdesc, tskdate, tskdone, tskdone_date, aid) VALUES(?,?,?,?,?,?,?,?)");
-		$values = array($prjid, $tskcode, $tsktitle, $tskdesc,$tskdate, $tskdone, $tskdone_date, $aid);
+		$query = $this->link->prepare("INSERT INTO `tasks`(prjid, tskcode, tsktitle, tskdesc, tskdone, tskdone_date, aid) VALUES(?,?,?,?,?,?,?)");
+		$values = array($prjid, $tskcode, $tsktitle, $tskdesc, $tskdone, $tskdone_date, $aid);
 		$query->execute($values);
 		$counts = $query->rowcount();
 		if ($dev==1) {

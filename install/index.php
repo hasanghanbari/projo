@@ -64,8 +64,7 @@ else
 		$sistem_name = $_POST['sistem_name'];
 		$admin_username = $_POST['admin_username'];
 		$admin_password = md5($_POST['admin_password']);
-		$date = date("Y-m-d H:i:s");
-		if(empty($dbhost) || empty($dbname) || empty($dbuname) || empty($sistem_name) || empty($lang) || empty($admin_username) || empty($admin_password))
+		if(empty($dbhost) || empty($dbname) || empty($dbuname) || empty($dbpass) || empty($sistem_name) || empty($lang) || empty($admin_username) || empty($admin_password))
 			$error = "پر کردن تمام فیلدها الزامی است! (All fields are required)<br>";
 		
 		if ($db_connection->connect()=='')
@@ -125,9 +124,9 @@ else
 					");
 					$dbh->exec("
 
-						INSERT INTO `admins` (`aid`, `ausername`, `apass`, `aactive`, `aexpiration_date`, `asuper_admin`, `afname`, `alname`, `agender`, `atel`, `aemail`, `apic`, `acomments`, `allow_add_project`, `allow_edit_project`, `allow_list_project`, `allow_delete_project`, `allow_add_task`, `allow_edit_task`, `allow_list_task`, `allow_delete_task`, `allow_add_issues`, `allow_edit_issues`, `allow_list_issues`, `allow_delete_issues`) 
+						INSERT INTO `admins` (`aid`, `ausername`, `apass`, `aactive`, `asuper_admin`, `afname`, `alname`, `agender`, `atel`, `aemail`, `apic`, `acomments`, `allow_add_project`, `allow_edit_project`, `allow_list_project`, `allow_delete_project`, `allow_add_task`, `allow_edit_task`, `allow_list_task`, `allow_delete_task`, `allow_add_issues`, `allow_edit_issues`, `allow_list_issues`, `allow_delete_issues`) 
 						VALUES
-						(1, '".$admin_username."', '".$admin_password."', 1, '".$date."', 1, NULL, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+						(1, '".$admin_username."', '".$admin_password."', 1, 1, NULL, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 							");
 					
 					$dbh->exec("
@@ -147,8 +146,8 @@ else
 
 					if ($default==1) {
 						$dbh->exec("
-							INSERT INTO `projects` (`prjid`, `prjcode`, `prjtitle`, `prjdesc`, `prjlogo`, `prjcomments`, `prjdate`, `aid`) VALUES
-							(1, '1', 'proja', '', '-1199440.png', '', '".$date."', 1);
+							INSERT INTO `projects` (`prjid`, `prjcode`, `prjtitle`, `prjdesc`, `prjlogo`, `prjcomments`, `aid`) VALUES
+							(1, '1', 'proja', '', '-1199440.png', '', 1);
 							");
 					}
 					$dbh->exec("	
@@ -201,13 +200,13 @@ else
 					if ($default==1) {
 						$dbh->exec("
 
-							INSERT INTO `issues` (`iid`, `prjid`, `tyid`, `aid`, `iversion`, `icode`, `ititle`, `idesc`, `iproirity`, `icomplexity`, `ineeded_time`, `ifile1`, `ifile2`, `ifile3`, `iarchive`, `idate`, `iwho_fullname`, `iwho_email`, `iwho_tel`, `idone`, `idone_date`, `idone_version`) VALUES
-							(1, 1, 3, 1, '1.0.0', 1, 'Proja! This is an issue.', '', '1', '5', '', '', '', '', 0, '".$date."', '', '', '', 0, '0000-00-00', 0),
-							(2, 1, 3, 1, '', 2, 'Tap on a issue to open it up.', '<p dir=\"ltr\">There''s all kinds of cool stuff here. <br>* Due date<br>* Members In Tasks<br>* Attachments<br>* Descs</p>', '2', '4', '', '', '', '', 0, '".$date."', '', '', '', 0, '0000-00-00', 0),
-							(3, 1, 3, 1, '', 3, 'Create as many cards as you want. We''ve got an unlimited supply!', '', '0', '3', '', '', '', '', 0, '".$date."', '', '', '', 0, '0000-00-00', 0),
-							(4, 1, 3, 1, '', 4, 'Finished with a card?', '<p>You can archive a card from the tools menu in the edit issue.<br><br>Want to bring it back to the board? Go to the *Archived Items* section to return the card to the board.</p>', '0', '5', '', '', '', '', 0, '".$date."', '', '', '', 0, '0000-00-00', 0),
-							(5, 1, 3, 1, '', 5, 'Invite admin to collaborate on this task.', '', '0', '3', '', '', '', '', 0, '".$date."', '', '', '', 0, '0000-00-00', 0),
-							(6, 1, 3, 1, '', 6, 'Want updates on new features?', '<p dir=\"ltr\">Read our blog:<a href=\"%20http:/proja.aftab.cc/\" target=\"_blank\" rel=\"noopener\"> http://proja.aftab.cc/</a><br><br>Follow us on Google+: <a href=\"https://plus.google.com/+proja\" target=\"_blank\" rel=\"noopener\">https://plus.google.com/+proja</a><br><br>Like us on Facebook: <a href=\"https://www.facebook.com/proja\" target=\"_blank\" rel=\"noopener\">https://www.facebook.com/proja</a><br><br>Follow us on Twitter: <a href=\"http://twitter.com/proja\" target=\"_blank\" rel=\"noopener\">http://twitter.com/proja</a></p>', '0', '3', '', '', '', '', 0, '".$date."', '', '', '', 0, '0000-00-00', 0);
+							INSERT INTO `issues` (`iid`, `prjid`, `tyid`, `aid`, `iversion`, `icode`, `ititle`, `idesc`, `iproirity`, `icomplexity`, `ineeded_time`, `ifile1`, `ifile2`, `ifile3`, `iarchive`, `iwho_fullname`, `iwho_email`, `iwho_tel`, `idone`, `idone_date`, `idone_version`) VALUES
+							(1, 1, 3, 1, '1.0.0', 1, 'Proja! This is an issue.', '', '1', '5', '', '', '', '', 0, '', '', '', 0, '0000-00-00', 0),
+							(2, 1, 3, 1, '', 2, 'Tap on a issue to open it up.', '<p dir=\"ltr\">There''s all kinds of cool stuff here. <br>* Due date<br>* Members In Tasks<br>* Attachments<br>* Descs</p>', '2', '4', '', '', '', '', 0, '', '', '', 0, '0000-00-00', 0),
+							(3, 1, 3, 1, '', 3, 'Create as many cards as you want. We''ve got an unlimited supply!', '', '0', '3', '', '', '', '', 0, '', '', '', 0, '0000-00-00', 0),
+							(4, 1, 3, 1, '', 4, 'Finished with a card?', '<p>You can archive a card from the tools menu in the edit issue.<br><br>Want to bring it back to the board? Go to the *Archived Items* section to return the card to the board.</p>', '0', '5', '', '', '', '', 0, '', '', '', 0, '0000-00-00', 0),
+							(5, 1, 3, 1, '', 5, 'Invite admin to collaborate on this task.', '', '0', '3', '', '', '', '', 0, '', '', '', 0, '0000-00-00', 0),
+							(6, 1, 3, 1, '', 6, 'Want updates on new features?', '<p dir=\"ltr\">Read our blog:<a href=\"%20http:/proja.aftab.cc/\" target=\"_blank\" rel=\"noopener\"> http://proja.aftab.cc/</a><br><br>Follow us on Google+: <a href=\"https://plus.google.com/+proja\" target=\"_blank\" rel=\"noopener\">https://plus.google.com/+proja</a><br><br>Like us on Facebook: <a href=\"https://www.facebook.com/proja\" target=\"_blank\" rel=\"noopener\">https://www.facebook.com/proja</a><br><br>Follow us on Twitter: <a href=\"http://twitter.com/proja\" target=\"_blank\" rel=\"noopener\">http://twitter.com/proja</a></p>', '0', '3', '', '', '', '', 0, '', '', '', 0, '0000-00-00', 0);
 							");
 					}
 
@@ -255,10 +254,10 @@ else
 
 					if ($default==1) {
 						$dbh->exec("
-							INSERT INTO `tasks` (`tskid`, `prjid`, `aid`, `tskcode`, `tsktitle`, `tskdesc`, `tskdate`, `tskdone`, `tskdone_date`) VALUES
-							(1, 1, 1, '1', 'Getting Started', '', '".$date."', 0, NULL),
-							(2, 1, 1, '2', 'Mastering Proja', '', '".$date."', 0, NULL),
-							(3, 1, 1, '3', 'More Info', '', '".$date."', 0, NULL);			
+							INSERT INTO `tasks` (`tskid`, `prjid`, `aid`, `tskcode`, `tsktitle`, `tskdesc`, `tskdone`, `tskdone_date`) VALUES
+							(1, 1, 1, '1', 'Getting Started', '', 0, NULL),
+							(2, 1, 1, '2', 'Mastering Proja', '', 0, NULL),
+							(3, 1, 1, '3', 'More Info', '', 0, NULL);			
 							");
 					}
 

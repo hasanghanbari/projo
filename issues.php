@@ -234,7 +234,6 @@ $admins_tasks = new ManageAdmins_Tasks();
 				$idone_date = (isset($_POST['idone_date'])?$_POST['idone_date']:NULL);
 				$idone_version =(isset($_POST['idone_version'])?$_POST['idone_version']:0); 
 				$aid = $permissions[0]['aid'];
-				$idate = date("Y-m-d H:i:s");
 				if (empty($icode) || empty($ititle)) {
 					$error = _FILL_IN_REQUIRED ;
 				} 
@@ -245,14 +244,14 @@ $admins_tasks = new ManageAdmins_Tasks();
 					        $error=_INVALID_CODE;
 					    }
 					    else{
-							if ($issue->Add($tyid, $prjid, $iversion, $icode, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive,$idate, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version, $aid)==1) {
+							if ($issue->Add($tyid, $prjid, $iversion, $icode, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version, $aid)==1) {
 								if (isset($_GET['tskid'])) {
 									$iid = $issue->LastID();
 									$tskid = $_GET['tskid'];
 									$task_issue->Add($tskid,$iid);
 								}
 								$success= _RECORD_ADDED_SUCCESSFULLI;
-								$tyid= $prjid= $iversion= $icode= $ititle= $idesc= $iproirity=$idate= $icomplexity= $ineeded_time= $ifile1= $ifile2= $ifile3= $iarchive= $iwho_fullname= $iwho_email= $iwho_tel= $idone= $idone_date= $idone_version= $aid ='';
+								$tyid= $prjid= $iversion= $icode= $ititle= $idesc= $iproirity= $icomplexity= $ineeded_time= $ifile1= $ifile2= $ifile3= $iarchive= $iwho_fullname= $iwho_email= $iwho_tel= $idone= $idone_date= $idone_version= $aid ='';
 							}
 							else{
 								$error= _ADDING_RECORD_FAILED;

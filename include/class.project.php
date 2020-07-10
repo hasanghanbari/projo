@@ -8,12 +8,12 @@ class ManageProjects{
 		$this->link = $db_connection->connect();
 		return $this->link;
 	}
-	function Add($prjcode, $prjtitle, $prjdesc, $prjlogo, $prjcomments, $prjdate, $aid)
+	function Add($prjcode, $prjtitle, $prjdesc, $prjlogo, $prjcomments, $aid)
 	{
 		global $prefix;
 		global $dev;
-		$query = $this->link->prepare("INSERT INTO `projects`(prjcode, prjtitle, prjdesc, prjlogo, prjcomments, prjdate, aid) VALUES(?,?,?,?,?,?,?)");
-		$values = array($prjcode, $prjtitle, $prjdesc, $prjlogo, $prjcomments, $prjdate, $aid);
+		$query = $this->link->prepare("INSERT INTO `projects`(prjcode, prjtitle, prjdesc, prjlogo, prjcomments, aid) VALUES(?,?,?,?,?,?)");
+		$values = array($prjcode, $prjtitle, $prjdesc, $prjlogo, $prjcomments, $aid);
 		$query->execute($values);
 		$counts = $query->rowcount();
 		if ($dev==1) {

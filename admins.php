@@ -85,7 +85,6 @@ switch ($op) {
 				$atel = $_POST['atel'];
 				$aemail = $_POST['aemail'];
 				$acomments = $_POST['acomments'];
-				$aexpiration_date= date("Y-m-d H:i:sa");
 				$tskids = (isset($_POST['tskids'])?$_POST['tskids']:'');
 				$allow_add_project = (isset($_POST['allow_add_project'])?1:0);
 				$allow_edit_project = (isset($_POST['allow_edit_project'])?1:0);
@@ -104,7 +103,7 @@ switch ($op) {
 				} 
 				else 
 				{		
-					if ($admin->Add($ausername, md5($apass), $aactive,$aexpiration_date, $asuper_admin, $afname, $alname, $agender, $atel, $aemail, $apic, $acomments, $allow_add_project, $allow_edit_project, $allow_list_project, $allow_add_issues, $allow_edit_issues, $allow_list_issues, $allow_add_task, $allow_list_task, $allow_edit_task, $allow_delete_project, $allow_delete_task, $allow_delete_issues)==1) {
+					if ($admin->Add($ausername, md5($apass), $aactive, $asuper_admin, $afname, $alname, $agender, $atel, $aemail, $apic, $acomments, $allow_add_project, $allow_edit_project, $allow_list_project, $allow_add_issues, $allow_edit_issues, $allow_list_issues, $allow_add_task, $allow_list_task, $allow_edit_task, $allow_delete_project, $allow_delete_task, $allow_delete_issues)==1) {
 						$success= _RECORD_ADDED_SUCCESSFULLI;
 						$ausername= $apass= $afname= $alname= $atel= $aemail='';
 						$aactive = 1;

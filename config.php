@@ -2,8 +2,8 @@
 $dbhost = 'localhost';
 $dbname = 'proja';
 $dbuname = 'root';
-$dbpass = '';
-$sistem_name = 'سیستم مدیریت پروژه';
+$dbpass = 'root';
+$sistem_name = 'پروژا';
 $pic_prefix = 'img_proja';
 $file_prefix = 'file_proja';
 $admin_session_name = 'proja_admin';

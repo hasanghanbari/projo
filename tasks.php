@@ -30,7 +30,6 @@ $admins_tasks = new ManageAdmins_Tasks();
 					$tskdone = (isset($_POST['tskdone'])?$_POST['tskdone']:0);
 					$tskdone_date = (isset($_POST['tskdone_date'])?$_POST['tskdone_date']:NULL);
 					$prjid = $_POST['prjid'];
-					$tskdate = date("Y-m-d H:i:s");
 					$aid = $permissions[0]['aid'];
 					
 					if (empty($tskcode) || empty($tsktitle)) {
@@ -43,7 +42,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						        $error=_INVALID_CODE;
 						    }
 						    else{
-								if ($task->Add($prjid, $tskcode, $tsktitle, $tskdesc,$tskdate, $tskdone, $tskdone_date, $aid)==1) {
+								if ($task->Add($prjid, $tskcode, $tsktitle, $tskdesc, $tskdone, $tskdone_date, $aid)==1) {
 									$tskid = $task->LastID();
 									if (isset($_POST['iid'])) {
 										$iids = $_POST['iid'];

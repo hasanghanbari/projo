@@ -9,12 +9,12 @@ class ManageAdmins{
 		$this->link = $db_connection->connect();
 		return $this->link;
 	}
-	function Add($ausername, $apass, $aactive, $aexpiration_date, $asuper_admin, $afname, $alname, $agender, $atel, $aemail, $apic, $acomments, $allow_add_project, $allow_edit_project, $allow_list_project, $allow_add_issues, $allow_edit_issues, $allow_list_issues, $allow_add_task, $allow_list_task, $allow_edit_task, $allow_delete_project, $allow_delete_task, $allow_delete_issues)
+	function Add($ausername, $apass, $aactive, $asuper_admin, $afname, $alname, $agender, $atel, $aemail, $apic, $acomments, $allow_add_project, $allow_edit_project, $allow_list_project, $allow_add_issues, $allow_edit_issues, $allow_list_issues, $allow_add_task, $allow_list_task, $allow_edit_task, $allow_delete_project, $allow_delete_task, $allow_delete_issues)
 	{
 		global $prefix;
 		global $dev;
-		$query = $this->link->prepare("INSERT INTO `admins`(ausername, apass, aactive, aexpiration_date, asuper_admin, afname, alname, agender, atel, aemail, apic, acomments, allow_add_project, allow_edit_project, allow_list_project, allow_add_issues, allow_edit_issues, allow_list_issues, allow_add_task, allow_list_task, allow_edit_task, allow_delete_project, allow_delete_task, allow_delete_issues) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-		$values = array($ausername, $apass, $aactive, $aexpiration_date, $asuper_admin, $afname, $alname, $agender, $atel, $aemail, $apic, $acomments, $allow_add_project, $allow_edit_project, $allow_list_project, $allow_add_issues, $allow_edit_issues, $allow_list_issues, $allow_add_task, $allow_list_task, $allow_edit_task, $allow_delete_project, $allow_delete_task, $allow_delete_issues);
+		$query = $this->link->prepare("INSERT INTO `admins`(ausername, apass, aactive, asuper_admin, afname, alname, agender, atel, aemail, apic, acomments, allow_add_project, allow_edit_project, allow_list_project, allow_add_issues, allow_edit_issues, allow_list_issues, allow_add_task, allow_list_task, allow_edit_task, allow_delete_project, allow_delete_task, allow_delete_issues) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		$values = array($ausername, $apass, $aactive, $asuper_admin, $afname, $alname, $agender, $atel, $aemail, $apic, $acomments, $allow_add_project, $allow_edit_project, $allow_list_project, $allow_add_issues, $allow_edit_issues, $allow_list_issues, $allow_add_task, $allow_list_task, $allow_edit_task, $allow_delete_project, $allow_delete_task, $allow_delete_issues);
 		$query->execute($values);
 		$counts = $query->rowcount();
 		if ($dev==1) {
