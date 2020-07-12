@@ -64,7 +64,7 @@ else
 		$sistem_name = $_POST['sistem_name'];
 		$admin_username = $_POST['admin_username'];
 		$admin_password = md5($_POST['admin_password']);
-		if(empty($dbhost) || empty($dbname) || empty($dbuname) || empty($dbpass) || empty($sistem_name) || empty($lang) || empty($admin_username) || empty($admin_password))
+		if(empty($dbhost) || empty($dbname) || empty($dbuname) || empty($sistem_name) || empty($lang) || empty($admin_username) || empty($admin_password))
 			$error = "پر کردن تمام فیلدها الزامی است! (All fields are required)<br>";
 		
 		if ($db_connection->connect()=='')

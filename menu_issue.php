@@ -1,7 +1,7 @@
 <?php if (isset($_COOKIE['iproject'])) {?>
 <div class="nav-side-menu">
     <div class="brand">iProject</div>
-    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+    <i class="fas fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
   
         <div class="menu-list">
   

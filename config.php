@@ -1,9 +1,9 @@
 <?php
 $dbhost = 'localhost';
-$dbname = 'proja';
+$dbname = 'projo';
 $dbuname = 'root';
-$dbpass = 'root';
-$sistem_name = 'پروژا';
+$dbpass = '';
+$sistem_name = 'projo';
 $pic_prefix = 'img_proja';
 $file_prefix = 'file_proja';
 $admin_session_name = 'proja_admin';

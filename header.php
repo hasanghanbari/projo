@@ -6,19 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo _ABOUT_PROJA_SYSTEM_NAME2 ?></title>
 
-    <link rel="stylesheet" type="text/css" href="themes/default/css/bootstrap.min.css">
-    <?php echo($direction=='1'?'<link rel="stylesheet" type="text/css" href="themes/default/css/bootstrap-rtl.min.css">':'') ?>
-    <?php echo($direction=='1'?'<link rel="stylesheet" type="text/css" href="themes/default/css/bootstrap-flipped.min.css">':'') ?>
-    <link rel="stylesheet" type="text/css" media="all" href="themes/default/Persian-Jalali/style/kamadatepicker.min.css" >
-    <link rel="stylesheet" href="themes/default/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="themes/default/css/style.css">
-    <link rel="shortcut icon" href="themes/default/img/logo.png">
-    <script src="themes/default/js/jquery.min.js"></script>
-    <script src="themes/default/js/bootstrap.min.js"></script>
-    <script src="themes/default/js/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" src="themes/default/Persian-Jalali/src/kamadatepicker.min.js"></script>
-    <script type="text/javascript" src="themes/default/js/mousewheel/jquery.mousewheel.js"></script>
-    <script src="themes/default/js/scripts.js"></script>
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap-4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/Persian-Jalali/style/kamadatepicker.min.css" >
+    <link rel="stylesheet" href="vandor/fontawesome-5.13.0/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="themes/2020/css/style.css">
+
+    <?php echo ($direction == 1 ? '<link rel="stylesheet" type="text/css" href="themes/'.$themes.'/css/style-rtl.css">' : '') ?>
+
+    <link rel="shortcut icon" href="themes/2020/img/logo.png">
+
+    <script src="vendor/jquery.min.js"></script>
+    <script src="vendor/bootstrap-4.5.0/js/bootstrap.min.js"></script>
+    <script src="vendor/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="vendor/Persian-Jalali/src/kamadatepicker.min.js"></script>
+    <script type="text/javascript" src="vendor/mousewheel/jquery.mousewheel.js"></script>
+    <script src="themes/2020/js/scripts.js"></script>
         
     <script>tinymce.int({ selector:'textarea' });</script>
     <script>
