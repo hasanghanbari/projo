@@ -1583,11 +1583,6 @@ $admins_tasks = new ManageAdmins_Tasks();
 						  }
 						}
 						echo'
-						';
-							if ($permissions[0]['allow_add_issues']==1) {
-								AddLogoChartNew();
-							}
-							echo'
 						</div>';
 					}
 					else{

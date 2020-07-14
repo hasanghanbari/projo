@@ -939,9 +939,6 @@ $admins_tasks = new ManageAdmins_Tasks();
 					</div>
 				</div>
 			';
-				if ($permissions[0]['allow_add_task']==1) {
-					AddLogoChartNew();
-				}
 			}
 			else{
 				Failure(_ACCESS_DENIED);

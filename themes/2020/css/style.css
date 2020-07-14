@@ -1,3 +1,13 @@
+/* * General styles */
+
+body, html {
+  height: 100%;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
+  background-size: 100%;
+  background-attachment: fixed;
+}
+
 .required{
   color: red;
 }
@@ -241,15 +251,7 @@ body {
     }
 }
 /* * Specific styles of signin component */
-/* * General styles */
 
-body, html {
-	height: 100%;
-	background-repeat: no-repeat;
-  background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
-  background-size: 100%;
-  background-attachment: fixed;
-}
 
 	/* * Card component */
 .card {    background-color: #F7F7F7;    

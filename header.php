@@ -6,23 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo _ABOUT_PROJA_SYSTEM_NAME2 ?></title>
 
-    <link rel="stylesheet" type="text/css" href="vendor/bootstrap-4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="vendor/Persian-Jalali/style/kamadatepicker.min.css" >
-    <link rel="stylesheet" href="vandor/fontawesome-5.13.0/css/all.min.css" />
-    <link rel="stylesheet" type="text/css" href="themes/2020/css/style.css">
-
-    <?php echo ($direction == 1 ? '<link rel="stylesheet" type="text/css" href="themes/'.$themes.'/css/style-rtl.css">' : '') ?>
+    <link rel="stylesheet" href="vendor/fontawesome-5.13.0/css/all.min.css" />
 
     <link rel="shortcut icon" href="themes/2020/img/logo.png">
 
-    <script src="vendor/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap-4.5.0/css/bootstrap.min.css">
+    <script src="vendor/jquery-3.5.1.min.js"></script>
     <script src="vendor/bootstrap-4.5.0/js/bootstrap.min.js"></script>
-    <script src="vendor/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" src="vendor/Persian-Jalali/src/kamadatepicker.min.js"></script>
-    <script type="text/javascript" src="vendor/mousewheel/jquery.mousewheel.js"></script>
-    <script src="themes/2020/js/scripts.js"></script>
-        
-    <script>tinymce.int({ selector:'textarea' });</script>
+
     <script>
     function Sure() {
       if (confirm(" <?php echo _ARE_YOU_SURE_DELETE ?> "))
@@ -120,6 +112,12 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <?php echo ($direction == 1 ? '<link rel="stylesheet" type="text/css" href="themes/'.$themes.'/css/font-iran.css">' : '') ?>
+
+    <link rel="stylesheet" type="text/css" href="themes/2020/css/style.css">
+    
+    <?php echo ($direction == 1 ? '<link rel="stylesheet" type="text/css" href="themes/'.$themes.'/css/style-rtl.css">' : '') ?>
   </head>
 
   <body>

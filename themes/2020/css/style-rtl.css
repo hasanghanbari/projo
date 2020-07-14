@@ -1,4 +1,12 @@
 body {
 	text-align: right;
 	direction: rtl;
+	font-family: Samim
+}
+
+/*new change 2020*/
+.nav-side-menu li .fa-arrow-down {
+  float: left;
+  padding: 10px;
+  margin: 0 0 0 10px;
 }

@@ -149,11 +149,7 @@ echo'
 	  </div>
 	</div>
 	';
-  	}
-	if ($permissions[0]['allow_add_project']==1) {
-		AddLogoChartNew();
-	}
-	echo'
+  	}	echo'
 </div>
 ';
 
