@@ -244,7 +244,7 @@ switch ($op) {
 			
 		}
 		echo '
-		<div class="col-sm-12 col-md-12 well" id="content">';
+		<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 		if (!empty($error)) {
 			Failure($error);
 		}
@@ -481,7 +481,7 @@ switch ($op) {
 		$num_of_pages= intval($num_of_records/$page_limit);
 		$num_of_pages= ($num_of_records%$page_limit==0?$num_of_pages:$num_of_pages+1);
 			echo '
-			<div class="col-sm-12 col-md-12 well" id="content">';
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 			if ($permissions[0]['asuper_admin']==1) {
 			echo'
 			<div class="row">
@@ -761,7 +761,7 @@ switch ($op) {
 			break;
 		case 'reset':
 		echo '
-		<div class="col-sm-12 col-md-12 well" id="content">';
+		<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 			echo " ";
 			$aid = $_POST['new_pass_aid'];
 			$apass = $_POST['new_pass'];
@@ -789,7 +789,7 @@ switch ($op) {
 			break;
 	
 	default:
-	echo '<div class="col-sm-12 col-md-12 well" id="content">';
+	echo '<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 		Info('مسیر را اشتباه وارد کردید لطفا دوباره بررسی کنید');
 	echo'</div>';
 		break;

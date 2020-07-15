@@ -177,7 +177,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 			}
 			
 			echo '
-			<div class="col-sm-12 col-md-12 well" id="content">';
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 			if (!empty($error)) {
 				Failure($error.' <a href="">'._RELOAD.'</a>');
 			}
@@ -322,7 +322,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 			$num_of_pages= intval($num_of_records/$page_limit);
 			$num_of_pages= ($num_of_records%$page_limit==0?$num_of_pages:$num_of_pages+1);
 			echo '
-			<div class="col-sm-12 col-md-12 well" id="content">';
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 			if ($permissions[0]['allow_list_project']==1) {
 			echo'
 			<div class="row">
@@ -453,7 +453,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 			break;
 		case 'l1':
 			echo '
-			<div class="col-sm-12 col-md-12 well" id="content">
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">
 
     		</div>
 			';
@@ -461,7 +461,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 		case 'delete':
 			if (isset($_GET['prjid'])) {
 				echo '
-				<div class="col-sm-12 col-md-12 well" id="content">';
+				<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 				if ($permissions[0]['allow_delete_project']==1) {
 					if ($project->Delete($_GET['prjid'])) 
 					{

@@ -65,7 +65,7 @@ $admin = new ManageAdmins();
 				$tycomments = $typeInfo['tycomments']; 
 			}
 			echo '
-			<div class="col-sm-12 col-md-12 well" id="content">';
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 			if (!empty($error)) {
 				Failure($error);
 			}
@@ -120,7 +120,7 @@ $admin = new ManageAdmins();
 			break;
 		case 'l':
 			echo '
-			<div class="col-sm-12 col-md-12 well" id="content">
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">
 
     		</div>
 			';
@@ -144,7 +144,7 @@ $admin = new ManageAdmins();
 				$num_of_pages= ($num_of_records%$page_limit==0?$num_of_pages:$num_of_pages+1);
 		        // if ($permissions[0]['allow_list_link']!=0) {
 					echo '
-					<div class="col-sm-12 col-md-12 well" id="content">
+					<div class="col-sm-12 col-md-12 jumbotron" id="content">
 						  <p class="lead"><a href="">'._TYPE.' '._ISSUE.'</a> &nbsp&nbsp';
 					// if ($permissions[0]['allow_add_link']==1) {
 					echo'
@@ -203,7 +203,7 @@ $admin = new ManageAdmins();
 			case 'delete':
 				if (isset($_GET['tyid'])) {
 					echo '
-					<div class="col-sm-12 col-md-12 well" id="content">';
+					<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 					// if ($permissions[0]['allow_delete_link']==1) {
 						if ($issue_types->Delete($_GET['tyid'])) 
 						{

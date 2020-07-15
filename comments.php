@@ -39,7 +39,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 			$num_of_pages= intval($num_of_records/$page_limit);
 			$num_of_pages= ($num_of_records%$page_limit==0?$num_of_pages:$num_of_pages+1);
 				echo '
-				<div class="col-sm-12 col-md-12 well" id="content">';
+				<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 				if ($permissions[0]['asuper_admin']==1) {
 				echo'
 					<div class="row">
@@ -119,7 +119,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 		case 'delete':
 			if (isset($_GET['cid'])) {
 				echo '
-				<div class="col-sm-12 col-md-12 well" id="content">';
+				<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 				if ($permissions[0]['asuper_admin']==1) {
 					if ($comment->Delete($_GET['cid'])) 
 					{

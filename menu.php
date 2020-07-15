@@ -8,7 +8,7 @@ echo'
             <ul id="accordionMenu" class="menu-content collapse out">
                 <a href="./">
                   <li>
-                    <i class="fas fa-dashboard" aria-hidden="true"></i>
+                    <i class="fas fa-tachometer-fast" aria-hidden="true"></i>
                      '._DASHBOARD.'
                   </li>
                 </a>
@@ -18,7 +18,7 @@ echo'
                 <li id="headingOne" data-toggle="collapse" data-target="#products" aria-controls="#products" data-parent="#accordionMenu" class="collapsed">
                   <a>
                     <i class="fas fa-list-alt" aria-hidden="true"></i>
-                     '._PROJECT.' 
+                     <span class="menu-title">'._PROJECT.' </span>
                     <i class="fas fa-arrow-down menu-arrow-down"></i>
                   </a>
                 </li>
@@ -49,7 +49,7 @@ echo'
                 <li data-toggle="collapse" data-target="#tasks" class="collapsed">
                   <a>
                     <i class="fas fa-tasks" aria-hidden="true"></i>
-                     '._TASK.' 
+                     <span class="menu-title">'._TASK.' </span>
                       <i class="fas fa-arrow-down menu-arrow-down"></i>
                   </a>
                 </li>  
@@ -86,8 +86,8 @@ echo'
                   echo'
                   <li data-toggle="collapse" data-target="#service" class="collapsed">
                     <a>
-                      <i class="fas fa-info-sign" aria-hidden="true"></i>
-                       '._ISSUE.' 
+                      <i class="fas fa-info-circle" aria-hidden="true"></i>
+                       <span class="menu-title">'._ISSUE.' </span>
                         <i class="fas fa-arrow-down menu-arrow-down"></i>
                     </a>
                   </li>  
@@ -145,7 +145,7 @@ echo'
                   <li data-toggle="collapse" data-target="#admin" class="collapsed">
                     <a>
                       <i class="fas fa-user" aria-hidden="true"></i>
-                       '._ADMINS.' 
+                       <span class="menu-title">'._ADMINS.' </span>
                       <i class="fas fa-arrow-down menu-arrow-down"></i>
                     </a>
                   </li>
@@ -167,8 +167,8 @@ echo'
                 echo'
                 <li data-toggle="collapse" data-target="#setting" class="collapsed">
                   <a>
-                    <i class="fas fa-wrench" aria-hidden="true"></i>
-                     '._SETTING.' 
+                      <i class="fas fa-wrench" aria-hidden="true"></i>
+                      <span class="menu-title">'._SETTING.' </span>
                       <i class="fas fa-arrow-down menu-arrow-down"></i>
                   </a>
                 </li>
@@ -193,16 +193,16 @@ echo'
                 <a href="settings.php?op=profile">
                   <li>
                     
-                    <i class="fas fa-pencil" aria-hidden="true"></i>
-                     '._EDIT.' '._PROFILE.'
+                    <i class="fas fa-user-edit" aria-hidden="true"></i>
+                    <span class="menu-title">'._EDIT.' '._PROFILE.'</span>
                   </li>
                 </a>
 
                 <a href="logout.php">
                   <li>
                     
-                    <i class="fas fa-log-out" aria-hidden="true"></i>
-                     '._LOGOUT.'
+                    <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                     <span class="menu-title">'._LOGOUT.'</span>
                   </li>
                 </a>
             </ul>

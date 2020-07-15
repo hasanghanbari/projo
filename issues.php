@@ -16,7 +16,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 	switch ($_GET['op']) {
 		case 'add':
 		echo '
-			<div class="col-sm-12 col-md-12 well" id="content">';
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 			$tyid= $prjid= $iversion= $icode= $ititle= $idesc= $iproirity= $icomplexity= $ineeded_time= $ifile1= $ifile12= $ifile2= $ifile22= $ifile3= $ifile32= $iarchive= $iwho_fullname= $iwho_email= $iwho_tel= $idone= $idone_date= $idone_version ='';
 			$icode = $issue->LastID();
 			$legend = ''._ADD.' '._ISSUE.'';
@@ -856,7 +856,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 				$num_of_pages= intval($num_of_records/$page_limit);
 				$num_of_pages= ($num_of_records%$page_limit==0?$num_of_pages:$num_of_pages+1);
 					echo '
-					<div class="col-sm-12 col-md-12 well" id="content">';
+					<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 					if ($permissions[0]['allow_list_issues']==1) {	
 					echo'
 					<div id="vqs"></div>
@@ -1239,7 +1239,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 							$_GET['order'] = '';
 						}
 					echo '
-						<div class="col-sm-12 col-md-12 well" id="content">';
+						<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 						if ($permissions[0]['allow_list_issues']==1) {	
 							$num_of_records=  $task_issue->RowCount($query);
 							$num_of_pages= intval($num_of_records/$page_limit);
@@ -1593,7 +1593,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 			case 'delete':
 				if (isset($_GET['iid'])) {
 					echo '
-					<div class="col-sm-12 col-md-12 well" id="content">';
+					<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 					if ($permissions[0]['allow_delete_issues']==1) {
 						$task_issue->Delete($_GET['iid']);
 						if ($issue->Delete($_GET['iid'])) 

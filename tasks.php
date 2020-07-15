@@ -127,7 +127,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 				$prjid = $taskInfo['prjid'];
 			}
 			echo '
-			<div class="col-sm-12 col-md-12 well" id="content"  onload="loadVQs()">
+			<div class="col-sm-12 col-md-12 jumbotron" id="content"  onload="loadVQs()">
 				';
 			if (!empty($error)) {
 				Failure($error);
@@ -392,7 +392,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 				$project_title = '';
 			}
 				echo '
-				<div class="col-sm-12 col-md-12 well" id="content">';
+				<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 				if ($permissions[0]['allow_list_task']==1) {
 				echo'
 				<div class="row">
@@ -578,7 +578,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 	case 'chart':
 		require_once 'menu.php';
 		echo '
-			<div class="col-sm-12 col-md-12 well" id="content">';
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 			if ($permissions[0]['allow_list_task']==1) {
 				$query=$q=$filter=$order="";
 				$start=$page=0;
@@ -949,7 +949,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 		require_once 'menu.php';
 		if (isset($_GET['tskid'])) {
 			echo '
-			<div class="col-sm-12 col-md-12 well" id="content">';
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 			if ($permissions[0]['allow_delete_task']==1) {
 				if ($task->Delete($_GET['tskid'])) 
 				{

@@ -34,9 +34,15 @@ body, html {
   float: right;
 }
 
-.project_home{
+.project-home{
   height: 230px;
   overflow-y: hidden;
+}
+.project-home .card-img-top{
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+    margin: 15px auto;
 }
 
 #ads{

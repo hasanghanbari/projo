@@ -32,7 +32,7 @@ if (isset($_GET['op'])) {
 			$direction = $setInfo['direction'];
 			$theme = $setInfo['theme'];
 			echo '
-			<div class="col-sm-12 col-md-12 well" id="content">';
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 			if (!empty($error)) {
 				Failure($error.' <a href="">'._RELOAD.'</a>');
 			}
@@ -122,7 +122,7 @@ if (isset($_GET['op'])) {
 			break;
 		case "about":
 		echo '
-			<div class="col-sm-12 col-md-12 well" id="content">';
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 			$form_title = _ABOUT_PROJA;
 			
 			echo '
@@ -150,7 +150,7 @@ if (isset($_GET['op'])) {
 		break;
 		case 'profile':
 		echo '
-			<div class="col-sm-12 col-md-12 well" id="content">';
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 		$error = $success = '';
 		$cookie_admin= explode(':', $_COOKIE['iproject']);
 		$ausername = $cookie_admin[0];
@@ -349,7 +349,7 @@ if (isset($_GET['op'])) {
 		';
 			break;
 		case 'reset':
-		echo '<div class="col-sm-12 col-md-12 well" id="content">';
+		echo '<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 			$admin_names = $admin->GetAdminInfo($cookie_admin[0]);
 			foreach ($admin_names as $admin_name) {
 			    $admin_id = $admin_name['aid'];
