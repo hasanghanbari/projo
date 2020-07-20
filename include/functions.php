@@ -108,7 +108,7 @@ function Failure($message)
 {
 	echo '
 	<div class="alert alert-danger" role="alert">
-		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		<span class="fas fa-exclamation-sign" aria-hidden="true"></span>
 		<span class="sr-only">Error:</span>
 		'.$message.'
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -120,21 +120,21 @@ function Failure($message)
 function AddLogo($message)
 {
 	echo'
-	<a class="btn btn-default" href="'.$message.'" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"> '._NEW.'</span> 
+	<a class="btn btn-primary" href="'.$message.'" role="button"><span class="fas fa-pen" aria-hidden="true"> '._NEW.'</span> 
 	</a>
 	';
 }
 function ListLogo($message)
 {
 	echo'
-	<a class="btn btn-default" href="'.$message.'" role="button"><span class="glyphicon glyphicon-th-list" aria-hidden="true"> '._LIST.'</span> 
+	<a class="btn btn-primary" href="'.$message.'" role="button"><span class="fas fa-th-list" aria-hidden="true"> '._LIST.'</span> 
 	</a>
 	';
 }
 function ChartLogo($message)
 {
 	echo'
-	<a class="btn btn-default" href="'.$message.'" role="button"><span class="glyphicon glyphicon-th-large" aria-hidden="true"> '._CHART.'</span> 
+	<a class="btn btn-primary" href="'.$message.'" role="button"><span class="fas fa-th-large" aria-hidden="true"> '._CHART.'</span> 
 	</a>
 	';
 }

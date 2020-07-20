@@ -10,9 +10,10 @@
     <link rel="stylesheet" href="vendor/fontawesome-5.13.0/css/all.min.css" />
 
     <link rel="shortcut icon" href="themes/2020/img/logo.png">
-
     <link rel="stylesheet" type="text/css" href="vendor/bootstrap-4.5.0/css/bootstrap.min.css">
+
     <script src="vendor/jquery-3.5.1.min.js"></script>
+    <script src="vendor/popper.min.js"></script>
     <script src="vendor/bootstrap-4.5.0/js/bootstrap.min.js"></script>
 
     <script>

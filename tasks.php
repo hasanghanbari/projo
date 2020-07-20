@@ -336,7 +336,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 			';
 			break;
 		case 'list':
-		require_once 'menu.php';
+			require_once 'menu.php';
 			$query=$q=$filter=$order="";
 			$start=$page=0;
 			$aid = $permissions[0]['aid'];
@@ -438,7 +438,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						<option '.($page_limit=="50"?'selected':'').' value="50">50</option>
 						<option '.($page_limit=="100"?'selected':'').' value="100">100</option>
 					</select>
-					 <button type="submit" name="search" class="btn btn-default btn-sm">'._SEARCH.'</button>
+					 <button type="submit" name="search" class="btn btn-light btn-sm">'._SEARCH.'</button>
 					</form><br>
 				  </div>
 				</div>
@@ -448,29 +448,29 @@ $admins_tasks = new ManageAdmins_Tasks();
 								<th width="30px">'._TOOLS.'</th>
 								<th width="30px">
 									<a href="?op=list&order=tskcode'.(isset($_GET['desc'])?'':'&desc').'">'._CODE.':
-										<span class="glyphicon glyphicon-collapse'.($_GET['order']=='tskcode' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+										<span class="fas fa-collapse'.($_GET['order']=='tskcode' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th>
-									<a href="?op=list&order=tsktitle'.(isset($_GET['desc'])?'':'&desc').'">'._TITLE.' <span class="glyphicon glyphicon-collapse'.($_GET['order']=='tsktitle' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=tsktitle'.(isset($_GET['desc'])?'':'&desc').'">'._TITLE.' <span class="fas fa-collapse'.($_GET['order']=='tsktitle' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="300px">
-									<a href="?op=list&order=tskdesc'.(isset($_GET['desc'])?'':'&desc').'">'._DESC.' <span class="glyphicon glyphicon-collapse'.($_GET['order']=='tskdesc' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=tskdesc'.(isset($_GET['desc'])?'':'&desc').'">'._DESC.' <span class="fas fa-collapse'.($_GET['order']=='tskdesc' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="100px">
-									<a href="?op=list&order=tskdate'.(isset($_GET['desc'])?'':'&desc').'">'._INSERT_DATE.' <span class="glyphicon glyphicon-collapse'.($_GET['order']=='tskdate' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=tskdate'.(isset($_GET['desc'])?'':'&desc').'">'._INSERT_DATE.' <span class="fas fa-collapse'.($_GET['order']=='tskdate' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="50px">
-									<a href="?op=list&order=tskdone'.(isset($_GET['desc'])?'':'&desc').'">'._DONE_TASKS.' <span class="glyphicon glyphicon-collapse'.($_GET['order']=='tskdone' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=tskdone'.(isset($_GET['desc'])?'':'&desc').'">'._DONE_TASKS.' <span class="fas fa-collapse'.($_GET['order']=='tskdone' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="100px">
-									<a href="?op=list&order=tskdone_date'.(isset($_GET['desc'])?'':'&desc').'">'._COMPLETION_DATE.' <span class="glyphicon glyphicon-collapse'.($_GET['order']=='tskdone_date' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=tskdone_date'.(isset($_GET['desc'])?'':'&desc').'">'._COMPLETION_DATE.' <span class="fas fa-collapse'.($_GET['order']=='tskdone_date' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="100px">
-									<a href="?op=list&order=prjid'.(isset($_GET['desc'])?'':'&desc').'">'._FOR.' '._PROJECT.' <span class="glyphicon glyphicon-collapse'.($_GET['order']=='prjid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=prjid'.(isset($_GET['desc'])?'':'&desc').'">'._FOR.' '._PROJECT.' <span class="fas fa-collapse'.($_GET['order']=='prjid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="100px">
 									<a href="?op=list&order=aid'.(isset($_GET['desc'])?'':'&desc').'">'._INSERTED_BY.'
-										<span class="glyphicon glyphicon-collapse'.($_GET['order']=='aid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+										<span class="fas fa-collapse'.($_GET['order']=='aid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 							</tr>
 					';
@@ -485,8 +485,8 @@ $admins_tasks = new ManageAdmins_Tasks();
 								<div style="text-align:rtl;" dir="rtl">
 									<!-- Extra small button group -->
 									<div class="btn-group">
-										<button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										  <span class="glyphicon glyphicon-menu-hamburger"></span>'._TOOLS.'
+										<button class="btn btn-light btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										  <span class="fas fa-menu-hamburger"></span>'._TOOLS.'
 										</button>
 										<ul class="dropdown-menu">';
 						  			if ($permissions[0]['allow_edit_task']==1) {
@@ -534,7 +534,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 												<input type="hidden" class="form-control" name="tskid" id="tskid" value="">
 										      </div>
 										      <div class="modal-footer">
-										        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
 										        <button type="submit" class="btn btn-primary">'._PRINT.'</button>
 										      </div>
 										    </div><!-- /.modal-content -->
@@ -677,7 +677,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						<option '.($page_limit=="50"?'selected':'').' value="50">50</option>
 						<option '.($page_limit=="100"?'selected':'').' value="100">100</option>
 					</select>
-					 <button type="submit" name="search" class="btn btn-default btn-sm">'._SEARCH.'</button>
+					 <button type="submit" name="search" class="btn btn-light btn-sm">'._SEARCH.'</button>
 					</form><br>
 				  </div>
 				</div>
@@ -690,82 +690,82 @@ $admins_tasks = new ManageAdmins_Tasks();
 					if ($taskInfo['prjid']==$projectlist['prjid']) {
 						echo'
 						  <div class="col-sm-4 col-md-4">
-							<div class="panel panel-'.($taskInfo['tskdone']==1?'success':'primary').'">
-							  <div class="panel-heading">
-							    <ul class="list-inline">
-								    <li class="right_list">
-						    			<li class="dropdown">
-						    	           <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: #fff;">
-						    	           		<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+							<div class="card border-'.($taskInfo['tskdone']==1?'success':'primary').'">
+							  <div class="card-header">
+							    <ul class="list-inline p-0">
+								    <li class="right_list list-inline-item">
+						    			<div class="dropdown">
+						    	           <a class="dropdown-toggle" id="menu-item" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						    	           		<i class="fas fa-ellipsis-v" aria-hidden="true"></i>
 						    	           </a>
-						    	           <ul class="dropdown-menu">
+						    	           <div class="dropdown-menu" aria-labelledby="menu-item">
 						    	           ';
 								  			if ($permissions[0]['allow_edit_task']==1) {
 								  				echo'
-						    	             <li><a href="?op=add&tskid='.$taskInfo['tskid'].'">'._EDIT.'</a></li>';
+						    	             <a class="dropdown-item" href="?op=add&tskid='.$taskInfo['tskid'].'">'._EDIT.'</a>';
 								  			}
 								  			if ($permissions[0]['allow_delete_task']==1) {
 								  			echo'
-						    	             <li><a onclick="return Sure();" href="?op=delete&tskid='.$taskInfo['tskid'].'" style="color: red;">'._DELETE.'</a></li>';
+						    	             <a class="dropdown-item" onclick="return Sure();" href="?op=delete&tskid='.$taskInfo['tskid'].'" style="color: red;">'._DELETE.'</a>';
 								  			}
 								  			echo'
-						    	             <li><a href="issues.php?op=chart&tskid='.$taskInfo['tskid'].'">'._ISSUES.' '._THIS.' '._TASK.'</a></li>';
+						    	             <a class="dropdown-item" href="issues.php?op=chart&tskid='.$taskInfo['tskid'].'">'._ISSUES.' '._THIS.' '._TASK.'</a>';
 								  			echo'
-								  			<li><a href="javascript:print_task('.$taskInfo['tskid'].')">'._PRINT.'</a></li>
+								  			<a class="dropdown-item" href="javascript:print_task('.$taskInfo['tskid'].')">'._PRINT.'</a>
 						    	           ';
 								  			if ($permissions[0]['allow_edit_task']==1) {
 								  				echo'
-						    	             <li><a href="?op=add&tskid='.$taskInfo['tskid'].'">'._END.'</a></li>';
+						    	             <a class="dropdown-item" href="?op=add&tskid='.$taskInfo['tskid'].'">'._END.'</a>';
 								  			}
 								  			echo'
-						    	           </ul>
-						    	        <script type="text/javascript">
-	 										function print_task(id){
-	 											$("#tskid").val(id);
-	 											$("#select_print_task").modal()
-	 										}
-	 										function reset_password_hide(){
-	 											document.getElementById(\'select_print_task\').style.display = "none";
-	 										}
-	 									</script>
-	 									<div class="modal fade" id="select_print_task">
-	 									  <div class="modal-dialog">
-	 									    <div class="modal-content">
-	 									        <form action="?op=print" method="post" name="reset_student_pass" target="_blank">
-	 										      <div class="modal-header">
-	 										        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	 										        <h4 class="modal-title">'._PRINT.' '._TASK.'</h4>
-	 										      </div>
-	 										      <div class="modal-body">
-	 										      <div class="checkbox">
-	 										        <label>
-	 										          <input type="checkbox" value="" name="issue_all">
-	 										          '._PRINTED_DESC_ISSUE.'
-	 										        </label>
-	 										      </div>
-	 												<br>
-	 												<input type="hidden" class="form-control" name="tskid" id="tskid" value="">
-	 										      </div>
-	 										      <div class="modal-footer">
-	 										        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	 										        <button type="submit" class="btn btn-primary">'._PRINT.'</button>
-	 										      </div>
-	 										    </div><!-- /.modal-content -->
-	 											</form>
-	 									  </div><!-- /.modal-dialog -->
-	 									</div><!-- /.modal -->
-						    	        </li>
+						    	           </div>
+							    	        <script type="text/javascript">
+		 										function print_task(id){
+		 											$("#tskid").val(id);
+		 											$("#select_print_task").modal()
+		 										}
+		 										function reset_password_hide(){
+		 											document.getElementById(\'select_print_task\').style.display = "none";
+		 										}
+		 									</script>
+		 									<div class="modal fade" id="select_print_task">
+		 									  <div class="modal-dialog">
+		 									    <div class="modal-content">
+		 									        <form action="?op=print" method="post" name="reset_student_pass" target="_blank">
+		 										      <div class="modal-header">
+		 										        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		 										        <h4 class="modal-title">'._PRINT.' '._TASK.'</h4>
+		 										      </div>
+		 										      <div class="modal-body">
+		 										      <div class="checkbox">
+		 										        <label>
+		 										          <input type="checkbox" value="" name="issue_all">
+		 										          '._PRINTED_DESC_ISSUE.'
+		 										        </label>
+		 										      </div>
+		 												<br>
+		 												<input type="hidden" class="form-control" name="tskid" id="tskid" value="">
+		 										      </div>
+		 										      <div class="modal-footer">
+		 										        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+		 										        <button type="submit" class="btn btn-primary">'._PRINT.'</button>
+		 										      </div>
+		 										    </div><!-- /.modal-content -->
+		 											</form>
+		 									  </div><!-- /.modal-dialog -->
+		 									</div><!-- /.modal -->
+						    	        </div>
 								        <strong>'.$taskInfo['tsktitle'].'</strong>
 								        <br><small>'._PROJECT.' '.$projectlist['prjtitle'].' '.($taskInfo['tskdone']==1?'('._DONE.')':'').'</small>
 									</li>';
 									$adminlist=$admin->GetAdminInfoById($taskInfo['aid']);
 									echo'
-									<li class="left_list">'.$adminlist['ausername'].'</li>	
+									<li class="left_list list-inline-item">'.$adminlist['ausername'].'</li>	
 						        </ul>
 							  </div>
-							  <div class="panel-body task-chart-body">
+							  <div class="card-body task-chart-body">
 							  	<a href="issues.php?op=add&tskid='.$taskInfo['tskid'].'&prjid='.$taskInfo['prjid'].'">
-			  				  		<div class="well">
+			  				  		<div class="card card-body">
 			  					  		<center>'._ADD.' '._ISSUE.'</center>
 			  		  				</div>
 			  		  			</a>
@@ -814,18 +814,18 @@ $admins_tasks = new ManageAdmins_Tasks();
 							  		if ($taskInfo['tskid']==$task_issueInfo['tskid']) {
 							  		echo'
 							  		<a href="javascript:chart_issue('.$task_issueInfo['iid'].')" onclick="IssueInfo('.$task_issueInfo['iid'].')">
-							  		<div class="well '.($task_issueInfo['idone']==1?'done':'').'">
-								  		<ul class="list-inline">
-								  			<li>
+							  		<div class="card card-body'.($task_issueInfo['idone']==1?' done':'').'">
+								  		<ul class="list-inline p-0">
+								  			<li class="list-inline-item">
 								  				'.$task_issueInfo['ititle'].' ('.($task_issueInfo['idone']==1?_DONE:_UNDONE).')
 								  			</li><br>
-								  			<li class="left_list">
-								  			'.(!empty($task_issueInfo['idesc'])?'<span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>':'').'
-								  			'.(file_exists('file_issue/file1/'.$pic_prefix.$ifile1.'')?'<span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>1':'').'
-								  			'.(file_exists('file_issue/file2/'.$pic_prefix.$ifile2.'')?'<span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>2':'').'
-								  			'.(file_exists('file_issue/file3/'.$pic_prefix.$ifile3.'')?'<span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>3':'').'
+								  			<li class="left_list list-inline-item">
+								  			'.(!empty($task_issueInfo['idesc'])?'<span class="fas fa-align-justify" aria-hidden="true"></span>':'').'
+								  			'.(file_exists('file_issue/file1/'.$pic_prefix.$ifile1.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>1':'').'
+								  			'.(file_exists('file_issue/file2/'.$pic_prefix.$ifile2.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>2':'').'
+								  			'.(file_exists('file_issue/file3/'.$pic_prefix.$ifile3.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>3':'').'
 								  			</li>
-								  			<li>
+								  			<li class="list-inline-item">
 								  				'.$iproirity.'
 								  				'.$icomplexity.'
 								  			</li>
@@ -873,7 +873,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 							  	}
 							  echo'
 							  </div>
-			  				  <div class="panel-footer" style="text-align: '.$align1.'">
+			  				  <div class="card-footer" style="text-align: '.$align1.'">
 			  				  ';
 	    			  			if ($permissions[0]['allow_edit_task']==1) {
 	    			  				echo'
@@ -888,9 +888,9 @@ $admins_tasks = new ManageAdmins_Tasks();
 	    	    	             <a class="btn btn-success btn-xs" href="?op=add&tskid='.$taskInfo['tskid'].'">'.($taskInfo['tskdone']==0?_DONE:_START).'</a>';
 	    			  			}
 	    			  			echo'
-	    	    	             <a class="btn btn-default btn-xs" href="issues.php?op=chart&tskid='.$taskInfo['tskid'].'" title="'._ISSUES.' '._THIS.' '._TASK.'">'._ISSUES.'</a>';
+	    	    	             <a class="btn btn-light btn-xs" href="issues.php?op=chart&tskid='.$taskInfo['tskid'].'" title="'._ISSUES.' '._THIS.' '._TASK.'">'._ISSUES.'</a>';
 	    			  			echo'
-	    			  			<a class="btn btn-info btn-xs" href="javascript:print_task('.$taskInfo['tskid'].')"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a>';
+	    			  			<a class="btn btn-info btn-xs" href="javascript:print_task('.$taskInfo['tskid'].')"><span class="fas fa-print" aria-hidden="true"></span></a>';
 	    			  			echo'
 			  				  </div>
 			    	        <script type="text/javascript">
@@ -921,7 +921,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 										<input type="hidden" class="form-control" name="tskid" id="tskid" value="">
 								      </div>
 								      <div class="modal-footer">
-								        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
 								        <button type="submit" class="btn btn-primary">'._PRINT.'</button>
 								      </div>
 								    </div><!-- /.modal-content -->
@@ -993,7 +993,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 				<th class="active">'._PROJECT.'</th>
 			  </tr>
 			  <tr class="active">
-			    <td class="active"><span class="glyphicon glyphicon-'.($taskInfo['tskdone']==1?'ok':'remove').'" aria-hidden="true"></span></td>
+			    <td class="active"><span class="fas fa-'.($taskInfo['tskdone']==1?'ok':'remove').'" aria-hidden="true"></span></td>
 			    <td class="active">'.$taskInfo['tskcode'].'</td>
 			    <td class="active"><strong>'.$taskInfo['tsktitle'].'</strong></td>
 			    <td class="active">'.G2JD($taskInfo['tskdate']).'</td>
@@ -1062,7 +1062,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 			}
 			echo '
 			<tr class="active">
-				<td class="active"><span class="glyphicon glyphicon-'.($issueInfo['idone']==1?'ok':'remove').'" aria-hidden="true"></span></td>	
+				<td class="active"><span class="fas fa-'.($issueInfo['idone']==1?'ok':'remove').'" aria-hidden="true"></span></td>	
 				<td class="active">'.$issueInfo['icode'].'</td>	
 				<td class="active">'.$issueInfo['ititle'].'</td>	
 				<td class="active">'.$iproirity.'</td>	
@@ -1089,7 +1089,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 			</table>
 		</div>
 		<br><br>
-		<button class="btn btn-primary hidden-print" onclick="window.print();"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> '._PRINT.'</button>
+		<button class="btn btn-primary hidden-print" onclick="window.print();"><span class="fas fa-print" aria-hidden="true"></span> '._PRINT.'</button>
 		</div>
 		<div class="col-sm-12 col-md-2">
 		</div>
@@ -1098,7 +1098,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 		break;
 
 
-		default:
+		light:
 			# code...
 			break;
 	}

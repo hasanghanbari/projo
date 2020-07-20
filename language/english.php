@@ -10,7 +10,7 @@ define("_ADD","Add");
 define("_LIST","List");
 define("_CHART","Chart");
 define("_ARCHIVE","Archive");
-define("_SEARCH","<span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span>");
+define("_SEARCH","<span class=\"fas fa-search\" aria-hidden=\"true\"></span>");
 define("_TOOLS","Tools");
 define("_EDIT","Edit");
 define("_DELETE","Delete");

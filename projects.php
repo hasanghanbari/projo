@@ -372,27 +372,27 @@ $admins_tasks = new ManageAdmins_Tasks();
 						<th width="30px">'._TOOLS.'</th>
 						<th width="30px">
 							<a href="?op=list&order=prjcode'.(isset($_GET['desc'])?'':'&desc').'">
-								'._CODE.' <span class="glyphicon glyphicon-collapse'.($_GET['order']=='prjcode' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								'._CODE.' <span class="fas fa-collapse'.($_GET['order']=='prjcode' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a>
 						</th>
 						<th>
-							<a href="?op=list&order=prjtitle'.(isset($_GET['desc'])?'':'&desc').'">'._TITLE.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='prjtitle' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+							<a href="?op=list&order=prjtitle'.(isset($_GET['desc'])?'':'&desc').'">'._TITLE.'<span class="fas fa-collapse'.($_GET['order']=='prjtitle' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a>
 						</th>
 						<th width="300px">
-							<a href="?op=list&order=prjdesc'.(isset($_GET['desc'])?'':'&desc').'">'._DESC.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='prjdesc' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+							<a href="?op=list&order=prjdesc'.(isset($_GET['desc'])?'':'&desc').'">'._DESC.'<span class="fas fa-collapse'.($_GET['order']=='prjdesc' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a>
 						</th>
 						<th width="50px">
-							<a href="?op=list&order=prjlogo'.(isset($_GET['desc'])?'':'&desc').'">'._LOGO.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='prjlogo' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+							<a href="?op=list&order=prjlogo'.(isset($_GET['desc'])?'':'&desc').'">'._LOGO.'<span class="fas fa-collapse'.($_GET['order']=='prjlogo' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a>
 						</th>
 						<th width="300px">
-							<a href="?op=list&order=prjcomments'.(isset($_GET['desc'])?'':'&desc').'">'._COMMENTS.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='prjcomments' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+							<a href="?op=list&order=prjcomments'.(isset($_GET['desc'])?'':'&desc').'">'._COMMENTS.'<span class="fas fa-collapse'.($_GET['order']=='prjcomments' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a>
 						</th>
 						<th width="100px">
-							<a href="?op=list&order=prjdate'.(isset($_GET['desc'])?'':'&desc').'">'._INSERT_DATE.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='prjdate' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+							<a href="?op=list&order=prjdate'.(isset($_GET['desc'])?'':'&desc').'">'._INSERT_DATE.'<span class="fas fa-collapse'.($_GET['order']=='prjdate' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a>
 						</th>
 						
@@ -406,7 +406,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 								<!-- Extra small button group -->
 								<div class="btn-group">
 									<button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									  <span class="glyphicon glyphicon-menu-hamburger"></span>
+									  <span class="fas fa-menu-hamburger"></span>
 									</button>
 									<ul class="dropdown-menu pull-left">';
 							  			if ($permissions[0]['allow_edit_project']==1) {

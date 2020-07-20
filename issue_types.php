@@ -155,9 +155,9 @@ $admin = new ManageAdmins();
 						<table class="table table-bordered table-hover table-striped">
 							<tr class="table_header info">
 								<th width="20px">'._TOOLS.'</th>
-								<th width="20px"><a href="?op=list&order=tycode'.(isset($_GET['desc'])?'':'&desc').'">'._CODE.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='tycode' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span></a></th>
-								<th width="100px"><a href="?op=list&order=tytitle'.(isset($_GET['desc'])?'':'&desc').'">'._TITLE.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='tytitle' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span></a></th>
-								<th width="300px"><a href="?op=list&order=tycomments'.(isset($_GET['desc'])?'':'&desc').'">'._DESC.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='tycomments' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span></a></th>
+								<th width="20px"><a href="?op=list&order=tycode'.(isset($_GET['desc'])?'':'&desc').'">'._CODE.'<span class="fas fa-collapse'.($_GET['order']=='tycode' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span></a></th>
+								<th width="100px"><a href="?op=list&order=tytitle'.(isset($_GET['desc'])?'':'&desc').'">'._TITLE.'<span class="fas fa-collapse'.($_GET['order']=='tytitle' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span></a></th>
+								<th width="300px"><a href="?op=list&order=tycomments'.(isset($_GET['desc'])?'':'&desc').'">'._DESC.'<span class="fas fa-collapse'.($_GET['order']=='tycomments' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span></a></th>
 							</tr>
 					';
 					foreach ($typelist as $typeInfo) {
@@ -168,7 +168,7 @@ $admin = new ManageAdmins();
 									<!-- Extra small button group -->
 									<div class="btn-group">
 										<button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										  <span class="glyphicon glyphicon-menu-hamburger"></span>
+										  <span class="fas fa-menu-hamburger"></span>
 										</button>
 										<ul class="dropdown-menu">';
 								          // if ($permissions[0]['allow_edit_link']==1) {

@@ -93,7 +93,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						    <td class="active">
 								<div class="dropdown">
 								  <button id="dLabel" type="button" class="btn btn-default btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								    <span class="glyphicon glyphicon-menu-hamburger"></span> '._TOOLS.'
+								    <span class="fas fa-menu-hamburger"></span> '._TOOLS.'
 								  </button>
 								  <ul class="dropdown-menu" aria-labelledby="dLabel">
 								    <li><a onclick="return Sure();" style="color: red;" href="?op=delete&cid='.$commentInfo['cid'].'">'._DELETE.'</a></li>

@@ -13,7 +13,7 @@
                 </li>
 
                 <li  data-toggle="collapse" data-target="#products" class="collapsed active">
-                  <a href="#"><i></i> پروژه <span class="glyphicon glyphicon-chevron-down"></span></a>
+                  <a href="#"><i></i> پروژه <span class="fas fa-chevron-down"></span></a>
                 </li>
                 <ul class="sub-menu collapse" id="products">
                     <li><a href="projects.php?op=add">افزودن پروژه</a></li>
@@ -23,7 +23,7 @@
 
 
                 <li data-toggle="collapse" data-target="#service" class="collapsed">
-                  <a href="#"><i></i> مسائل <span class="glyphicon glyphicon-chevron-down"></span></a>
+                  <a href="#"><i></i> مسائل <span class="fas fa-chevron-down"></span></a>
                 </li>  
                 <ul class="sub-menu collapse" id="service">
                   <li><a href="issues.php?op=add">افزودن مسئله</a></li>
@@ -32,7 +32,7 @@
                 </ul>
 
                 <li data-toggle="collapse" data-target="#admin" class="collapsed">
-                  <a href="#"><i></i> مدیران <span class="glyphicon glyphicon-chevron-down"></span></a>
+                  <a href="#"><i></i> مدیران <span class="fas fa-chevron-down"></span></a>
                 </li>
                 <ul class="sub-menu collapse" id="admin">
                   <li><a href="admins.php?op=add">افزودن مدیر</a></li>

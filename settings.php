@@ -251,13 +251,13 @@ if (isset($_GET['op'])) {
 		<legend>'._EDIT.' '._PROFILE.'</legend>
 		<div class="row">
 		  <div class="col-md-6">
-		  	<div class="panel panel-default">
-		  	  <div class="panel-body">
+		  	<div class="card card-default">
+		  	  <div class="card-body">
 				<div class="form-group">
 					<label for="ausername">'._USERNAME.': </label><small> '._USERNAME_CANNOT_BE_CHANGED.'</small><br>
 					<input autofocus="" type="text" class="form-control" id="ausername" name="ausername" value="'.$ausername.'" style="direction: ltr;" disabled>
 				</div>
-				<a href="#change_pass" role="button" data-toggle="modal"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> '._CHANGE.' '._PASSWORD.'</a><br><br>
+				<a href="#change_pass" role="button" data-toggle="modal"><span class="fas fa-refresh" aria-hidden="true"></span> '._CHANGE.' '._PASSWORD.'</a><br><br>
 				
 				<div class="form-group">
 					<label for="afname">'._NAME.': </label><br>
@@ -288,8 +288,8 @@ if (isset($_GET['op'])) {
 		  	</div>
 		</div>
 		  <div class="col-md-6">
-			  <div class="panel panel-default">
-				<div class="panel-body">
+			  <div class="card card-default">
+				<div class="card-body">
 					<div class="form-group">
 						<label for="apic">'._AVATAR.':</label>';
 							if(file_exists('img/admins/'.$pic_prefix.$apic.''))

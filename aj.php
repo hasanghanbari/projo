@@ -19,7 +19,7 @@ switch ($op) {
 		foreach ($issuelist as $issueInfo) {
 			if ($task_issue->GetTaskIssue($tskid,$issueInfo['iid'])) {
 				$task_issueInfo = $task_issue->GetInfoByTskidIid($tskid,$issueInfo['iid']);
-				echo '<a href="#" style="color:red;" onclick="delete_task_issue('.$task_issueInfo['tiid'].')" data-toggle="collapse" data-target="#issueList" aria-expanded="false" aria-controls="issueList"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+				echo '<a href="#" style="color:red;" onclick="delete_task_issue('.$task_issueInfo['tiid'].')" data-toggle="collapse" data-target="#issueList" aria-expanded="false" aria-controls="issueList"><span class="fas fa-remove" aria-hidden="true"></span></a>
 				&nbsp'.$issueInfo['ititle'].' ('.($issueInfo['idone']==1?_DONE:_UNDONE).')<br>';
 			}
 			else{
@@ -178,7 +178,7 @@ switch ($op) {
 		       			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		       		</li>
 	    			<li class="dropdown right_list">
-	    	           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span></a>
+	    	           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fas fa-option-vertical" aria-hidden="true"></span></a>
 	    	           <ul class="dropdown-menu">
 	    	           		<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
 		  				if ($permissions[0]['allow_edit_issues']==1) {

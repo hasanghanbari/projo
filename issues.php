@@ -939,19 +939,19 @@ $admins_tasks = new ManageAdmins_Tasks();
 								<th width="20px">'._PROJECT.'</th>
 								<th width="20px">
 									<a href="?op=list&order=icode'.(isset($_GET['desc'])?'':'&desc').'">
-										'._CODE.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='icode' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+										'._CODE.'<span class="fas fa-collapse'.($_GET['order']=='icode' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th>
-									<a href="?op=list&order=ititle'.(isset($_GET['desc'])?'':'&desc').'">'._TITLE.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='ititle' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=ititle'.(isset($_GET['desc'])?'':'&desc').'">'._TITLE.'<span class="fas fa-collapse'.($_GET['order']=='ititle' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="100px">
-									<a href="?op=list&order=idesc'.(isset($_GET['desc'])?'':'&desc').'">'._DESC.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='idesc' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=idesc'.(isset($_GET['desc'])?'':'&desc').'">'._DESC.'<span class="fas fa-collapse'.($_GET['order']=='idesc' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="200px">
-									<a href="?op=list&order=iproirity'.(isset($_GET['desc'])?'':'&desc').'">'._PROIRITY.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='iproirity' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=iproirity'.(isset($_GET['desc'])?'':'&desc').'">'._PROIRITY.'<span class="fas fa-collapse'.($_GET['order']=='iproirity' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="50px">
-									<a href="?op=list&order=icomplexity'.(isset($_GET['desc'])?'':'&desc').'">'._COMPLEXITY.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='icomplexity' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=icomplexity'.(isset($_GET['desc'])?'':'&desc').'">'._COMPLEXITY.'<span class="fas fa-collapse'.($_GET['order']=='icomplexity' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="20px">
 									<a href="?op=list&order=ineeded_time'.(isset($_GET['desc'])?'':'&desc').'">'._NEEDED_TIME.'
@@ -960,50 +960,50 @@ $admins_tasks = new ManageAdmins_Tasks();
 									<a href="?op=list&order=idate'.(isset($_GET['desc'])?'':'&desc').'">'._ADD_DATE.'
 									</a></th>
 								<th width="200px">
-									<a href="?op=list&order=ifile1'.(isset($_GET['desc'])?'':'&desc').'">'._FILE1.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='ifile1' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=ifile1'.(isset($_GET['desc'])?'':'&desc').'">'._FILE1.'<span class="fas fa-collapse'.($_GET['order']=='ifile1' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="20px">
-									<a href="?op=list&order=ifile2'.(isset($_GET['desc'])?'':'&desc').'">'._FILE2.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='ifile2' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=ifile2'.(isset($_GET['desc'])?'':'&desc').'">'._FILE2.'<span class="fas fa-collapse'.($_GET['order']=='ifile2' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="50px">
-									<a href="?op=list&order=ifile3'.(isset($_GET['desc'])?'':'&desc').'">'._FILE3.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='ifile3' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=ifile3'.(isset($_GET['desc'])?'':'&desc').'">'._FILE3.'<span class="fas fa-collapse'.($_GET['order']=='ifile3' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="20px">
 									<a href="?op=list&order=iwho_fullname'.(isset($_GET['desc'])?'':'&desc').'">
-										'._NAME_OF_PROPOSER.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='iwho_fullname' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+										'._NAME_OF_PROPOSER.'<span class="fas fa-collapse'.($_GET['order']=='iwho_fullname' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="50px">
-									<a href="?op=list&order=iwho_email'.(isset($_GET['desc'])?'':'&desc').'">'._EMAIL_OF_PROPOSER.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='iwho_email' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=iwho_email'.(isset($_GET['desc'])?'':'&desc').'">'._EMAIL_OF_PROPOSER.'<span class="fas fa-collapse'.($_GET['order']=='iwho_email' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="50px">
 									<a href="?op=list&order=iwho_tel'.(isset($_GET['desc'])?'':'&desc').'">
-								'._PHONE_NUMBER_OF_PROPOSER.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='iwho_tel' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								'._PHONE_NUMBER_OF_PROPOSER.'<span class="fas fa-collapse'.($_GET['order']=='iwho_tel' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 								<th>
-									<a href="?op=list&order=idone'.(isset($_GET['desc'])?'':'&desc').'">'._DONE.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='idone' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=idone'.(isset($_GET['desc'])?'':'&desc').'">'._DONE.'<span class="fas fa-collapse'.($_GET['order']=='idone' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 								<th>
-									<a href="?op=list&order=idone_date'.(isset($_GET['desc'])?'':'&desc').'">'._DONE_DATE.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='idone_date' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=idone_date'.(isset($_GET['desc'])?'':'&desc').'">'._DONE_DATE.'<span class="fas fa-collapse'.($_GET['order']=='idone_date' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 								<th>
 									<a href="?op=list&order=idone_version'.(isset($_GET['desc'])?'':'&desc').'">
-										'._DONE_VERSION.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='idone_version' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+										'._DONE_VERSION.'<span class="fas fa-collapse'.($_GET['order']=='idone_version' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 								<th>
 									<a href="?op=list&order=tyid'.(isset($_GET['desc'])?'':'&desc').'">
-										'._TYPE.' '._ISSUE.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='tyid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+										'._TYPE.' '._ISSUE.'<span class="fas fa-collapse'.($_GET['order']=='tyid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 								<th>
-									<a href="?op=list&order=prjid'.(isset($_GET['desc'])?'':'&desc').'">'._FOR.' '._PROJECT.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='prjid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=prjid'.(isset($_GET['desc'])?'':'&desc').'">'._FOR.' '._PROJECT.'<span class="fas fa-collapse'.($_GET['order']=='prjid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 								<th>
-									<a href="?op=list&order=aid'.(isset($_GET['desc'])?'':'&desc').'">'._INSERTED_BY.'<span class="glyphicon glyphicon-collapse'.($_GET['order']=='aid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=aid'.(isset($_GET['desc'])?'':'&desc').'">'._INSERTED_BY.'<span class="fas fa-collapse'.($_GET['order']=='aid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 							</tr>
@@ -1069,7 +1069,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 										<!-- Extra small button group -->
 										<div class="btn-group">
 											<button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											  <span class="glyphicon glyphicon-menu-hamburger"></span>
+											  <span class="fas fa-menu-hamburger"></span>
 											</button>
 											<ul class="dropdown-menu">
 												<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
@@ -1368,8 +1368,8 @@ $admins_tasks = new ManageAdmins_Tasks();
 							}
 							echo'
 						  <div class="col-sm-4 col-md-12">
-							<div class="panel panel-'.($issueInfo['idone']==1?'success':'primary').'" style="'.($issueInfo['idone']==1?'color:#A6A6A6;':'').'">
-							  <div class="panel-heading">
+							<div class="card card-'.($issueInfo['idone']==1?'success':'primary').'" style="'.($issueInfo['idone']==1?'color:#A6A6A6;':'').'">
+							  <div class="card-header">
 							    <ul class="list-inline">
 							    	<li class="right_list">
 						    			
@@ -1409,7 +1409,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 								        });
 								      }
 							      </script>
-							  <div class="panel-body">';
+							  <div class="card-body">';
 						  	      $projectlist= $project->GetList();
 						  	      $issue_typeslist= $issue_types->GetList();
 						  	      $tyid = $issueInfo['tyid']; 
@@ -1559,7 +1559,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						  	      </div>
 						  	      
 							  </div>
-								<div class="panel-footer" style="text-align: '.$align1.'">
+								<div class="card-footer" style="text-align: '.$align1.'">
 				    	           <input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
 					  			if ($permissions[0]['allow_edit_issues']==1) {
 					  				echo'

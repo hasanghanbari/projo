@@ -11,7 +11,7 @@ define("_ADD","افزودن");
 define("_LIST","لیست");
 define("_CHART","فهرست");
 define("_ARCHIVE","آرشیو");
-define("_SEARCH","<span class=\"glyphicon glyphicon-search\" aria-hidden=\"true\"></span>");
+define("_SEARCH","<span class=\"fas fa-search\" aria-hidden=\"true\"></span>");
 define("_TOOLS","امکانات");
 define("_EDIT","ویرایش");
 define("_DELETE","حذف");

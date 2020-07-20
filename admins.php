@@ -272,8 +272,8 @@ switch ($op) {
 			
 			<div class="row">
 			  <div class="col-md-6">
-			  	<div class="panel panel-default">
-			  	  <div class="panel-body">
+			  	<div class="card card-default">
+			  	  <div class="card-body">
 					<div class="form-group">
 						<label for="ausername">'._USERNAME.'<span class="required">*</span>: </label><br>
 						<input autofocus="" type="text" class="form-control" id="ausername" name="ausername" value="'.$ausername.'" style="direction: ltr;">
@@ -336,8 +336,8 @@ switch ($op) {
 			  	</div>
 			</div>
 			  <div class="col-md-6">
-				  <div class="panel panel-default">
-					<div class="panel-body">';
+				  <div class="card card-default">
+					<div class="card-body">';
 					if ($aidInfo!=1) {
 						echo'
 						<label>'._ACCESS_LEVEL.': </label>
@@ -534,91 +534,91 @@ switch ($op) {
 						<th width="30px">'._TOOLS.'</th>
 						<th width="300px">
 							<a href="?op=list&order=ausername'.(isset($_GET['desc'])?'':'&desc').'">'._USERNAME.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='ausername' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='ausername' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=aactive'.(isset($_GET['desc'])?'':'&desc').'">'._CONDITION.'؟
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='aactive' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='aactive' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=asuper_admin'.(isset($_GET['desc'])?'':'&desc').'">'._GENERAL_MANAGER.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='asuper_admin' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='asuper_admin' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="100px">
 							<a href="?op=list&order=afname'.(isset($_GET['desc'])?'':'&desc').'">'._NAME.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='afname' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='afname' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="100px">
 							<a href="?op=list&order=alname'.(isset($_GET['desc'])?'':'&desc').'">'._FAMILI.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='alname' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='alname' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=agender'.(isset($_GET['desc'])?'':'&desc').'">'._GENDER.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='agender' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='agender' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="100px">
 							<a href="?op=list&order=atel'.(isset($_GET['desc'])?'':'&desc').'">'._PHONE_NUMBER.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='atel' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='atel' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="100px">
 							<a href="?op=list&order=aemail'.(isset($_GET['desc'])?'':'&desc').'">'._EMAIL.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='aemail' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='aemail' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=apic'.(isset($_GET['desc'])?'':'&desc').'">'._AVATAR.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='apic' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='apic' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="200px">
 							<a href="?op=list&order=acomments'.(isset($_GET['desc'])?'':'&desc').'">'._COMMENTS.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='acomments' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='acomments' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=allow_add_project'.(isset($_GET['desc'])?'':'&desc').'">'._ADD.' '._PROJECT.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='allow_add_project' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='allow_add_project' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=allow_edit_project'.(isset($_GET['desc'])?'':'&desc').'">'._EDIT.' '._PROJECT.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='allow_edit_project' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='allow_edit_project' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=allow_list_project'.(isset($_GET['desc'])?'':'&desc').'">'._LIST.' '._PROJECT.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='allow_list_project' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='allow_list_project' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=allow_delete_project'.(isset($_GET['desc'])?'':'&desc').'">'._DELETE.' '._PROJECT.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='allow_delete_project' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='allow_delete_project' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=allow_add_issues'.(isset($_GET['desc'])?'':'&desc').'">'._ADD.' '._ISSUE.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='allow_add_issues' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='allow_add_issues' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=allow_edit_issues'.(isset($_GET['desc'])?'':'&desc').'">'._EDIT.' '._ISSUE.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='allow_edit_issues' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='allow_edit_issues' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=allow_list_issues'.(isset($_GET['desc'])?'':'&desc').'">'._LIST.' '._ISSUE.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='allow_list_issues' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='allow_list_issues' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=allow_delete_issues'.(isset($_GET['desc'])?'':'&desc').'">'._DELETE.' '._ISSUE.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='allow_delete_issues' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='allow_delete_issues' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=allow_add_task'.(isset($_GET['desc'])?'':'&desc').'">'._ADD.' '._TASK.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='allow_add_task' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='allow_add_task' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=allow_list_task'.(isset($_GET['desc'])?'':'&desc').'"> '._LIST.' '._TASK.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='allow_list_task' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='allow_list_task' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=allow_edit_task'.(isset($_GET['desc'])?'':'&desc').'">'._EDIT.' '._TASK.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='allow_edit_task' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='allow_edit_task' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
 							<a href="?op=list&order=allow_delete_task'.(isset($_GET['desc'])?'':'&desc').'">'._DELETE.' '._TASK.'
-								<span class="glyphicon glyphicon-collapse'.($_GET['order']=='allow_delete_task' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								<span class="fas fa-collapse'.($_GET['order']=='allow_delete_task' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 					</tr>
 			';
@@ -630,7 +630,7 @@ switch ($op) {
 								<!-- Extra small button group -->
 								<div class="btn-group">
 									<button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									  	<span class="glyphicon glyphicon-menu-hamburger"></span>
+									  	<span class="fas fa-menu-hamburger"></span>
 									</button>
 									<ul class="dropdown-menu">
 										';

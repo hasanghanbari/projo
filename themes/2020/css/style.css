@@ -32,6 +32,10 @@ body, html {
 }
 .right_list{
   float: right;
+  width: 70%;
+}
+.right_list .dropdown {
+  float: right;
 }
 
 .project-home{
