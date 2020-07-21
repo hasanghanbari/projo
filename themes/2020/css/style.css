@@ -264,9 +264,17 @@ body {
 
 
 	/* * Card component */
-.card {    background-color: #F7F7F7;    
+.card {    background-color: #F7F7F7;}    
 /* just in case there no content*/
 
 .form_login{
   width: 250px;
+}
+
+.mini-show-issue .dropdown-toggle::after {
+  content: none;
+}
+.mini-show-issue label {
+  padding: 10px;
+  margin: 0;
 }

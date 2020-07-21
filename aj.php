@@ -173,33 +173,44 @@ switch ($op) {
 		      
 		       <div class="modal-header">
 		       <div id="vqs2"></div>
-			    <ul class="list-inline">
+			    <ul class="list-inline w-100 p-0 mini-show-issue">
+	    			<li class="right_list">
+	    				<div class="dropdown" style="float: right;">
+		    	           <a href="#" class="dropdown-toggle btn btn-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+		    	           		<i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+		    	           	</a>
+		    	           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		    	           		<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
+			  				if ($permissions[0]['allow_edit_issues']==1) {
+				  				echo'
+		    	             	<a class="dropdown-item" href="issues.php?op=add&iid='.$issueInfo['iid'].'">'._EDIT.' '._ISSUE.'</a>';
+				  			}
+				  			if ($permissions[0]['allow_delete_issues']==1) {
+				  			echo'
+		    	             	<a class="dropdown-item" onclick="return Sure();" href="issues.php?op=delete&iid='.$issueInfo['iid'].'" style="color: red;">'._DELETE.' '._ISSUE.'</a>';
+				  			}
+				  			if ($issueInfo['idone']==0) {
+								echo '
+								<a class="dropdown-item" href="javascript:doneIssue('.$issueInfo['iid'].')">'._DONE_ISSUE.'</a>';
+							}
+							else {
+								echo '
+								<a class="dropdown-item" href="javascript:startIssue('.$issueInfo['iid'].')">'._START_ISSUE.'</a>';
+							}
+				  			echo'
+		    	           </div>
+		    	       </div>
+		    	       <label>'.$issueInfo['ititle'].'</label>
+		    	   	</li>
 			    	<li class="left_list">
-		       			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		       		</li>
-	    			<li class="dropdown right_list">
-	    	           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fas fa-option-vertical" aria-hidden="true"></span></a>
-	    	           <ul class="dropdown-menu">
-	    	           		<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
-		  				if ($permissions[0]['allow_edit_issues']==1) {
-			  				echo'
-	    	             <li><a href="issues.php?op=add&iid='.$issueInfo['iid'].'">'._EDIT.' '._ISSUE.'</a></li>';
-			  			}
-			  			if ($permissions[0]['allow_delete_issues']==1) {
-			  			echo'
-	    	             <li><a onclick="return Sure();" href="issues.php?op=delete&iid='.$issueInfo['iid'].'" style="color: red;">'._DELETE.' '._ISSUE.'</a></li>';
-			  			}
-			  			if ($issueInfo['idone']==0) {
-							echo '<li><a href="javascript:doneIssue('.$issueInfo['iid'].')">'._DONE_ISSUE.'</a></li>';
-						}
-						else {
-							echo '<li><a href="javascript:startIssue('.$issueInfo['iid'].')">'._START_ISSUE.'</a></li>';
-						}
-			  			echo'
-	    	           </ul>
-	    	        </li>
-				    <li class="right_list"> <label>'.$issueInfo['ititle'].'</label></li>
-			    	<li class="left_list"><label>'._PROIRITY.'</label>: '.$iproirity.' | <label>'._COMPLEXITY.'</label>: '.$icomplexity.'&nbsp&nbsp</li>
+			    		<div class="float-right">
+			    			<label>'._PROIRITY.'</label>: '.$iproirity.' | 
+			    			<label>'._COMPLEXITY.'</label>: '.$icomplexity.'&nbsp&nbsp
+			    		</div>
+			    		<a href="#" role="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">
+			    			<i class="fas fa-times"></i>
+			    		</a>
+			    	</li>
 		        </ul>
 		      </div>
 		      <script>
