@@ -278,3 +278,10 @@ body {
   padding: 10px;
   margin: 0;
 }
+
+.no-toggle::after {
+  content: none;
+}
+.dropdown-menu {
+  text-align: right;
+}

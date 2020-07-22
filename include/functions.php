@@ -120,21 +120,27 @@ function Failure($message)
 function AddLogo($message)
 {
 	echo'
-	<a class="btn btn-primary" href="'.$message.'" role="button"><span class="fas fa-pen" aria-hidden="true"> '._NEW.'</span> 
+	<a class="btn btn-primary" href="'.$message.'" role="button">
+		<i class="fas fa-pen" aria-hidden="true"></i>
+		'._NEW.'
 	</a>
 	';
 }
 function ListLogo($message)
 {
 	echo'
-	<a class="btn btn-primary" href="'.$message.'" role="button"><span class="fas fa-th-list" aria-hidden="true"> '._LIST.'</span> 
+	<a class="btn btn-primary" href="'.$message.'" role="button">
+		<i class="fas fa-th-list" aria-hidden="true"></i>
+		'._LIST.'
 	</a>
 	';
 }
 function ChartLogo($message)
 {
 	echo'
-	<a class="btn btn-primary" href="'.$message.'" role="button"><span class="fas fa-th-large" aria-hidden="true"> '._CHART.'</span> 
+	<a class="btn btn-primary" href="'.$message.'" role="button">
+		<i class="fas fa-th-large" aria-hidden="true"></i>
+		'._CHART.'
 	</a>
 	';
 }

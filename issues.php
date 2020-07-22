@@ -1067,28 +1067,34 @@ $admins_tasks = new ManageAdmins_Tasks();
 							<tr class="'.($issueInfo['idone']==1?'success':'').'" style="'.($issueInfo['idone']==1?'color:#A6A6A6;':'').'">
 								<td>
 										<!-- Extra small button group -->
-										<div class="btn-group">
-											<button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											  <span class="fas fa-menu-hamburger"></span>
+										<div class="dropdown">
+											<button class="btn btn-secondary btn-sm dropdown-toggle no-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											  <i class="fas fa-bars"></i>
 											</button>
-											<ul class="dropdown-menu">
+											<div class="dropdown-menu">
 												<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
 									          if ($permissions[0]['allow_edit_issues']==1) {
-									          echo'
-												<li><a href="?op=add&iid='.$issueInfo['iid'].'">'._EDIT.'</a></li>';
+									          		echo'
+													<a class="dropdown-item" href="?op=add&iid='.$issueInfo['iid'].'">'._EDIT.'</a>
+													';
 												}
 									          if ($permissions[0]['allow_delete_issues']==1) {
-									          echo'
-												<li><a onclick="return Sure();" style="color: red;" href="?op=delete&iid='.$issueInfo['iid'].'">'._DELETE.'</a></li>';
+									          		echo'
+													<a class="dropdown-item" onclick="return Sure();" style="color: red;" href="?op=delete&iid='.$issueInfo['iid'].'">'._DELETE.'</a>
+													';
 												}
 												if ($issueInfo['idone']==0) {
-													echo '<li><a href="javascript:doneIssue('.$issueInfo['iid'].')">'._DONE_ISSUE.'</a></li>';
+													echo '
+													<a class="dropdown-item" href="javascript:doneIssue('.$issueInfo['iid'].')">'._DONE_ISSUE.'</a>
+													';
 												}
 												else {
-													echo '<li><a href="javascript:startIssue('.$issueInfo['iid'].')">'._START_ISSUE.'</a></li>';
+													echo '
+													<a class="dropdown-item" href="javascript:startIssue('.$issueInfo['iid'].')">'._START_ISSUE.'</a>
+													';
 												}
 									          echo'
-											</ul>
+											</div>
 										</div>
 										<script>
 									      function doneIssue(id) {
@@ -1368,7 +1374,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 							}
 							echo'
 						  <div class="col-sm-4 col-md-12">
-							<div class="card card-'.($issueInfo['idone']==1?'success':'primary').'" style="'.($issueInfo['idone']==1?'color:#A6A6A6;':'').'">
+							<div class="card mb-2 border-'.($issueInfo['idone']==1?'success':'primary').'" style="'.($issueInfo['idone']==1?'color:#A6A6A6;':'').'">
 							  <div class="card-header">
 							    <ul class="list-inline">
 							    	<li class="right_list">
@@ -1563,17 +1569,17 @@ $admins_tasks = new ManageAdmins_Tasks();
 				    	           <input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
 					  			if ($permissions[0]['allow_edit_issues']==1) {
 					  				echo'
-				    	             <a class="btn btn-default" href="issues.php?op=add&iid='.$issueInfo['iid'].'">'._EDIT.'</a>';
+				    	             <a class="btn btn-light btn-sm" href="issues.php?op=add&iid='.$issueInfo['iid'].'">'._EDIT.'</a>';
 					  			}
 					  			if ($permissions[0]['allow_delete_issues']==1) {
 					  				echo'
-				    	             <a class="btn btn-danger" onk="return Sure();" href="issues.php?op=delete&iid='.$issueInfo['iid'].'">'._DELETE.'</a>&nbsp';
+				    	             <a class="btn btn-danger btn-sm" onk="return Sure();" href="issues.php?op=delete&iid='.$issueInfo['iid'].'">'._DELETE.'</a>&nbsp';
 					  			}
 					  			if ($issueInfo['idone']==0) {
-									echo '<a class="btn btn-success" href="javascript:doneIssue('.$issueInfo['iid'].')">'._DONE_ISSUE.'</a>';
+									echo '<a class="btn btn-success btn-sm" href="javascript:doneIssue('.$issueInfo['iid'].')">'._DONE_ISSUE.'</a>';
 								}
 								else {
-									echo '<a class="btn btn-primary" href="javascript:startIssue('.$issueInfo['iid'].')">'._START_ISSUE.'</a>';
+									echo '<a class="btn btn-primary btn-sm" href="javascript:startIssue('.$issueInfo['iid'].')">'._START_ISSUE.'</a>';
 								}
 					  			echo'
 								</div>

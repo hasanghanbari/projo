@@ -628,33 +628,31 @@ switch ($op) {
 						<td>
 							<div style="text-align:rtl;" dir="rtl">
 								<!-- Extra small button group -->
-								<div class="btn-group">
-									<button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									  	<span class="fas fa-menu-hamburger"></span>
+								<div class="dropdown">
+									<button class="btn btn-primary btn-sm dropdown-toggle no-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									  	<span class="fas fa-bars"></span>
 									</button>
-									<ul class="dropdown-menu">
+									<div class="dropdown-menu">
 										';
 										if ($adminInfo['aid'] != 1 || $permissions[0]['aid']==1) {
 											echo'
-										<li><a href="?op=add&aid='.$adminInfo['aid'].'">'._EDIT.'</a></li>
-										';
+											<a  class="dropdown-item" href="?op=add&aid='.$adminInfo['aid'].'">'._EDIT.'</a>
+											';
 										}
 										if ($adminInfo['aid'] != 1 && $permissions[0]['aid']!=$adminInfo['aid']) {
 											echo'
-										<li><a onclick="return Sure();" style="color: red;" href="?op=delete&aid='.$adminInfo['aid'].'">'._DELETE.'</a></li>
-										';
+											<a  class="dropdown-item" onclick="return Sure();" style="color: red;" href="?op=delete&aid='.$adminInfo['aid'].'">'._DELETE.'</a>
+											';
 										}
 										echo'
 										';
 										if ($adminInfo['aid'] != 1 || $permissions[0]['aid']==1) {
 											echo'
-										<li>
-											<a href="javascript:reset_password('.$adminInfo['aid'].')"> '._CHANGE.' '._PASSWORD.'</a>
-										</li>
-										';
+											<a  class="dropdown-item" href="javascript:reset_password('.$adminInfo['aid'].')"> '._CHANGE.' '._PASSWORD.'</a>
+											';
 										}
 										echo'
-									</ul>
+									</div>
 								</div>
 
 								<script type="text/javascript">

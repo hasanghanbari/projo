@@ -484,28 +484,26 @@ $admins_tasks = new ManageAdmins_Tasks();
 								<td>
 								<div style="text-align:rtl;" dir="rtl">
 									<!-- Extra small button group -->
-									<div class="btn-group">
-										<button class="btn btn-light btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<div class="dropdown">
+										<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										  <span class="fas fa-menu-hamburger"></span>'._TOOLS.'
 										</button>
-										<ul class="dropdown-menu">';
-						  			if ($permissions[0]['allow_edit_task']==1) {
-						  				echo'
-										<li><a href="?op=add&tskid='.$taskInfo['tskid'].'">'._EDIT.'</a></li>';
-						  			}
-						  			if ($permissions[0]['allow_delete_task']==1) {
-						  			echo'
-										<li><a onclick="return Sure();" style="color: red;" href="?op=delete&tskid='.$taskInfo['tskid'].'">'._DELETE.'</a></li>';
-						  			}
-						  			if ($permissions[0]['allow_list_issues']==1) {
-						  			echo'
-										<li><a href="issues.php?op=list&tskid='.$taskInfo['tskid'].'">'._ISSUES.' '._THIS.' '._TASK.'</a></li>';
-									}
-						  			echo'
-									  <li>
-										<a href="javascript:print_task('.$taskInfo['tskid'].')">'._PRINT.'</a>
-									  </li>
-									</ul>
+										<div class="dropdown-menu text-right">';
+							  			if ($permissions[0]['allow_edit_task']==1) {
+							  				echo'
+											<a class="dropdown-item" href="?op=add&tskid='.$taskInfo['tskid'].'">'._EDIT.'</a>';
+							  			}
+							  			if ($permissions[0]['allow_delete_task']==1) {
+							  			echo'
+											<a class="dropdown-item" onclick="return Sure();" style="color: red;" href="?op=delete&tskid='.$taskInfo['tskid'].'">'._DELETE.'</a>';
+							  			}
+							  			if ($permissions[0]['allow_list_issues']==1) {
+							  			echo'
+											<a class="dropdown-item" href="issues.php?op=list&tskid='.$taskInfo['tskid'].'">'._ISSUES.' '._THIS.' '._TASK.'</a>';
+										}
+							  			echo'
+											<a class="dropdown-item" href="javascript:print_task('.$taskInfo['tskid'].')">'._PRINT.'</a>
+									</div>
 									<script type="text/javascript">
 										function print_task(id){
 											$("#tskid").val(id);
@@ -695,7 +693,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 							    <ul class="list-inline p-0">
 								    <li class="right_list list-inline-item">
 						    			<div class="dropdown">
-						    	           <a class="dropdown-toggle" id="menu-item" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						    	           <a class="dropdown-toggle no-toggle btn btn-light btn-sm" id="menu-item" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="position: relative; right: -12px;">
 						    	           		<i class="fas fa-ellipsis-v" aria-hidden="true"></i>
 						    	           </a>
 						    	           <div class="dropdown-menu" aria-labelledby="menu-item">
@@ -755,8 +753,10 @@ $admins_tasks = new ManageAdmins_Tasks();
 		 									  </div><!-- /.modal-dialog -->
 		 									</div><!-- /.modal -->
 						    	        </div>
-								        <strong>'.$taskInfo['tsktitle'].'</strong>
-								        <br><small>'._PROJECT.' '.$projectlist['prjtitle'].' '.($taskInfo['tskdone']==1?'('._DONE.')':'').'</small>
+						    	        <span style="">
+									        <strong>'.$taskInfo['tsktitle'].'</strong>
+									        <br><small>'._PROJECT.' '.$projectlist['prjtitle'].' '.($taskInfo['tskdone']==1?'('._DONE.')':'').'</small>
+						    	        </span>
 									</li>';
 									$adminlist=$admin->GetAdminInfoById($taskInfo['aid']);
 									echo'
@@ -765,7 +765,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 							  </div>
 							  <div class="card-body task-chart-body">
 							  	<a href="issues.php?op=add&tskid='.$taskInfo['tskid'].'&prjid='.$taskInfo['prjid'].'">
-			  				  		<div class="card card-body">
+			  				  		<div class="card card-body mb-2">
 			  					  		<center>'._ADD.' '._ISSUE.'</center>
 			  		  				</div>
 			  		  			</a>
@@ -814,7 +814,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 							  		if ($taskInfo['tskid']==$task_issueInfo['tskid']) {
 							  		echo'
 							  		<a href="javascript:chart_issue('.$task_issueInfo['iid'].')" onclick="IssueInfo('.$task_issueInfo['iid'].')">
-							  		<div class="card card-body'.($task_issueInfo['idone']==1?' done':'').'">
+							  		<div class="card card-body mb-2'.($task_issueInfo['idone']==1?' done':'').'">
 								  		<ul class="list-inline p-0">
 								  			<li class="list-inline-item">
 								  				'.$task_issueInfo['ititle'].' ('.($task_issueInfo['idone']==1?_DONE:_UNDONE).')
