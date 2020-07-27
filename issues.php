@@ -4,7 +4,6 @@ require_once 'header.php';
 $active = 'task';
 require_once 'menu.php';
 $op = $_GET['op'];
-$error=$success='';
 $issue = new ManageIssues();
 $project = new ManageProjects();
 $task = new ManageTasks();
@@ -69,7 +68,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						  }
 						  else
 						  {
-						  	$error = _ADMIN_PIC_UPLOAD_ERROR; 
+						  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
 						  	$ifile1 = "";
 						  }
 						 }
@@ -133,7 +132,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 							  }
 							  else
 							  {
-							  	$error = _ADMIN_PIC_UPLOAD_ERROR; 
+							  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
 							  	$ifile2 = "";
 							  }
 							 }
@@ -198,7 +197,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						  }
 						  else
 						  {
-						  	$error = _ADMIN_PIC_UPLOAD_ERROR; 
+						  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
 						  	$ifile3 = "";
 						  }
 						 }
@@ -235,13 +234,13 @@ $admins_tasks = new ManageAdmins_Tasks();
 				$idone_version =(isset($_POST['idone_version'])?$_POST['idone_version']:0); 
 				$aid = $permissions[0]['aid'];
 				if (empty($icode) || empty($ititle)) {
-					$error = _FILL_IN_REQUIRED ;
+					Toast('error', 'خطا', _FILL_IN_REQUIRED);
 				} 
 				else 
 				{
 					if ($permissions[0]['allow_add_issues']==1) {
 						if (preg_match('/^[اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $icode)==1 || strpos($icode, " ")!==false) {
-					        $error=_INVALID_CODE;
+					        Toast('error', 'خطا', _INVALID_CODE);
 					    }
 					    else{
 							if ($issue->Add($tyid, $prjid, $iversion, $icode, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version, $aid)==1) {
@@ -250,16 +249,16 @@ $admins_tasks = new ManageAdmins_Tasks();
 									$tskid = $_GET['tskid'];
 									$task_issue->Add($tskid,$iid);
 								}
-								$success= _RECORD_ADDED_SUCCESSFULLI;
+								Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
 								$tyid= $prjid= $iversion= $icode= $ititle= $idesc= $iproirity= $icomplexity= $ineeded_time= $ifile1= $ifile2= $ifile3= $iarchive= $iwho_fullname= $iwho_email= $iwho_tel= $idone= $idone_date= $idone_version= $aid ='';
 							}
 							else{
-								$error= _ADDING_RECORD_FAILED;
+								Toast('error', 'خطا', _ADDING_RECORD_FAILED);
 							}
 						}
 					}
 					else{
-						Failure(_ACCESS_DENIED);
+						Toast('error', 'خطا', _ACCESS_DENIED);
 					}
 				}
 			}
@@ -312,7 +311,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						  }
 						  else
 						  {
-						  	$error = _ADMIN_PIC_UPLOAD_ERROR; 
+						  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
 						  	$ifile1 = "";
 						  }
 						 }
@@ -376,7 +375,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 							  }
 							  else
 							  {
-							  	$error = _ADMIN_PIC_UPLOAD_ERROR; 
+							  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
 							  	$ifile2 = "";
 							  }
 							 }
@@ -441,7 +440,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						  }
 						  else
 						  {
-						  	$error = _ADMIN_PIC_UPLOAD_ERROR; 
+						  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
 						  	$ifile3 = "";
 						  }
 						 }
@@ -478,19 +477,19 @@ $admins_tasks = new ManageAdmins_Tasks();
 						$idone_version = $_POST['idone_version']; 
 						if ($permissions[0]['allow_edit_issues']==1) {
 							if (preg_match('/^[اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $icode)==1 || strpos($icode, " ")!==false) {
-						        $error=_INVALID_CODE;
+						        Toast('error', 'خطا', _INVALID_CODE);
 						    }
 						    else{
 								if($issue->Update($iid, $tyid, $prjid, $iversion, $icode, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version)==1){
-									$success=_RECORD_EDITED_SUCCESSFULLI;
+									Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
 								}
 								else{
-									$error= _EDITING_RECORD_FAILED.' ('._FILL_IN_REQUIRED.')';
+									Toast('error', 'خطا', _EDITING_RECORD_FAILED.' ('._FILL_IN_REQUIRED.')');
 								}
 							}
 						}
 						else{
-							Failure(_ACCESS_DENIED);
+							Toast('error', 'خطا', _ACCESS_DENIED);
 						}
 				}
 				$issueInfo = $issue->GetInfo("iid",$iid);
@@ -518,13 +517,6 @@ $admins_tasks = new ManageAdmins_Tasks();
 				$idone = $issueInfo['idone']; 
 				$idone_date = ($issueInfo['idone_date']==0?'':($language=='farsi'?G2JD($issueInfo['idone_date']):$issueInfo['idone_date'])); 
 				$idone_version = $issueInfo['idone_version']; 
-			}
-			
-			if (!empty($error)) {
-				Failure($error.' <a href="">'._RELOAD.'</a>');
-			}
-			if (!empty($success)) {
-				Success($success.' <a href="">'._RELOAD.'</a>');
 			}
 			if ($permissions[0]['allow_add_issues']==1 || $permissions[0]['allow_edit_issues']==1) {	
 			echo'

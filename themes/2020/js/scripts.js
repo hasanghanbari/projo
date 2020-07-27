@@ -11,19 +11,30 @@ $( document ).ready(function() {
     // 
     Load profile if it exits    loadProfile();
 });
-    /*
-    * * Function that gets the data of the profile in case 
-    * thar it has already saved in localstorage. Only the 
-    * UI will be update in case that all data is available 
-    * * A not existing key in localstorage return null * 
-    */
-    function getLocalProfile(callback){
-        var profileImgSrc      = localStorage.getItem("PROFILE_IMG_SRC");
-        var profileName        = localStorage.getItem("PROFILE_NAME");    
-        var profileReAuthEmail = localStorage.getItem("PROFILE_REAUTH_EMAIL");    
-        if(profileName !== null&& profileReAuthEmail !== null&& profileImgSrc !== null) 
-        {
-        	callback(profileImgSrc, profileName, profileReAuthEmail);
-        }
+/*
+* * Function that gets the data of the profile in case 
+* thar it has already saved in localstorage. Only the 
+* UI will be update in case that all data is available 
+* * A not existing key in localstorage return null * 
+*/
+function getLocalProfile(callback){
+    var profileImgSrc      = localStorage.getItem("PROFILE_IMG_SRC");
+    var profileName        = localStorage.getItem("PROFILE_NAME");    
+    var profileReAuthEmail = localStorage.getItem("PROFILE_REAUTH_EMAIL");    
+    if(profileName !== null&& profileReAuthEmail !== null&& profileImgSrc !== null) 
+    {
+    	callback(profileImgSrc, profileName, profileReAuthEmail);
     }
+}
 
+function Toast(type, title, message, position='top-left', text_align='right', showHideTransition='slide')
+{
+    $.toast({
+        heading: title,
+        text: message,
+        icon: type,
+        position: osition,
+        textAlign: ext_align,
+        showHideTransition: howHideTransition
+    });
+}

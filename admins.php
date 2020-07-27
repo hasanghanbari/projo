@@ -8,7 +8,7 @@ $task = new ManageTasks();
 $admins_tasks = new ManageAdmins_Tasks();
 $project = new ManageProjects();
 $op= $_GET['op'];
-$error=$success='';
+
 switch ($op) {
 	case 'add':
 	$aidInfo=$ausername= $apass= $afname= $alname= $atel= $apic2= $aemail=$allow_add_project= $allow_edit_project= $allow_list_project= $allow_add_issues= $allow_edit_issues= $allow_list_issues= $allow_add_task= $allow_list_task= $allow_edit_task= $allow_delete_project= $allow_delete_task= $allow_delete_issues=$apic=$acomments=$tskid='';
@@ -19,29 +19,13 @@ switch ($op) {
 			$cookie_admin= explode(':', $_COOKIE['iproject']);
 			if($admin->AdminPermission($cookie_admin[0],"asuper_admin"))
 			{
-				// $whitelist = array("jpg","png","gif");
-				// $uploaddir='ac/';
-				// $randcode = substr(time(), -5);
-				// $extension = explode('.',  basename($_FILES['apic']['name']));
-				// $extension = $extension[count($extension)-1];
-				// if (in_array($extension, $whitelist)) {
-				// 	// $lastid = $admin->lastInsertId();
-				// 	$lastId = '2';
-				// 	$filename = $lastId.'-'.$randcode.'.'.$extension;
-				// 	$uploadfile= $uploaddir.$filename;
-				// 	move_uploaded_file($_FILES['apic']['tmp_name'], $uploadfile);
-				// }
-				// else{
-				// 	Failure('پسوند فایل درست نمیباشد');
-				// }
-				
 				//--Upload Image
 				if(!empty($_FILES['apic']['name']))
 				{
 					$whitelist = array("png", "jpg", "gif");
 					if(!in_array(substr(basename($_FILES['apic']['name']),-3), $whitelist))
 					{
-						$error = _ADMIN_PIC_EXTENSION_ERROR;
+						Toast('error', 'خطا',  _ADMIN_PIC_EXTENSION_ERROR);
 					}
 					else
 					{
@@ -50,7 +34,7 @@ switch ($op) {
 							$imageinfo = getimagesize($_FILES['apic']['tmp_name']);
 							if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg' && $imageinfo['mime'] != 'image/png')
 							{
-								$error = _ADMIN_PIC_CONTENT_ERROR;
+								Toast('error', 'خطا',  _ADMIN_PIC_CONTENT_ERROR);
 							}
 							else
 							{
@@ -63,14 +47,14 @@ switch ($op) {
 								}
 								else
 								{
-									$error = _ADMIN_PIC_UPLOAD_ERROR; 
+									Toast('error', 'خطا',  _ADMIN_PIC_UPLOAD_ERROR);
 									$apic = "";
 								}
 							}
 						}
 						else
 						{
-							$error = _IMAGE_SIZE_ERROR;
+							Toast('error', 'خطا',  _IMAGE_SIZE_ERROR);
 						}
 					}
 				}
@@ -99,23 +83,23 @@ switch ($op) {
 				$allow_delete_task = (isset($_POST['allow_delete_task'])?1:0);
 				$allow_delete_issues = (isset($_POST['allow_delete_issues'])?1:0);
 				if (empty($ausername) || empty($apass)) {
-					$error = _FILL_IN_REQUIRED;
+					Toast('error', 'خطا',  _FILL_IN_REQUIRED);
 				} 
 				else 
 				{		
 					if ($admin->Add($ausername, md5($apass), $aactive, $asuper_admin, $afname, $alname, $agender, $atel, $aemail, $apic, $acomments, $allow_add_project, $allow_edit_project, $allow_list_project, $allow_add_issues, $allow_edit_issues, $allow_list_issues, $allow_add_task, $allow_list_task, $allow_edit_task, $allow_delete_project, $allow_delete_task, $allow_delete_issues)==1) {
-						$success= _RECORD_ADDED_SUCCESSFULLI;
+						Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
 						$ausername= $apass= $afname= $alname= $atel= $aemail='';
 						$aactive = 1;
 						$agender = $asuper_admin = 0;
 					}
 					else{
-						$error= _ADDING_RECORD_FAILED;
+						Toast('error', 'خطا',  _ADDING_RECORD_FAILED);
 					}
 				}
 			}
 			else{
-					$error = _ACCESS_DENIED;
+					Toast('error', 'خطا',  _ACCESS_DENIED);
 			}
 		}
 		elseif (isset($_GET['aid'])) {
@@ -143,14 +127,14 @@ switch ($op) {
 						
 						if(!in_array(substr(basename($_FILES['apic']['name']),-3), $whitelist))
 						{
-							$error = _ADMIN_PIC_EXTENSION_ERROR;
+							Toast('error', 'خطا',  _ADMIN_PIC_EXTENSION_ERROR);
 						}
 						else
 						{
 							$imageinfo = getimagesize($_FILES['apic']['tmp_name']);
 							if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg' && $imageinfo['mime'] != 'image/png')
 							{
-								$error = _ADMIN_PIC_CONTENT_ERROR;
+								Toast('error', 'خطا',  _ADMIN_PIC_CONTENT_ERROR);
 							}
 							else
 							{
@@ -172,7 +156,7 @@ switch ($op) {
 								}
 								else
 								{
-									$error = _IMAGE_SIZE_ERROR;
+									Toast('error', 'خطا',  _IMAGE_SIZE_ERROR);
 									$apic = $apic2 = $_REQUEST['apic_temp'];
 								}
 							}
@@ -206,14 +190,14 @@ switch ($op) {
 					$allow_delete_task = (isset($_POST['allow_delete_task'])?1:0);
 					$allow_delete_issues = (isset($_POST['allow_delete_issues'])?1:0);
 					if($admin->Update($aid, $ausername, $aactive, $asuper_admin, $afname, $alname, $agender, $atel, $aemail, $apic, $acomments, $allow_add_project, $allow_edit_project, $allow_list_project, $allow_add_issues, $allow_edit_issues, $allow_list_issues, $allow_add_task, $allow_list_task, $allow_edit_task, $allow_delete_project, $allow_delete_task, $allow_delete_issues)==1 || !empty($tskids)){
-						$success=_RECORD_EDITED_SUCCESSFULLI;
+						Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
 					}
 					else{
-						$error=_EDITING_RECORD_FAILED.' ('._NOT_CHANGED_RECORD.')';
+						Toast('error', 'خطا', _EDITING_RECORD_FAILED.' ('._NOT_CHANGED_RECORD.')');
 					}
 				}
 				else{
-						$error = _ACCESS_DENIED;
+						Toast('error', 'خطا',  _ACCESS_DENIED);
 				}
 			}
 			$adminInfo = $admin->GetAdminInfoById($aid);
@@ -245,12 +229,6 @@ switch ($op) {
 		}
 		echo '
 		<div class="col-sm-12 col-md-12 jumbotron" id="content">';
-		if (!empty($error)) {
-			Failure($error);
-		}
-		if (!empty($success)) {
-			Success($success);
-		}
 		if ($permissions[0]['asuper_admin']==1) {
 			$aid = (isset($_GET['aid'])?$_GET['aid']:'');
 			if ($aid!=1 || $permissions[0]['aid']==1) {
@@ -746,13 +724,7 @@ switch ($op) {
 					}
 				}
 				else{
-						$error = _ACCESS_DENIED;
-				}
-				if (!empty($error)) {
-					Failure($error);
-				}
-				if (!empty($success)) {
-					Success($success);
+						Toast('error', 'خطا',  _ACCESS_DENIED);
 				}
 				echo '<a href="admins.php?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'._BACK_TO_LIST.'"></a>';
 			}

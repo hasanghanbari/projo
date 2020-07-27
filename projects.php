@@ -2,7 +2,6 @@
 require_once 'main.php';
 require_once 'header.php';
 $op = $_GET['op'];
-$error=$success='';
 $project = new ManageProjects();
 $task = new ManageTasks();
 $admins_tasks = new ManageAdmins_Tasks();
@@ -18,7 +17,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					$whitelist = array("png", "jpg", "gif");
 					if(!in_array(substr(basename($_FILES['prjlogo']['name']),-3), $whitelist))
 					{
-						$error = _ADMIN_PIC_EXTENSION_ERROR;
+						Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
 					}
 					else
 					{
@@ -27,7 +26,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 							$imageinfo = getimagesize($_FILES['prjlogo']['tmp_name']);
 							if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg' && $imageinfo['mime'] != 'image/png')
 							{
-								$error = _ADMIN_PIC_CONTENT_ERROR;
+								Toast('error', 'خطا', _ADMIN_PIC_CONTENT_ERROR);
 							}
 							else
 							{
@@ -40,14 +39,14 @@ $admins_tasks = new ManageAdmins_Tasks();
 								}
 								else
 								{
-									$error = _ADMIN_PIC_UPLOAD_ERROR; 
+									Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
 									$prjlogo = "";
 								}
 							}
 						}
 						else
 						{
-							$error = _IMAGE_SIZE_ERROR;
+							Toast('error', 'خطا', _IMAGE_SIZE_ERROR);
 						}
 					}
 				}
@@ -58,26 +57,26 @@ $admins_tasks = new ManageAdmins_Tasks();
 				$prjcomments = $_POST['prjcomments'];
 				$aid=1;
 				if (empty($prjcode) || empty($prjtitle)) {
-					$error = _FILL_IN_REQUIRED ;
+					Toast('error', 'خطا', _FILL_IN_REQUIRED );
 				} 
 				else 
 				{		
 					if ($permissions[0]['allow_add_project']==1) {
 						if (preg_match('/^[اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $prjcode)==1 || strpos($prjcode, " ")!==false) {
-					        $error=_INVALID_CODE;
+					        Toast('error', 'خطا', _INVALID_CODE);
 					    }
 					    else{
 							if ($project->Add($prjcode, $prjtitle, $prjdesc, $prjlogo, $prjcomments, $aid)==1) {
-								$success= _RECORD_ADDED_SUCCESSFULLI;
+								Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
 								$prjcode= $prjtitle= $prjdesc= $prjlogo= $prjcomments= '';
 							}
 							else{
-								$error= _ADDING_RECORD_FAILED;
+								Toast('error', 'خطا', _ADDING_RECORD_FAILED);
 							}
 						}
 					}
 					else{
-						$error=_ACCESS_DENIED;
+						Toast('error', 'خطا', _ACCESS_DENIED);
 					}
 				}
 			}
@@ -102,14 +101,14 @@ $admins_tasks = new ManageAdmins_Tasks();
 							
 							if(!in_array(substr(basename($_FILES['prjlogo']['name']),-3), $whitelist))
 							{
-								$error = _ADMIN_PIC_EXTENSION_ERROR;
+								Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
 							}
 							else
 							{
 								$imageinfo = getimagesize($_FILES['prjlogo']['tmp_name']);
 								if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg' && $imageinfo['mime'] != 'image/png')
 								{
-									$error = _ADMIN_PIC_CONTENT_ERROR;
+									Toast('error', 'خطا', _ADMIN_PIC_CONTENT_ERROR);
 								}
 								else
 								{
@@ -125,14 +124,14 @@ $admins_tasks = new ManageAdmins_Tasks();
 										}
 										else
 										{
-											$error = _ADMIN_PIC_UPLOAD_ERROR; 
+											Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
 											$prjlogo = "";
 										}
 									}
 									else
 									{
-										$error = _IMAGE_SIZE_ERROR;
 										$prjlogo = $prjlogo2 = $_REQUEST['prjlogo_temp'];
+										Toast('error', 'خطا', _IMAGE_SIZE_ERROR);
 									}
 								}
 							}
@@ -151,19 +150,19 @@ $admins_tasks = new ManageAdmins_Tasks();
 						$aid = 1;
 						if ($permissions[0]['allow_edit_project']==1) {
 							if (preg_match('/^[اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $prjcode)==1 || strpos($prjcode, " ")!==false) {
-						        $error=_INVALID_CODE;
+								Toast('error', 'خطا', _INVALID_CODE);
 						    }
 						    else{
 								if($project->Update($prjid, $prjcode, $prjtitle, $prjdesc, $prjlogo, $prjcomments, $aid)==1){
-									$success=_RECORD_EDITED_SUCCESSFULLI;
+									Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
 								}
 								else{
-									$error=_EDITING_RECORD_FAILED.' ('._NOT_CHANGED_RECORD.')';
+									Toast('error', 'خطا', _EDITING_RECORD_FAILED.' ('._NOT_CHANGED_RECORD.')');
 								}
 							}
 						}
 						else{
-							$error=_ACCESS_DENIED;
+							Toast('error', 'خطا', _ACCESS_DENIED);
 						}
 				}
 				$projectInfo = $project->GetProjectInfoById($prjid);
@@ -178,12 +177,6 @@ $admins_tasks = new ManageAdmins_Tasks();
 			
 			echo '
 			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
-			if (!empty($error)) {
-				Failure($error.' <a href="">'._RELOAD.'</a>');
-			}
-			if (!empty($success)) {
-				Success($success.' <a href="">'._RELOAD.'</a>');
-			}
 			if ($permissions[0]['allow_add_project']==1 || $permissions[0]['allow_edit_project']==1) {
 			echo'
 				<form method="post" enctype="multipart/form-data">

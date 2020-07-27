@@ -3,7 +3,6 @@ require_once 'main.php';
 require_once 'header.php';
 require_once 'menu.php';
 $op = $_GET['op'];
-$error=$success='';
 $issue_types = new ManageIssue_types();
 $project = new ManageProjects();
 $admin = new ManageAdmins();
@@ -17,20 +16,20 @@ $admin = new ManageAdmins();
 				$tytitle = $_POST['tytitle']; 
 				$tycomments = $_POST['tycomments']; 
 				if (empty($tycode) || empty($tytitle)) {
-					$error = _FILL_IN_REQUIRED ;
+					Toast('error', 'خطا', _FILL_IN_REQUIRED);
 				} 
 				else
 				{
 					if (preg_match('/^[اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $tycode)==1 || strpos($tycode, " ")!==false) {
-				        $error=_INVALID_CODE;
+				        Toast('error', 'خطا', _INVALID_CODE);
 				    }
 				    else{	
 						if ($issue_types->Add($tycode, $tytitle, $tycomments)==1) {
-							$success= _RECORD_ADDED_SUCCESSFULLI;
+							Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
 							$tycode= $tytitle= $tycomments='';
 						}
 						else{
-							$error= _ADDING_RECORD_FAILED;
+							Toast('error', 'خطا', _ADDING_RECORD_FAILED);
 						}
 					}
 				}
@@ -44,14 +43,14 @@ $admin = new ManageAdmins();
 						$tytitle = $_POST['tytitle']; 
 						$tycomments = $_POST['tycomments'];
 						if (preg_match('/^[اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $tycode)==1 || strpos($tycode, " ")!==false) {
-					        $error=_INVALID_CODE;
+					        Toast('error', 'خطا', _INVALID_CODE);
 					    }
 					    else{	
 							if($issue_types->Update($tyid, $tycode, $tytitle, $tycomments)==1){
-								$success=_RECORD_EDITED_SUCCESSFULLI;
+								Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
 							}
 							else{
-								$error= _EDITING_RECORD_FAILED.' ('._NOT_CHANGED_RECORD.')';
+								Toast('error', 'خطا', _EDITING_RECORD_FAILED.' ('._NOT_CHANGED_RECORD.')');
 							}
 						}
 					// }
@@ -65,14 +64,7 @@ $admin = new ManageAdmins();
 				$tycomments = $typeInfo['tycomments']; 
 			}
 			echo '
-			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
-			if (!empty($error)) {
-				Failure($error);
-			}
-			if (!empty($success)) {
-				Success($success);
-			}
-			echo'
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">
 				<form method="post" enctype="multipart/form-data">
 					<legend>'._ADD.' '._TYPE.' '._ISSUE.' &nbsp&nbsp<a class="btn btn-default" href="?op=list" role="button">'._LIST.'</a></legend>
 					<div class="row">
@@ -207,11 +199,11 @@ $admin = new ManageAdmins();
 					// if ($permissions[0]['allow_delete_link']==1) {
 						if ($issue_types->Delete($_GET['tyid'])) 
 						{
-							Success(_RECORD_DELETED_SUCCESSFULLI);
+							Toast('success', 'موفق', _RECORD_DELETED_SUCCESSFULLI);
 						}
 						else
 						{
-							Failure(_DELETING_RECORD_FAILED);
+							Toast('error', 'خطا', _DELETING_RECORD_FAILED);
 						}
 					// }
 					// else{

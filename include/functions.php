@@ -154,4 +154,21 @@ function UpdateForm($message)
 {
 	echo'<button type="submit" name="'.$message.'" class="btn btn-success" style="width: 100px;">'._UPDATE.'</button>';
 }
+
+
+function Toast($type, $title, $message, $position='top-left', $text_align='right', $showHideTransition='slide')
+{
+	echo'
+		<script>
+			$.toast({
+                heading: "'. $title .'",
+                text: "'. $message .'",
+                icon: "'. $type .'",
+                position: "'.$position.'",
+                textAlign: "'.$text_align.'",
+                showHideTransition: "'.$showHideTransition.'"
+            });
+		</script>
+	';
+}
  ?>

@@ -202,7 +202,7 @@ define("_ABOUT_PROJA_SYSTEM_VERSION2","1.0.0");
 define("_ABOUT_PROJA_SYSTEM_CHECK_FOR_UPDATE","بررسی انتشار نسخه جدید");
 define("_ABOUT_PROJA_OFFICIAL_WEBSITE","وب‌سایت رسمی پروژه");
 define("_ABOUT_PROJA_PUBLISHED_AT","منتشر شده در");
-define("_ABOUT_PROJA_PUBLISHED_AT2","کانون فرهنگی آفتابگردان");
+define("_ABOUT_PROJA_PUBLISHED_AT2","کانون فرهنگی روباه");
 define("_ABOUT_PROJA_DOCUMENTS","مستندات و راهنمای کار با پروژا");
 define("_ABOUT_PROJA_SUPPORT_FORUMS","انجمن پشتیبانی پروژه پروژا");
 define("_NEW_PASSWORD_NOT_MATCH_CONFIRMATION","رمز عبور جدید با تأییدیه آن برابر نیست");

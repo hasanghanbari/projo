@@ -4,7 +4,6 @@ require_once 'header.php';
 $active = '';
 $active = 'active';
 $op = $_GET['op'];
-$error=$success='';
 $project = new ManageProjects();
 $issue = new ManageIssues();
 $task = new ManageTasks();
@@ -33,13 +32,13 @@ $admins_tasks = new ManageAdmins_Tasks();
 					$aid = $permissions[0]['aid'];
 					
 					if (empty($tskcode) || empty($tsktitle)) {
-						$error = _FILL_IN_REQUIRED;
+						Toast('error', 'خطا', _FILL_IN_REQUIRED);
 					} 
 					else 
 					{		
 						if ($permissions[0]['allow_add_task']==1) {					
 							if (preg_match('/^[اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $tskcode)==1 || strpos($tskcode, " ")!==false) {
-						        $error=_INVALID_CODE;
+						        Toast('error', 'خطا', _INVALID_CODE);
 						    }
 						    else{
 								if ($task->Add($prjid, $tskcode, $tsktitle, $tskdesc, $tskdone, $tskdone_date, $aid)==1) {
@@ -56,16 +55,16 @@ $admins_tasks = new ManageAdmins_Tasks();
 											$admins_tasks->Add($aid, $tskid);
 										}
 									}
-									$success= _RECORD_ADDED_SUCCESSFULLI;
+									Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
 									$tskcode= $tsktitle= $tskdesc= $tskdone= $tskdone_date=$prjid='';
 								}
 								else{
-									$error= _ADDING_RECORD_FAILED;
+									Toast('error', 'خطا', _ADDING_RECORD_FAILED);
 								}
 							}
 						}
 						else{
-							$error=_ACCESS_DENIED;
+							Toast('error', 'خطا', _ACCESS_DENIED);
 						}
 					}
 				// }
@@ -90,7 +89,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					$iids = (isset($_POST['iid'])?$_POST['iid']:'');
 					if ($permissions[0]['allow_edit_task']==1) {
 						if (preg_match('/^[اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $tskcode)==1 || strpos($tskcode, " ")!==false) {
-					        $error=_INVALID_CODE;
+					        Toast('error', 'خطا', _INVALID_CODE);
 					    }
 					    else{
 							if($task->Update($prjid, $tskid, $tskcode, $tsktitle, $tskdesc, $tskdone, $tskdone_date)==1 || !empty($aids) || !empty($iids)){
@@ -104,16 +103,16 @@ $admins_tasks = new ManageAdmins_Tasks();
 										$task_issue->Add($tskid, $iid);
 									}
 								}
-								$success=_RECORD_EDITED_SUCCESSFULLI;
+								Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
 							}
 							else{
-								$error=_EDITING_RECORD_FAILED.'('._NOT_CHANGED_RECORD.')';
+								Toast('error', 'خطا', _EDITING_RECORD_FAILED.'('._NOT_CHANGED_RECORD.')');
 							}
 						}
 											
 					}
 					else{
-							$error = _ADMIN_YOU_DO_NOT_HAVE_NECCESSARY_PERMISSIONS;
+						Toast('error', 'خطا', _ADMIN_YOU_DO_NOT_HAVE_NECCESSARY_PERMISSIONS);
 					}
 				}
 				$admin_tasklist = $admins_tasks->GetAidByTskid($tskid);
@@ -129,12 +128,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 			echo '
 			<div class="col-sm-12 col-md-12 jumbotron" id="content"  onload="loadVQs()">
 				';
-			if (!empty($error)) {
-				Failure($error);
-			}
-			if (!empty($success)) {
-				Success($success);
-			}
+
 			if ($permissions[0]['allow_add_task']==1 || $permissions[0]['allow_edit_task']) {
 			echo'
 				<p class="lead">'.$legend.' ';
@@ -329,7 +323,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 				</form>';
 			}
 			else{
-				Failure(_ACCESS_DENIED);
+				Toast('error', 'خطا', _ACCESS_DENIED);
 			}
 			echo'
     		</div>
@@ -570,7 +564,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					}
 				}
 				else{
-					Failure(_ACCESS_DENIED);
+					Toast('error', 'خطا', _ACCESS_DENIED);
 				}
 			break;
 	case 'chart':
@@ -814,24 +808,24 @@ $admins_tasks = new ManageAdmins_Tasks();
 							  		if ($taskInfo['tskid']==$task_issueInfo['tskid']) {
 							  		echo'
 							  		<a href="javascript:chart_issue('.$task_issueInfo['iid'].')" onclick="IssueInfo('.$task_issueInfo['iid'].')">
-							  		<div class="card card-body mb-2'.($task_issueInfo['idone']==1?' done':'').'">
-								  		<ul class="list-inline p-0">
-								  			<li class="list-inline-item">
-								  				'.$task_issueInfo['ititle'].' ('.($task_issueInfo['idone']==1?_DONE:_UNDONE).')
-								  			</li><br>
-								  			<li class="left_list list-inline-item">
-								  			'.(!empty($task_issueInfo['idesc'])?'<span class="fas fa-align-justify" aria-hidden="true"></span>':'').'
-								  			'.(file_exists('file_issue/file1/'.$pic_prefix.$ifile1.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>1':'').'
-								  			'.(file_exists('file_issue/file2/'.$pic_prefix.$ifile2.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>2':'').'
-								  			'.(file_exists('file_issue/file3/'.$pic_prefix.$ifile3.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>3':'').'
-								  			</li>
-								  			<li class="list-inline-item">
-								  				'.$iproirity.'
-								  				'.$icomplexity.'
-								  			</li>
-								  		</ul>
-					  				</div>
-					  				<input type="hidden" value="'.$task_issueInfo['tskid'].'" name="issueId">
+								  		<div class="card card-body mb-2'.($task_issueInfo['idone']==1?'  text-white bg-success':'').'">
+									  		<ul class="list-inline p-0">
+									  			<li class="list-inline-item">
+									  				'.$task_issueInfo['ititle'].' ('.($task_issueInfo['idone']==1?_DONE:_UNDONE).')
+									  			</li><br>
+									  			<li class="left_list list-inline-item">
+									  			'.(!empty($task_issueInfo['idesc'])?'<span class="fas fa-align-justify" aria-hidden="true"></span>':'').'
+									  			'.(file_exists('file_issue/file1/'.$pic_prefix.$ifile1.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>1':'').'
+									  			'.(file_exists('file_issue/file2/'.$pic_prefix.$ifile2.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>2':'').'
+									  			'.(file_exists('file_issue/file3/'.$pic_prefix.$ifile3.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>3':'').'
+									  			</li>
+									  			<li class="list-inline-item">
+									  				'.$iproirity.'
+									  				'.$icomplexity.'
+									  			</li>
+									  		</ul>
+						  				</div>
+						  				<input type="hidden" value="'.$task_issueInfo['tskid'].'" name="issueId">
 					  				</a>
 
 								<script type="text/javascript">
@@ -941,7 +935,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 			';
 			}
 			else{
-				Failure(_ACCESS_DENIED);
+				Toast('error', 'خطا', _ACCESS_DENIED);
 			}
 		
 		break;
@@ -953,15 +947,15 @@ $admins_tasks = new ManageAdmins_Tasks();
 			if ($permissions[0]['allow_delete_task']==1) {
 				if ($task->Delete($_GET['tskid'])) 
 				{
-					Success(_RECORD_DELETED_SUCCESSFULLI);
+					Toast('success', 'موفق', _RECORD_DELETED_SUCCESSFULLI);
 				}
 				else
 				{
-					Failure(_DELETING_RECORD_FAILED);
+					Toast('error', 'خطا', _DELETING_RECORD_FAILED);
 				}
 			}
 			else{
-				Failure(_ACCESS_DENIED);
+				Toast('error', 'خطا', _ACCESS_DENIED);
 			}
 			echo '
 			<a href="?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'._BACK_TO_LIST.'"></a>

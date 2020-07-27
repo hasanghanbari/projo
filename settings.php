@@ -17,12 +17,12 @@ if (isset($_GET['op'])) {
 				if($admin->AdminPermission($cookie_admin[0],"asuper_admin"))
 				{
 					if($manage_settings->UpdateSettings($system_title,$language,$direction,$theme)!=1)
-						$error = _SETTINGS_UPDATING_FAILED;
+						Toast('error', 'خطا', _SETTINGS_UPDATING_FAILED);
 					else
-						$success = _SETTINGS_UPDATED_SUCCESSFULLY;
+						Toast('success', 'موفق', _SETTINGS_UPDATED_SUCCESSFULLY);
 				}
 				else{
-						$error = _ADMIN_YOU_DO_NOT_HAVE_NECCESSARY_PERMISSIONS;
+					Toast('error', 'خطا', _ADMIN_YOU_DO_NOT_HAVE_NECCESSARY_PERMISSIONS);
 				}
 			}
 			$id = '1';
@@ -32,14 +32,7 @@ if (isset($_GET['op'])) {
 			$direction = $setInfo['direction'];
 			$theme = $setInfo['theme'];
 			echo '
-			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
-			if (!empty($error)) {
-				Failure($error.' <a href="">'._RELOAD.'</a>');
-			}
-			if (!empty($success)) {
-				Success($success.' <a href="">'._RELOAD.'</a>');
-			}
-			echo'
+			<div class="col-sm-12 col-md-12 jumbotron" id="content">
 			<form class="form-vertical" id="UpdateSettings" method="post">
 			<h3>'.$form_title.'</h3>
 			<div class="row">
@@ -131,13 +124,13 @@ if (isset($_GET['op'])) {
 				<img width="200px" src="themes/'.$themes.'/img/logo.png" />
 				<h3>'.$form_title.'</h3>
 				'._ABOUT_PROJA_SYSTEM_NAME.': '._ABOUT_PROJA_SYSTEM_NAME2.'<br />
-				'._ABOUT_PROJA_SYSTEM_DESIGNER.': '._ABOUT_PROJA_SYSTEM_DESIGNER2.' (<a href="http://hasanghanbari.ir" target="_blank">http://hasanghanbari.ir</a>)<br />
+				'._ABOUT_PROJA_SYSTEM_DESIGNER.': '._ABOUT_PROJA_SYSTEM_DESIGNER2.' (<a href="https://ghanbari1.ir" target="_blank">https://ghanbari1.ir</a>)<br />
 				'._ABOUT_PROJA_SYSTEM_LICENSE.': '._ABOUT_PROJA_SYSTEM_LICENSE2.'<br />
-				'._ABOUT_PROJA_SYSTEM_VERSION.': '._ABOUT_PROJA_SYSTEM_VERSION2.' (<a href="http://aftab.cc/proja/update.php?version='._ABOUT_PROJA_SYSTEM_VERSION2.'" target="_blank">'._ABOUT_PROJA_SYSTEM_CHECK_FOR_UPDATE.'</a>)<br />
-				'._ABOUT_PROJA_OFFICIAL_WEBSITE.': <a href="http://proja.ir" target="_blank">http://proja.ir</a><br />
-				'._ABOUT_PROJA_PUBLISHED_AT.': '._ABOUT_PROJA_PUBLISHED_AT2.' (<a href="http://aftab.cc" target="_blank">http://aftab.cc</a>)<br />
-				'._ABOUT_PROJA_DOCUMENTS.': <a href="http://help.proja.ir" target="_blank">http://help.proja.ir</a><br />
-				'._ABOUT_PROJA_SUPPORT_FORUMS.': <a href="http://yourl.ir/proja_forums" target="_blank">http://yourl.ir/proja_forums</a><br />
+				'._ABOUT_PROJA_SYSTEM_VERSION.': '._ABOUT_PROJA_SYSTEM_VERSION2.' (<a href="https://roubah.ir/proja/update.php?version='._ABOUT_PROJA_SYSTEM_VERSION2.'" target="_blank">'._ABOUT_PROJA_SYSTEM_CHECK_FOR_UPDATE.'</a>)<br />
+				'._ABOUT_PROJA_OFFICIAL_WEBSITE.': <a href="https://proja.ir" target="_blank">https://proja.ir</a><br />
+				'._ABOUT_PROJA_PUBLISHED_AT.': '._ABOUT_PROJA_PUBLISHED_AT2.' (<a href="https://roubah.ir" target="_blank">https://roubah.ir</a>)<br />
+				'._ABOUT_PROJA_DOCUMENTS.': <a href="https://help.proja.ir" target="_blank">https://help.proja.ir</a><br />
+				'._ABOUT_PROJA_SUPPORT_FORUMS.': <a href="https://roubah.ir/proja_forums" target="_blank">https://roubah.ir/proja_forums</a><br />
 			';
 				
 			echo'
@@ -151,7 +144,6 @@ if (isset($_GET['op'])) {
 		case 'profile':
 		echo '
 			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
-		$error = $success = '';
 		$cookie_admin= explode(':', $_COOKIE['iproject']);
 		$ausername = $cookie_admin[0];
 		$adminInfo = $admin->GetAdminInfo($ausername);
@@ -189,14 +181,14 @@ if (isset($_GET['op'])) {
 				
 				if(!in_array(substr(basename($_FILES['apic']['name']),-3), $whitelist))
 				{
-					$error = _ADMIN_PIC_EXTENSION_ERROR;
+					Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
 				}
 				else
 				{
 					$imageinfo = getimagesize($_FILES['apic']['tmp_name']);
 					if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg' && $imageinfo['mime'] != 'image/png')
 					{
-						$error = _ADMIN_PIC_CONTENT_ERROR;
+						Toast('error', 'خطا', _ADMIN_PIC_CONTENT_ERROR);
 					}
 					else
 					{
@@ -234,17 +226,11 @@ if (isset($_GET['op'])) {
 			$aemail = $_POST['aemail'];
 			$acomments = $_POST['acomments'];
 			if($admin->UpdateProfile($aid, $afname, $alname, $agender, $atel, $aemail, $apic, $acomments)==1){
-				$success=_RECORD_EDITED_SUCCESSFULLI;
+				Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
 			}
 			else{
-				$error=_EDITING_RECORD_FAILED.'('._NOT_CHANGED_RECORD.')';
+				Toast('error', 'خطا', EDITING_RECORD_FAILED.'('._NOT_CHANGED_RECORD.')');
 			}
-		}
-		if (!empty($error)) {
-			Failure($error.' <a href="">'._RELOAD.'</a>');
-		}
-		if (!empty($success)) {
-			Success($success.' <a href="">'._RELOAD.'</a>');
 		}
 		echo '
 		<form method="post" enctype="multipart/form-data">

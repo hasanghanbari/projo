@@ -10,26 +10,19 @@ if (isset($_POST['add'])) {
 	$ctext = $_POST['ctext'];
 	$cdate = date("Y-m-d H:i:sa");
 	if (empty($ctext)) {
-		$error= _FILL_IN_REQUIRED;
+		Toast('error', 'خطا', _FILL_IN_REQUIRED);
 	}
 	else{
 		if ($comment->Add($ctext,$cdate)==1) {
-			$success= _RECORD_ADDED_SUCCESSFULLI;
+			Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
 		}
 		else{
-			$error= _ADDING_RECORD_FAILED;
+			Toast('error', 'خطا', _ADDING_RECORD_FAILED);
 		}
 	}
 }
 echo'
-<div class="col-sm-12 col-md-12 jumbotron" id="content">';
-if (!empty($error)) {
-	Failure($error);
-}
-if (!empty($success)) {
-	Success($success);
-}
-echo'
+<div class="col-sm-12 col-md-12 jumbotron" id="content">
   <h2>'._DASHBOARD.'</h2>
   <div class="row">';
 	echo'

@@ -1,6 +1,6 @@
 <?php 
 require_once 'main.php';
-$error= "";
+
 if (isset($_POST['login'])) {
 	$pass= $_POST['password'];
 	$username= $_POST['username'];
@@ -13,11 +13,12 @@ if (isset($_POST['login'])) {
 			header("location: ./");
 			}
 			else{
-				$error= 'کد داخل کادر را اشتباه وارد کردید';
+				Toast('error', 'خطا', 'کد داخل کادر را اشتباه وارد کردید');
+
 			}
 		}
 		else{
-			$error= 'نام کاربری یا رمز عبور اشتباه است';
+			Toast('error', 'خطا', 'نام کاربری یا رمز عبور اشتباه است');
 		}
 	}
 	else{
@@ -27,7 +28,7 @@ if (isset($_POST['login'])) {
 		}
 		else{
 			$_SESSION['incorrect_password'] = "1";
-			$error= 'نام کاربری یا رمز عبور اشتباه است';
+			Toast('error', 'خطا', 'نام کاربری یا رمز عبور اشتباه است');
 		}
 		
 	}
@@ -126,14 +127,6 @@ echo '
 	            	</div>
 		            <div class="col-md-8">
 						<h3>'._HI_YOU_MUST_BE_LOGGED_IN_TO_USE_THE_SYSTEM.'</h3>
-		            ';
-						if (!empty($error)) {
-							Failure($error);
-						}
-						if (!empty($success)) {
-							Success($success);
-						}
-						echo'
 			            <form method="post" class="form_login">
 		                  <input type="text" style="direction: ltr;" autofocus="" name="username" class="form-control" placeholder="'._USERNAME.'" aria-describedby="basic-addon1"><br><br>
 		                  <input type="password" style="direction: ltr;" name="password" class="form-control" placeholder="'._PASSWORD.'" aria-describedby="basic-addon1"><br><br>';

@@ -172,46 +172,50 @@ switch ($op) {
 		      echo'
 		      
 		       <div class="modal-header">
-		       <div id="vqs2"></div>
-			    <ul class="list-inline w-100 p-0 mini-show-issue">
-	    			<li class="right_list">
-	    				<div class="dropdown" style="float: right;">
-		    	           <a href="#" class="dropdown-toggle btn btn-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-		    	           		<i class="fas fa-ellipsis-v" aria-hidden="true"></i>
-		    	           	</a>
-		    	           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-		    	           		<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
-			  				if ($permissions[0]['allow_edit_issues']==1) {
-				  				echo'
-		    	             	<a class="dropdown-item" href="issues.php?op=add&iid='.$issueInfo['iid'].'">'._EDIT.' '._ISSUE.'</a>';
-				  			}
-				  			if ($permissions[0]['allow_delete_issues']==1) {
-				  			echo'
-		    	             	<a class="dropdown-item" onclick="return Sure();" href="issues.php?op=delete&iid='.$issueInfo['iid'].'" style="color: red;">'._DELETE.' '._ISSUE.'</a>';
-				  			}
-				  			if ($issueInfo['idone']==0) {
-								echo '
-								<a class="dropdown-item" href="javascript:doneIssue('.$issueInfo['iid'].')">'._DONE_ISSUE.'</a>';
-							}
-							else {
-								echo '
-								<a class="dropdown-item" href="javascript:startIssue('.$issueInfo['iid'].')">'._START_ISSUE.'</a>';
-							}
-				  			echo'
-		    	           </div>
-		    	       </div>
-		    	       <label>'.$issueInfo['ititle'].'</label>
-		    	   	</li>
-			    	<li class="left_list">
-			    		<div class="float-right">
-			    			<label>'._PROIRITY.'</label>: '.$iproirity.' | 
-			    			<label>'._COMPLEXITY.'</label>: '.$icomplexity.'&nbsp&nbsp
-			    		</div>
-			    		<a href="#" role="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">
-			    			<i class="fas fa-times"></i>
-			    		</a>
-			    	</li>
-		        </ul>
+		       	<div class="row w-100">
+		       		<div id="vqs2" class="col-12"></div>
+		       		<div class="col-12">
+			       		<ul class="list-inline p-0 mini-show-issue">
+			    			<li class="list-inline-item">
+			    				<div class="dropdown" style="float: right;">
+				    	           <a href="#" class="dropdown-toggle btn btn-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+				    	           		<i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+				    	           	</a>
+				    	           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				    	           		<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
+					  				if ($permissions[0]['allow_edit_issues']==1) {
+						  				echo'
+				    	             	<a class="dropdown-item" href="issues.php?op=add&iid='.$issueInfo['iid'].'">'._EDIT.' '._ISSUE.'</a>';
+						  			}
+						  			if ($permissions[0]['allow_delete_issues']==1) {
+						  			echo'
+				    	             	<a class="dropdown-item" onclick="return Sure();" href="issues.php?op=delete&iid='.$issueInfo['iid'].'" style="color: red;">'._DELETE.' '._ISSUE.'</a>';
+						  			}
+						  			if ($issueInfo['idone']==0) {
+										echo '
+										<a class="dropdown-item" href="javascript:doneIssue('.$issueInfo['iid'].')">'._DONE_ISSUE.'</a>';
+									}
+									else {
+										echo '
+										<a class="dropdown-item" href="javascript:startIssue('.$issueInfo['iid'].')">'._START_ISSUE.'</a>';
+									}
+						  			echo'
+				    	           </div>
+				    	       </div>
+				    	       <label>'.$issueInfo['ititle'].'</label>
+				    	   	</li>
+					    	<li class="list-inline-item float-left">
+					    		<div class="float-right">
+					    			<label>'._PROIRITY.'</label>: '.$iproirity.' | 
+					    			<label>'._COMPLEXITY.'</label>: '.$icomplexity.'&nbsp&nbsp
+					    		</div>
+					    		<a href="#" role="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">
+					    			<i class="fas fa-times"></i>
+					    		</a>
+					    	</li>
+				        </ul>
+				    </div>
+		       	</div>
 		      </div>
 		      <script>
 			      function doneIssue(id) {
@@ -383,7 +387,7 @@ switch ($op) {
 	case 'done_issue':
 		$iid = $_POST['iid'];
 		$idone = "1";
-		$idone_date = "NOW";
+		$idone_date = date('Y-m-d');
 		if ($issue->UpdateDone($iid, $idone_date , $idone)==1) {
 			echo Success(_RECORD_ENDED_SUCCESSFULLI.' <a href="">'._RELOAD.'</a>');
 		}
