@@ -7,9 +7,9 @@ $( document ).ready(function() {
     * will load some test data and the loadProfile     
     * will do the changes in the UI     
     *///
-    testLocalStorageData();    
+    // testLocalStorageData();    
     // 
-    Load profile if it exits    loadProfile();
+    // Load profile if it exits    loadProfile();
 });
 /*
 * * Function that gets the data of the profile in case 
@@ -27,14 +27,60 @@ function getLocalProfile(callback){
     }
 }
 
-function Toast(type, title, message, position='top-left', text_align='right', showHideTransition='slide')
-{
-    $.toast({
-        heading: title,
-        text: message,
-        icon: type,
-        position: osition,
-        textAlign: ext_align,
-        showHideTransition: howHideTransition
+function AddIssueBox(tskid) {
+    $("#addIssueButton"+tskid).hide();
+    $("#addIssueText"+tskid).show();
+    $("#issueText"+tskid).val("");
+    $("#confirmIssueButton"+tskid).attr("disabled", false);
+    $("#showWait"+tskid).hide();
+    $("#showBtnText"+tskid).show();
+}
+
+function CancelIssueBox(tskid) {
+    $("#addIssueButton"+tskid).show();
+    $("#addIssueText"+tskid).hide();
+    $("#issueText"+tskid).val("");
+    $("#confirmIssueButton"+tskid).attr("disabled", false);
+    $("#showWait"+tskid).hide();
+    $("#showBtnText"+tskid).show();
+}
+function AddIssue(tskid, prjid) {
+    const issueText = $("#issueText"+tskid).val();
+
+    $("#showWait"+tskid).show();
+    $("#showBtnText"+tskid).hide();
+    $("#showWait"+tskid).html('<img src="img/wait.gif">');
+    $("#confirmIssueButton"+tskid).attr("disabled", true);
+
+    $.ajax({
+        url: "aj.php",
+        type: "POST",
+        data: { 
+            op:"add_issue", tskid:tskid, issueText: issueText, prjid: prjid
+        },
+        success: function(data,status) {
+            $("#showWait"+tskid).html(data);
+            IssueList(tskid);
+            CancelIssueBox(tskid);
+        },
+        error: function() {
+            $("#showWait"+tskid).html("problem in ajax")
+        }
+    });
+}
+function IssueList(tskid) {
+    $("#issueList"+tskid).html('<img src="img/wait.gif">');
+    $.ajax({
+        url: "aj.php",
+        type: "POST",
+        data: { 
+            op:"issue_list", tskid:tskid
+        },
+        success: function(data,status) {
+            $("#issueList"+tskid).html(data);
+        },
+        error: function() {
+            $("#issueList"+tskid).html("problem in ajax")
+        }
     });
 }

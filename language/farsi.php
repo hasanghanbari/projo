@@ -8,6 +8,7 @@ define("_REQUIRED",'<span class="required">*</span>');
 define("_YES","بله");
 define("_NO","خیر");
 define("_ADD","افزودن");
+define("_CANCEL","کنسل");
 define("_LIST","لیست");
 define("_CHART","فهرست");
 define("_ARCHIVE","آرشیو");

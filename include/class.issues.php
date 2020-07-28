@@ -28,6 +28,26 @@ class ManageIssues{
 	}
 
 
+	function AddMini($tyid, $prjid, $ititle, $archive, $aid)
+	{
+		global $prefix;
+		global $dev;
+		$query = $this->link->prepare("INSERT INTO `issues`(tyid, prjid, ititle, iarchive, aid) VALUES(?,?,?,?,?)");
+		$values = array($tyid, $prjid, $ititle, $archive, $aid);
+		$query->execute($values);
+		$counts = $query->rowcount();
+		if ($dev==1) {
+			echo '<pre dir="ltr">';
+			print_r($query->errorInfo());
+			echo '</pre>';
+			echo '<pre dir="ltr">';
+			print_r($query->debugDumpParams());
+			echo '</pre>';
+		}
+		return $counts;
+	}
+
+
 	function Update($iid, $tyid, $prjid, $iversion, $icode, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version)
 	{
 		global $prefix;

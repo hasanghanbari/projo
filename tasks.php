@@ -758,114 +758,30 @@ $admins_tasks = new ManageAdmins_Tasks();
 						        </ul>
 							  </div>
 							  <div class="card-body task-chart-body">
-							  	<a href="issues.php?op=add&tskid='.$taskInfo['tskid'].'&prjid='.$taskInfo['prjid'].'">
+							  	<!-- <a href="issues.php?op=add&tskid='.$taskInfo['tskid'].'&prjid='.$taskInfo['prjid'].'">
+			  				  		<div class="card card-body mb-2">
+			  					  		<center>'._ADD.' '._ISSUE.'</center>
+			  		  				</div>
+			  		  			</a> -->
+							  	<a href="javascript: AddIssueBox('.$taskInfo['tskid'].')" id="addIssueButton'.$taskInfo['tskid'].'">
 			  				  		<div class="card card-body mb-2">
 			  					  		<center>'._ADD.' '._ISSUE.'</center>
 			  		  				</div>
 			  		  			</a>
-							  ';
-							  $query='WHERE iarchive=0';
-							  $order = "ORDER BY idone,icomplexity DESC";
-							  $task_issuelist = $task_issue->Getlist($query,$order);
-							  	foreach ($task_issuelist as $task_issueInfo) {
-							  		switch ($task_issueInfo['iproirity']) {
-							  			case '0':
-							  				$iproirity=""._EASY."";
-							  				break;
-							  			case '1':
-							  				$iproirity=""._NORMAL."";
-							  				break;
-							  			case '2':
-							  				$iproirity=""._HARD."";
-							  				break;
-							  			case '3':
-							  				$iproirity=""._VERY." "._HARD."";
-							  				break;
-							  		}
-							  		switch ($task_issueInfo['icomplexity']) {
-							  			case '0':
-							  				$icomplexity="None";
-							  				break;
-							  			case '1':
-							  				$icomplexity="!";
-							  				break;
-							  			case '2':
-							  				$icomplexity="!!";
-							  				break;
-							  			case '3':
-							  				$icomplexity="!!!";
-							  				break;
-							  			case '4':
-							  				$icomplexity="!!!!";
-							  				break;
-							  			case '5':
-							  				$icomplexity="!!!!!";
-							  				break;
-							  		}
-							  		$ifile1 = $task_issueInfo['ifile1'];
-							  		$ifile2 = $task_issueInfo['ifile2'];
-							  		$ifile3 = $task_issueInfo['ifile3'];
-							  		if ($taskInfo['tskid']==$task_issueInfo['tskid']) {
-							  		echo'
-							  		<a href="javascript:chart_issue('.$task_issueInfo['iid'].')" onclick="IssueInfo('.$task_issueInfo['iid'].')">
-								  		<div class="card card-body mb-2'.($task_issueInfo['idone']==1?'  text-white bg-success':'').'">
-									  		<ul class="list-inline p-0">
-									  			<li class="list-inline-item">
-									  				'.$task_issueInfo['ititle'].' ('.($task_issueInfo['idone']==1?_DONE:_UNDONE).')
-									  			</li><br>
-									  			<li class="left_list list-inline-item">
-									  			'.(!empty($task_issueInfo['idesc'])?'<span class="fas fa-align-justify" aria-hidden="true"></span>':'').'
-									  			'.(file_exists('file_issue/file1/'.$pic_prefix.$ifile1.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>1':'').'
-									  			'.(file_exists('file_issue/file2/'.$pic_prefix.$ifile2.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>2':'').'
-									  			'.(file_exists('file_issue/file3/'.$pic_prefix.$ifile3.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>3':'').'
-									  			</li>
-									  			<li class="list-inline-item">
-									  				'.$iproirity.'
-									  				'.$icomplexity.'
-									  			</li>
-									  		</ul>
-						  				</div>
-						  				<input type="hidden" value="'.$task_issueInfo['tskid'].'" name="issueId">
-					  				</a>
-
-								<script type="text/javascript">
-									function chart_issue(id){
-										$("#issue_id").val(id);
-										$("#show_chart_issue").modal()
-									}
-									function reset_password_hide(){
-										document.getElementById(\'show_chart_issue\').style.display = "none";
-									}
-								</script>
-					  				<!-- Modal -->
-					  				<div class="modal fade bs-example-modal-lg" id="show_chart_issue" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-					  				  <div class="modal-dialog modal-lg" role="document">
-					  				   <input type="hidden" value="" name="issue_id" id="issue_id">
-					  				   <script>
-				  				         function IssueInfo(id) {
-				  				           $("#vqs").html(\'<img src="img/wait.gif">\');
-				  				   		   var issue_id= $("#issue_id").val();
-				  				   		   $("#issue_id").val(id)
-				  				           $.ajax({
-				  				             url: "aj.php",
-				  				             type: "POST",
-				  				             data: {op:"issue_info",issue_id:$("#issue_id").val()},
-				  				             success: function(data,status) {
-				  				               $("#vqs").html(data);
-				  				             },
-				  				             error: function() {$("#vqs").html("problem in ajax")}
-				  				           });
-				  				         }
-					  				    </script>
-					  				    <div class="modal-content" id="vqs">
-					  				       
-					  				    </div>
-					  				  </div>
-					  				</div>
-							  		';
-							  		}
-							  	}
-							  echo'
+		  				  		<div class="mb-2" id="addIssueText'.$taskInfo['tskid'].'" style="display: none;">
+		  				  			<textarea class="form-control" id="issueText'.$taskInfo['tskid'].'"></textarea>
+		  				  			<button class="btn btn-success btn-sm m-1" id="confirmIssueButton'.$taskInfo['tskid'].'" onclick="AddIssue('.$taskInfo['tskid'].', '.$_GET['prjid'].')">
+		  				  				<span id="showWait'.$taskInfo['tskid'].'"></span>
+		  				  				<span id="showBtnText'.$taskInfo['tskid'].'">'._ADD.'</span>
+		  				  			</button>
+		  				  			<button class="btn btn-light btn-sm m-1" onclick="CancelIssueBox('.$taskInfo['tskid'].')">'._CANCEL.'</button>
+		  				  		</div>
+		  				  		<script type="text/javascript">
+		  				  			$( document ).ready(function() { 
+		  				  				IssueList('.$taskInfo['tskid'].');
+		  				  			});
+		  				  		</script>
+							  	<div id="issueList'.$taskInfo['tskid'].'"></div>
 							  </div>
 			  				  <div class="card-footer" style="text-align: '.$align1.'">
 			  				  ';

@@ -157,7 +157,7 @@ else
 						  `tyid` int(11) NOT NULL,
 						  `aid` int(11) NOT NULL,
 						  `iversion` varchar(255) COLLATE utf8_persian_ci DEFAULT NULL,
-						  `icode` varchar(255) COLLATE utf8_persian_ci NOT NULL,
+						  `icode` varchar(255) COLLATE utf8_persian_ci NULL,
 						  `ititle` varchar(255) COLLATE utf8_persian_ci NOT NULL,
 						  `idesc` text COLLATE utf8_persian_ci,
 						  `iproirity` varchar(10) COLLATE utf8_persian_ci DEFAULT NULL COMMENT 'اهمیت',

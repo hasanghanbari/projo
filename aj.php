@@ -7,6 +7,144 @@ $task_issue = new ManageTasks_issues();
 $admins_tasks = new ManageAdmins_Tasks();
 $op = $_POST['op'];
 switch ($op) {
+	case 'issue_list':
+		$tskId = $_POST['tskid'];
+
+	  $query='WHERE iarchive=0';
+	  $order = "ORDER BY idone,icomplexity DESC";
+	  $task_issuelist = $task_issue->Getlist($query,$order);
+	  	foreach ($task_issuelist as $task_issueInfo) {
+	  		switch ($task_issueInfo['iproirity']) {
+	  			case '0':
+	  				$iproirity=""._EASY."";
+	  				break;
+	  			case '1':
+	  				$iproirity=""._NORMAL."";
+	  				break;
+	  			case '2':
+	  				$iproirity=""._HARD."";
+	  				break;
+	  			case '3':
+	  				$iproirity=""._VERY." "._HARD."";
+	  				break;
+	  		}
+	  		switch ($task_issueInfo['icomplexity']) {
+	  			case '0':
+	  				$icomplexity="None";
+	  				break;
+	  			case '1':
+	  				$icomplexity="!";
+	  				break;
+	  			case '2':
+	  				$icomplexity="!!";
+	  				break;
+	  			case '3':
+	  				$icomplexity="!!!";
+	  				break;
+	  			case '4':
+	  				$icomplexity="!!!!";
+	  				break;
+	  			case '5':
+	  				$icomplexity="!!!!!";
+	  				break;
+	  		}
+	  		$ifile1 = $task_issueInfo['ifile1'];
+	  		$ifile2 = $task_issueInfo['ifile2'];
+	  		$ifile3 = $task_issueInfo['ifile3'];
+	  		if ($tskId == $task_issueInfo['tskid']) {
+	  		echo'
+	  		<a href="javascript:chart_issue('.$task_issueInfo['iid'].')" onclick="IssueInfo('.$task_issueInfo['iid'].')">
+		  		<div class="card card-body mb-2'.($task_issueInfo['idone']==1?'  text-white bg-success':'').'">
+			  		<ul class="list-inline p-0">
+			  			<li class="list-inline-item">
+			  				'.$task_issueInfo['ititle'].' ('.($task_issueInfo['idone']==1?_DONE:_UNDONE).')
+			  			</li><br>
+			  			<li class="left_list list-inline-item">
+			  			'.(!empty($task_issueInfo['idesc'])?'<span class="fas fa-align-justify" aria-hidden="true"></span>':'').'
+			  			'.(file_exists('file_issue/file1/'.$pic_prefix.$ifile1.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>1':'').'
+			  			'.(file_exists('file_issue/file2/'.$pic_prefix.$ifile2.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>2':'').'
+			  			'.(file_exists('file_issue/file3/'.$pic_prefix.$ifile3.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>3':'').'
+			  			</li>
+			  			<li class="list-inline-item">
+			  				'.(isset($iproirity) ? $iproirity : '').'
+			  				'.(isset($icomplexity) ? $icomplexity : '').'
+			  			</li>
+			  		</ul>
+  				</div>
+  				<input type="hidden" value="'.$task_issueInfo['tskid'].'" name="issueId">
+				</a>
+
+		<script type="text/javascript">
+			function chart_issue(id){
+				$("#issue_id").val(id);
+				$("#show_chart_issue").modal()
+			}
+			function reset_password_hide(){
+				document.getElementById(\'show_chart_issue\').style.display = "none";
+			}
+		</script>
+				<!-- Modal -->
+				<div class="modal fade bs-example-modal-lg" id="show_chart_issue" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				  <div class="modal-dialog modal-lg" role="document">
+				   <input type="hidden" value="" name="issue_id" id="issue_id">
+				   <script>
+			         function IssueInfo(id) {
+			           $("#vqs").html(\'<img src="img/wait.gif">\');
+			   		   var issue_id= $("#issue_id").val();
+			   		   $("#issue_id").val(id)
+			           $.ajax({
+			             url: "aj.php",
+			             type: "POST",
+			             data: {op:"issue_info",issue_id:$("#issue_id").val()},
+			             success: function(data,status) {
+			               $("#vqs").html(data);
+			             },
+			             error: function() {$("#vqs").html("problem in ajax")}
+			           });
+			         }
+				    </script>
+				    <div class="modal-content" id="vqs">
+				       
+				    </div>
+				  </div>
+				</div>
+	  		';
+	  		}
+	  	}
+		break;
+	case 'add_issue':
+		$issueText 		= $_POST['issueText'];
+		$tskid 			= $_POST['tskid'];
+		$prjid 			= $_POST['prjid']; 
+
+		$ititle 		= $issueText; 
+		$aid 			= $permissions[0]['aid'];
+		$tyid 			= 1;
+		$archive 		= 0;
+
+		if (empty($ititle)) {
+			Toast('error', 'خطا', _FILL_IN_REQUIRED);
+		} 
+		else 
+		{
+			if ($permissions[0]['allow_add_issues']==1) {
+				if ($issue->AddMini($tyid, $prjid, $ititle, $archive, $aid)==1) {
+					
+					// add task issue
+					$iid = $issue->LastID();
+					$task_issue->Add($tskid,$iid);
+
+					Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
+				}
+				else{
+					Toast('error', 'خطا', _ADDING_RECORD_FAILED);
+				}
+			}
+			else{
+				Toast('error', 'خطا', _ACCESS_DENIED);
+			}
+		}
+		break;
 	case 'issue_prjid':
 		$prjid = $_POST['prjid'];
 		$tskid = $_POST['tskid'];
