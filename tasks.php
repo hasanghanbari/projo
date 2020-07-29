@@ -83,7 +83,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					$tsktitle = $_POST['tsktitle'];
 					$tskdesc = $_POST['tskdesc'];
 					$tskdone = $_POST['tskdone'];
-					$tskdone_date = (!empty($_POST['tskdone_date'])?($language=='farsi'?J2GD($_POST['tskdone_date']):$_POST['tskdone_date']):'');
+					$tskdone_date = (!empty($_POST['tskdone_date'])?($language=='farsi'?J2GD($_POST['tskdone_date']):$_POST['tskdone_date']):NULL);
 					$prjid = $_POST['prjid'];
 					$aids = (isset($_POST['aid'])?$_POST['aid']:'');
 					$iids = (isset($_POST['iid'])?$_POST['iid']:'');
