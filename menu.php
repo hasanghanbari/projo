@@ -1,3 +1,9 @@
+    <?php echo ($direction == 1 ? '<link rel="stylesheet" type="text/css" href="themes/'.$themes.'/css/style-rtl.css">' : '') ?>
+    <link rel="stylesheet" type="text/css" href="themes/2020/css/style.css">
+  </head>
+
+  <body>
+<div id="wrapper">
 <?php if (isset($_COOKIE['iproject'])) {
 echo'
 <div class="nav-side-menu">

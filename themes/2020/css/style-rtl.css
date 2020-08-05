@@ -13,3 +13,13 @@ body {
 .menu-title {
 	padding-right: 10px
 }
+
+.richText .richText-editor {
+    border-right: #FFFFFF solid 2px;
+    border-left: none;
+}
+
+.richText .richText-editor:focus {
+    border-right: #3498db solid 2px;
+    border-left: none;
+}

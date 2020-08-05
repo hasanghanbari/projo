@@ -674,14 +674,14 @@ $admins_tasks = new ManageAdmins_Tasks();
 				  </div>
 				</div>
 					<div class="row">
-
+						<div id="show-resault-delete_task"></div>
 				  ';
 				foreach ($tasklist as $taskInfo) {
 					$prjid2 = (isset($_GET['prjid'])?$_GET['prjid']:$taskInfo['prjid']);
 					$projectlist=$project->GetProjectInfoById($prjid2);
 					if ($taskInfo['prjid']==$projectlist['prjid']) {
 						echo'
-						  <div class="col-sm-4 col-md-4">
+						  <div class="col-sm-4 col-md-4 mt-2">
 							<div class="card border-'.($taskInfo['tskdone']==1?'success':'primary').'">
 							  <div class="card-header">
 							    <ul class="list-inline p-0">
@@ -698,7 +698,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 								  			}
 								  			if ($permissions[0]['allow_delete_task']==1) {
 								  			echo'
-						    	             <a class="dropdown-item" onclick="return Sure();" href="?op=delete&tskid='.$taskInfo['tskid'].'" style="color: red;">'._DELETE.'</a>';
+						    	             <a class="dropdown-item" onclick="return Sure();" href="javascript: deleteTask('.$taskInfo['tskid'].')" style="color: red;">'._DELETE.'</a>';
 								  			}
 								  			echo'
 						    	             <a class="dropdown-item" href="issues.php?op=chart&tskid='.$taskInfo['tskid'].'">'._ISSUES.' '._THIS.' '._TASK.'</a>';
@@ -783,7 +783,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 		  				  		</script>
 							  	<div id="issueList'.$taskInfo['tskid'].'"></div>
 							  </div>
-			  				  <div class="card-footer" style="text-align: '.$align1.'">
+			  				  <!-- <div class="card-footer" style="text-align: '.$align1.'">
 			  				  ';
 	    			  			if ($permissions[0]['allow_edit_task']==1) {
 	    			  				echo'
@@ -802,7 +802,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 	    			  			echo'
 	    			  			<a class="btn btn-info btn-xs" href="javascript:print_task('.$taskInfo['tskid'].')"><span class="fas fa-print" aria-hidden="true"></span></a>';
 	    			  			echo'
-			  				  </div>
+			  				  </div> -->
 			    	        <script type="text/javascript">
 								function print_task(id){
 									$("#tskid").val(id);
@@ -831,8 +831,12 @@ $admins_tasks = new ManageAdmins_Tasks();
 										<input type="hidden" class="form-control" name="tskid" id="tskid" value="">
 								      </div>
 								      <div class="modal-footer">
-								        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-								        <button type="submit" class="btn btn-primary">'._PRINT.'</button>
+								        <button type="button" class="btn btn-light" data-dismiss="modal">
+								        	بستن
+								    	</button>
+								        <button type="submit" class="btn btn-primary">
+								        	'._PRINT.'
+								        </button>
 								      </div>
 								    </div><!-- /.modal-content -->
 									</form>
@@ -843,11 +847,45 @@ $admins_tasks = new ManageAdmins_Tasks();
 						';
 						}
 					}
-							echo'
-						  </div>
+					echo'
+					<div class="col-sm-4 col-md-4">
+						<div class="card card-body p-0 mt-2">
+							<a href="javascript: openAddCase()" class="add-btn-task">
+								<span class="plus-btn">
+									<i class="fas fa-plus"></i> افزودن ماموریت
+								</span>
+							</a>
 						</div>
 					</div>
+				  </div>
 				</div>
+			</div>
+		</div>
+		<!-- Modal show issue -->
+		<div class="modal fade bs-example-modal-lg" id="show_chart_issue" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content" id="show-issue-info-modal">
+		       
+		    </div>
+		  </div>
+		</div>
+		<!-- Modal show issue -->
+		<div class="modal fade" id="show_add_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		       	<div class="modal-body">
+	               <p>افزودن ماموریت</p>
+	               <form class="form-inline">
+	               		<div class="form-group">
+	               			<input type="text" class="form-control" name="modal_new_task" id="modal_new_task" placeholder="ماموریت جدید">
+	               		</div>
+	               		<button type="button" class="btn btn-primary mr-2" onclick="addTask('.$prjid2.', '.$aid.')">ثبت</button>
+	               		<div id="show-response-add-task"></div>
+	               </form>
+	            </div>
+		    </div>
+		  </div>
+		</div>
 			';
 			}
 			else{
@@ -881,127 +919,124 @@ $admins_tasks = new ManageAdmins_Tasks();
 		break;
 	case 'print':
 		echo '
-		<div class="col-sm-12 col-md-2">
-		</div>
-		<div class="col-sm-12 col-md-8 well">
-		';
-		$tskid = (isset($_POST['tskid'])?$_POST['tskid']:'');
-		$issue_all = (isset($_POST['issue_all'])?1:0);
-		$query = "WHERE tskid=$tskid";
-		$order ="ORDER BY idone,icomplexity DESC";
-		$taskInfo = $task->GetTaskInfoById($tskid);
-		echo '
-		<h3>'._PRINT.' '._TASK.'</h3>
-		<div class="table-responsive">
-			<table class="table table-condensed">
-			  <tr class="active">
-				<th class="active">'._END.'؟</th>
-				<th class="active">'._CODE.'</th>
-				<th class="active">'._TITLE.'</th>
-				<th class="active">'._INSERT_DATE.'</th>
-				<th class="active">'._DESC.'</th>
-				<th class="active">'._PROJECT.'</th>
-			  </tr>
-			  <tr class="active">
-			    <td class="active"><span class="fas fa-'.($taskInfo['tskdone']==1?'ok':'remove').'" aria-hidden="true"></span></td>
-			    <td class="active">'.$taskInfo['tskcode'].'</td>
-			    <td class="active"><strong>'.$taskInfo['tsktitle'].'</strong></td>
-			    <td class="active">'.G2JD($taskInfo['tskdate']).'</td>
-			    <td class="active">'.$taskInfo['tskdesc'].'</td>
-			    <td class="active">';
-				$projectlist=$project->GetProjectInfoById($taskInfo['prjid']);
-				echo $projectlist['prjtitle'].'</td>
-			  </tr>
-			</table>
-		</div>
-		<br><br>
-		<h4>'._LIST_ISSUES_OF_THIS_TASK.'</h4>
-		<div class="table-responsive">
-			<table class="table table-condensed">
-			  <tr class="active">
-				<th class="active">'._END.'؟</th>
-				<th class="active">'._CODE.'</th>
-				<th class="active">'._TITLE.'</th>
-				<th class="active">'._PROIRITY.'</th>
-				<th class="active">'._COMPLEXITY.'</th>
-				<th class="active">'._TYPE.'</th>
-				<th class="active">'._TIME.'</th>
-				<th class="active">'._INSERT_DATE.'</th>';
-				if ($issue_all==1) {
-					echo'<th class="active">'._DESC.'</th>';
-				}
-				echo'
-			  </tr>
-		';
-		$issuelist = $task_issue->GetList_Issue($query, $order);
-		$iproirity=$icomplexity='';
-		foreach ($issuelist as $issueInfo) {
-			switch ($issueInfo['iproirity']) {
-				case '0':
-					$iproirity=""._EASY."";
-					break;
-				case '1':
-					$iproirity=""._NORMAL."";
-					break;
-				case '2':
-					$iproirity=""._HARD."";
-					break;
-				case '3':
-					$iproirity=""._VERY." "._HARD."";
-					break;
-			}
-			switch ($issueInfo['icomplexity']) {
-				case '0':
-					$icomplexity="None";
-					break;
-				case '1':
-					$icomplexity="!";
-					break;
-				case '2':
-					$icomplexity="!!";
-					break;
-				case '3':
-					$icomplexity="!!!";
-					break;
-				case '4':
-					$icomplexity="!!!!";
-					break;
-				case '5':
-					$icomplexity="!!!!!";
-					break;
-			}
+		<div class="text-right" style="direction: rtl">
+			';
+			$tskid = (isset($_POST['tskid'])?$_POST['tskid']:'');
+			$issue_all = (isset($_POST['issue_all'])?1:0);
+			$query = "WHERE tskid=$tskid";
+			$order ="ORDER BY idone,icomplexity DESC";
+			$taskInfo = $task->GetTaskInfoById($tskid);
 			echo '
-			<tr class="active">
-				<td class="active"><span class="fas fa-'.($issueInfo['idone']==1?'ok':'remove').'" aria-hidden="true"></span></td>	
-				<td class="active">'.$issueInfo['icode'].'</td>	
-				<td class="active">'.$issueInfo['ititle'].'</td>	
-				<td class="active">'.$iproirity.'</td>	
-				<td class="active">'.$icomplexity.'</td>	
-				<td class="active">';
-				$issue_typeslist= $issue_types->GetList();
-				foreach ($issue_typeslist as $issue_typesInfo) {
-					if ($issue_typesInfo['tyid']==$issueInfo['tyid']) {
-						echo $issue_typesInfo['tytitle'];
+			<h3>'._PRINT.' '._TASK.'</h3>
+			<div class="table-responsive">
+				<table class="table table-condensed">
+				  <tr class="active">
+					<th class="active">'._END.'؟</th>
+					<th class="active">'._CODE.'</th>
+					<th class="active">'._TITLE.'</th>
+					<th class="active">'._INSERT_DATE.'</th>
+					<th class="active">'._DESC.'</th>
+					<th class="active">'._PROJECT.'</th>
+				  </tr>
+				  <tr class="active">
+				    <td class="active"><span class="fas fa-'.($taskInfo['tskdone']==1?'ok':'remove').'" aria-hidden="true"></span></td>
+				    <td class="active">'.$taskInfo['tskcode'].'</td>
+				    <td class="active"><strong>'.$taskInfo['tsktitle'].'</strong></td>
+				    <td class="active">'.G2JD($taskInfo['tskdate']).'</td>
+				    <td class="active">'.$taskInfo['tskdesc'].'</td>
+				    <td class="active">';
+					$projectlist=$project->GetProjectInfoById($taskInfo['prjid']);
+					echo $projectlist['prjtitle'].'</td>
+				  </tr>
+				</table>
+			</div>
+			<br><br>
+			<h4>'._LIST_ISSUES_OF_THIS_TASK.'</h4>
+			<div class="table-responsive">
+				<table class="table table-condensed">
+				  <tr class="active">
+					<th class="active">'._END.'؟</th>
+					<th class="active">'._CODE.'</th>
+					<th class="active">'._TITLE.'</th>
+					<th class="active">'._PROIRITY.'</th>
+					<th class="active">'._COMPLEXITY.'</th>
+					<th class="active">'._TYPE.'</th>
+					<th class="active">'._TIME.'</th>
+					<th class="active">'._INSERT_DATE.'</th>';
+					if ($issue_all==1) {
+						echo'<th class="active">'._DESC.'</th>';
 					}
+					echo'
+				  </tr>
+			';
+			$issuelist = $task_issue->GetList_Issue($query, $order);
+			$iproirity=$icomplexity='';
+			foreach ($issuelist as $issueInfo) {
+				switch ($issueInfo['iproirity']) {
+					case '0':
+						$iproirity=""._EASY."";
+						break;
+					case '1':
+						$iproirity=""._NORMAL."";
+						break;
+					case '2':
+						$iproirity=""._HARD."";
+						break;
+					case '3':
+						$iproirity=""._VERY." "._HARD."";
+						break;
 				}
-				echo'
-				</td>	
-				<td class="active">'.$issueInfo['ineeded_time'].'</td>	
-				<td class="active">'.G2JD($issueInfo['idate']).'</td>';
-				if ($issue_all==1) {
-					echo'<td class="active">'.$issueInfo['idesc'].'</td>';
+				switch ($issueInfo['icomplexity']) {
+					case '0':
+						$icomplexity="None";
+						break;
+					case '1':
+						$icomplexity="!";
+						break;
+					case '2':
+						$icomplexity="!!";
+						break;
+					case '3':
+						$icomplexity="!!!";
+						break;
+					case '4':
+						$icomplexity="!!!!";
+						break;
+					case '5':
+						$icomplexity="!!!!!";
+						break;
 				}
-				echo'
-			</tr>
-		';
-		}
-		echo'
-			</table>
-		</div>
-		<br><br>
-		<button class="btn btn-primary hidden-print" onclick="window.print();"><span class="fas fa-print" aria-hidden="true"></span> '._PRINT.'</button>
-		</div>
-		<div class="col-sm-12 col-md-2">
+				echo '
+				<tr class="active">
+					<td class="active"><span class="fas fa-'.($issueInfo['idone']==1?'ok':'remove').'" aria-hidden="true"></span></td>	
+					<td class="active">'.$issueInfo['icode'].'</td>	
+					<td class="active">'.$issueInfo['ititle'].'</td>	
+					<td class="active">'.$iproirity.'</td>	
+					<td class="active">'.$icomplexity.'</td>	
+					<td class="active">';
+					$issue_typeslist= $issue_types->GetList();
+					foreach ($issue_typeslist as $issue_typesInfo) {
+						if ($issue_typesInfo['tyid']==$issueInfo['tyid']) {
+							echo $issue_typesInfo['tytitle'];
+						}
+					}
+					echo'
+					</td>	
+					<td class="active">'.$issueInfo['ineeded_time'].'</td>	
+					<td class="active">'.G2JD($issueInfo['idate']).'</td>';
+					if ($issue_all==1) {
+						echo'<td class="active">'.$issueInfo['idesc'].'</td>';
+					}
+					echo'
+				</tr>
+			';
+			}
+			echo'
+				</table>
+			</div>
+			<button class="btn btn-primary hidden-print" onclick="window.print();">
+				<span class="fas fa-print" aria-hidden="true"></span> '._PRINT.'
+			</button>		
 		</div>
 		';
 

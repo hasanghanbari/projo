@@ -16,6 +16,8 @@
 
     <link rel="stylesheet" type="text/css" href="vendor/bootstrap-4.5.0/css/bootstrap.min.css">
 
+    <link rel="stylesheet" href="vendor/RichText/src/richtext.min.css">
+
     <script src="vendor/jquery-3.5.1.min.js"></script>
 
     <script src="vendor/popper.min.js"></script>
@@ -107,14 +109,14 @@
   ';
      ?>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="themes/default/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <?php echo '<link href="themes/'.$themes.'/css/ie10-viewport-bug-workaround.css" rel="stylesheet">';?>
 
     <!-- Custom styles for this template -->
-    <link href="themes/default/css/dashboard.css" rel="stylesheet">
+    <?php echo '<link href="themes/'.$themes.'/css/dashboard.css" rel="stylesheet">';?>
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="themes/default/js/ie-emulation-modes-warning.js"></script>
+    <?php echo '<script src="themes/'.$themes.'/js/ie-emulation-modes-warning.js"></script>';?>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -123,11 +125,3 @@
     <![endif]-->
 
     <?php echo ($direction == 1 ? '<link rel="stylesheet" type="text/css" href="themes/'.$themes.'/css/font-iran.css">' : '') ?>
-
-    <link rel="stylesheet" type="text/css" href="themes/2020/css/style.css">
-    
-    <?php echo ($direction == 1 ? '<link rel="stylesheet" type="text/css" href="themes/'.$themes.'/css/style-rtl.css">' : '') ?>
-  </head>
-
-  <body>
-<div id="wrapper">

@@ -27,6 +27,25 @@ class ManageTasks{
 		return $counts;
 	}
 
+	function AddFast($prjid, $tsktitle, $aid)
+	{
+		global $prefix;
+		global $dev;
+		$query = $this->link->prepare("INSERT INTO `tasks`(prjid, tsktitle, aid) VALUES(?,?,?)");
+		$values = array($prjid, $tsktitle, $aid);
+		$query->execute($values);
+		$counts = $query->rowcount();
+		if ($dev==1) {
+			echo '<pre dir="ltr">';
+			print_r($query->errorInfo());
+			echo '</pre>';
+			echo '<pre dir="ltr">';
+			print_r($query->debugDumpParams());
+			echo '</pre>';
+		}
+		return $counts;
+	}
+
 
 	function Update($prjid, $tskid, $tskcode, $tsktitle, $tskdesc, $tskdone, $tskdone_date)
 	{

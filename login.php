@@ -1,14 +1,15 @@
 <?php 
 require_once 'main.php';
 
+require_once 'header.php';
 if (isset($_POST['login'])) {
 	$pass= $_POST['password'];
 	$username= $_POST['username'];
 
-	if (isset($_SESSION['incorrect_password'])) {
+	if (isset($_SESSION['incorrect_password']) && isset($_POST['security_code'])) {
 		$security_code= $_POST['security_code'];
 		if ($admin->Login($username,md5($pass))==1) {
-			if (($_SESSION['security_code'] == $_POST['security_code']) && (!empty($_SESSION['security_code']))) {
+			if (($_SESSION['security_code'] == $security_code) && (!empty($_SESSION['security_code']))) {
 			setcookie("iproject",$username.':'.md5($pass),time()+860000);
 			header("location: ./");
 			}
@@ -33,125 +34,110 @@ if (isset($_POST['login'])) {
 		
 	}
 }
-require_once 'header.php';
-if (isset($_COOKIE['iproject'])) {
-	echo '<p class="text-danger">'._YOU_HAVE_ALREADY_LOGGED_IN_WITH_YOUR_USERNAME.'</p>';
-	echo '<p class="text-success">'._GO_TO.' <b><a href="./">'._HOME_PAGE.'</a></p>';
-}
-else{
+
 echo '
-	<style>
-	.login{
-		width:300px;
-		min-height:400px;
-		position:relative;
-		margin: 0 auto;
-		padding: 20px !important;
-		margin-top: 100px;
-	}
-	#wrapper {
-    padding-left: 0;    
-    margin-top: -80px;
-	}
-	</style>
+		<!--=========================================================================================-->
+		<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+		<!--=========================================================================================-->
+		<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+		<!--=========================================================================================-->
+		<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+		<!--=========================================================================================-->
+		<link rel="stylesheet" type="text/css" href="themes/'.$themes.'/login/css/util.css">
+		<link rel="stylesheet" type="text/css" href="themes/'.$themes.'/login/css/main.css">
+  </head>
 
+  <body>
+  	<div class="limiter">
+  		<div class="container-login100">
+  			<div class="wrap-login100">
+  				<div class="login100-pic js-tilt" data-tilt>
+  					<img src="themes/'.$themes.'/login/images/img-01.png" alt="IMG">
+  				</div>
+  				';
 
+  				if (isset($_COOKIE['iproject'])) {
+  					echo '
+  					<span class="login100-form-title">
+  						'._YOU_HAVE_ALREADY_LOGGED_IN_WITH_YOUR_USERNAME.'
+  					</span>';
+  					echo '
+  					<p class="login100-form-btn">
+  						'._GO_TO.' <b><a href="./">'._HOME_PAGE.'</a>
+  					</p>';
+  				}
+  				else{
+  					echo'
+  				<form method="post" class="login100-form validate-form form_login">
+  					<span class="login100-form-title">
+  						'._HI_YOU_MUST_BE_LOGGED_IN_TO_USE_THE_SYSTEM.'
+  					</span>
 
-	<style>
-	body{
+  					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+  						<input type="text" style="direction: ltr;" autofocus="" name="username" class="input100" placeholder="'._USERNAME.'" aria-describedby="basic-addon1">
+  						<span class="focus-input100"></span>
+  						<span class="symbol-input100">
+  							<i class="fa fa-envelope" aria-hidden="true"></i>
+  						</span>
+  					</div>
 
-	}
-	#login-bg {
-	    background-color: ;
-	}
+  					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+  						<input type="password" style="direction: ltr;" name="password" class="input100" placeholder="'._PASSWORD.'" aria-describedby="basic-addon1">
+  						<span class="focus-input100"></span>
+  						<span class="symbol-input100">
+  							<i class="fa fa-lock" aria-hidden="true"></i>
+  						</span>
+  					</div>
+  					';
+	                  if (isset($_SESSION['incorrect_password'])) {
+	                  echo'
+	                  <div class="form-group">
+	                  	<label for="uhome_zipcode">'._PLEASE_ENTER_THE_CODE_IN_THE_BOX.' <img src="include/captcha.php" alt=""></label>
+	                  	<div class="controls">
+	                  		<input type="text" class="form-control" id="security_code" name="security_code" style="direction: ltr;">
+	                  	</div>
+	                  </div>';
+	                  }
+	                  echo'
+  					<div class="container-login100-form-btn">
+  						<input type="submit" name="login" value="'._LOGIN.'" class="login100-form-btn">
+  					</div>
 
-	#login-bg-top {
-	    background-image: url("themes/default/img/login_header.jpg");
-	    background-size: cover;
-	    background-repeat: no-repeat;
-	    background-position: 50% 50%;
-	    height: 300px;
-	    display: block;
-	    text-align: center;
-	}
-	#login-bg-top h3 {
-	    color: #101010;
-	}
+  					<div class="text-center p-t-12">
+  						<!-- <span class="txt1">
+  							Forgot
+  						</span>
+  						<a class="txt2" href="#">
+  							Username / Password?
+  						</a> -->
+  					</div>
 
-	.logo-circle {
-	    background-image: url("themes/default/img/logo.png");
-	    background-repeat: no-repeat;
-	    background-size: cover;
-	    border-radius: 125px;
-	    width: 130px;
-	    height: 130px;
-	    margin-top: 230px;
-	    display: inline-block;
-	    border: 5px solid rgba(211,211,211,0.9);
-	}
+  					<div class="text-center p-t-136">
+  						<!-- <a class="txt2" href="#">
+  							Create your Account
+  							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+  						</a> -->
+  					</div>
+  				</form>
+  				';
 
-	.bg-content {
-	    text-align: center;
-	    padding-top: 20px;
-	    margin-top: 60px;
-	    margin-bottom: 0px;
-	    background-color: #FFF;
-	    min-height: 350px;
-	}
-    @media (max-width: 767px) {
-		#login-bg-top {
-	    	height: 130px;
-	    	background-image: url("themes/default/img/login_header.jpg");
-		}
-		.logo-circle {
-	    	margin-top: 50px;
-		}
-		.bg-content {
-		    min-height: 350px;
-		}
-	}
+				}
+				echo'
+  			</div>
+  		</div>
+  	</div>
 
-	.input-group {
-	    width: 100%;
-	}
-
-	</style>
-	<section id="login-bg">
-	    <div id="login-bg-top">
-	        <div class="logo-circle"></div>
-	    </div>
-	    <div class="container">
-	        <div class="col-md-12">
-	            <div class="bg-content">
-	            	<div class="col-md-2">
-	            	</div>
-		            <div class="col-md-8">
-						<h3>'._HI_YOU_MUST_BE_LOGGED_IN_TO_USE_THE_SYSTEM.'</h3>
-			            <form method="post" class="form_login">
-		                  <input type="text" style="direction: ltr;" autofocus="" name="username" class="form-control" placeholder="'._USERNAME.'" aria-describedby="basic-addon1"><br><br>
-		                  <input type="password" style="direction: ltr;" name="password" class="form-control" placeholder="'._PASSWORD.'" aria-describedby="basic-addon1"><br><br>';
-		                  if (isset($_SESSION['incorrect_password'])) {
-		                  echo'
-		                  <div class="form-group">
-		                  	<label for="uhome_zipcode">'._PLEASE_ENTER_THE_CODE_IN_THE_BOX.' <img src="include/captcha.php" alt=""></label>
-		                  	<div class="controls">
-		                  		<input type="text" class="form-control" id="security_code" name="security_code" style="direction: ltr;">
-		                  	</div>
-		                  </div>';
-		                  }
-		                  echo'
-		                  <input type="submit" name="login" value="'._LOGIN.'" class="btn btn-success btn-lg">
-			            </form>
-		            </div>
-	            	<div class="col-md-2">
-	            	</div>
-	            </div>
-	        </div>
-	    </div>
-	</section>
-	<!-- /container -->
+	<!--===============================================================================================-->
+		<script src="vendor/select2/select2.min.js"></script>
+	<!--===============================================================================================-->
+		<script src="vendor/tilt/tilt.jquery.min.js"></script>
+		<script >
+			$(\'.js-tilt\').tilt({
+				scale: 1.1
+			})
+		</script>
+	<!--===============================================================================================-->
+		<script src="themes/'.$themes.'/login/js/main.js"></script>
 ';
-
-}
 require_once 'footer.php';
  ?>

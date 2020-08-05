@@ -285,3 +285,11 @@ body {
 .dropdown-menu {
   text-align: right;
 }
+.add-btn-task {
+  height: 70px;
+  padding: 16px 19%;
+  font-size: 20px;
+}
+.add-btn-task .plus-btn i {
+  padding: 8px;
+}

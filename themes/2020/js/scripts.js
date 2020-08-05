@@ -1,15 +1,5 @@
-$( document ).ready(function() {
-    // DOM ready    
-    // Test data    
-    /*     
-    * To test the script you should discomment the function     
-    * testLocalStorageData and refresh the page. The function     
-    * will load some test data and the loadProfile     
-    * will do the changes in the UI     
-    *///
-    // testLocalStorageData();    
-    // 
-    // Load profile if it exits    loadProfile();
+$(document).ready(function() {
+    $('.editor').richText();
 });
 /*
 * * Function that gets the data of the profile in case 
@@ -43,6 +33,27 @@ function CancelIssueBox(tskid) {
     $("#confirmIssueButton"+tskid).attr("disabled", false);
     $("#showWait"+tskid).hide();
     $("#showBtnText"+tskid).show();
+}
+function openAddCase() {
+    $("#show_add_task").modal()
+}
+
+function addTask(prjid, aid) {
+    const task_title = $("#modal_new_task").val();
+    $("#show-response-add-task").html('<img src="img/wait.gif">');
+    $.ajax({
+        url: "aj.php",
+        type: "POST",
+        data: { 
+            op:"add_task", task_title:task_title, prjid: prjid, aid: aid
+        },
+        success: function(data,status) {
+            $("#show-response-add-task").html(data);
+        },
+        error: function() {
+            $("#show-response-add-task").html("problem in ajax")
+        }
+    });
 }
 function AddIssue(tskid, prjid) {
     const issueText = $("#issueText"+tskid).val();
@@ -82,5 +93,68 @@ function IssueList(tskid) {
         error: function() {
             $("#issueList"+tskid).html("problem in ajax")
         }
+    });
+}
+  function IssueInfo(id, tskid) {
+    $("#show_chart_issue").modal()
+    $("#show-issue-info-modal").html('<img src="img/wait.gif">');
+    $.ajax({
+      url: "aj.php",
+      type: "POST",
+      data: {op:"issue_info",issue_id:id, tskid: tskid},
+      success: function(data,status) {
+        $("#show-issue-info-modal").html(data);
+      },
+      error: function() {$("#show-issue-info-modal").html("problem in ajax")}
+    });
+  }
+function doneIssue(id, tskid) {
+    $("#show-resault-done-issue").html('<img src="img/wait.gif">');
+    $.ajax({
+      url: "aj.php",
+      type: "POST",
+      data: {op:"done_issue", iid: id, tskid: tskid},
+      success: function(data,status) {
+        $("#show-resault-done-issue").html(data);
+      },
+      error: function() {$("#show-resault-done-issue").html("problem in ajax")}
+    });
+}
+function startIssue(id, tskid) {
+    $("#show-resault-done-issue").html('<img src="img/wait.gif">');
+    $.ajax({
+      url: "aj.php",
+      type: "POST",
+      data: {op:"start_issue", iid: id, tskid: tskid},
+      success: function(data,status) {
+        $("#show-resault-done-issue").html(data);
+      },
+      error: function() {$("#show-resault-done-issue").html("problem in ajax")}
+    });
+}
+function deleteIssue(id, tskid) {
+    $("#show-resault-done-issue").html('<img src="img/wait.gif">');
+    $.ajax({
+      url: "aj.php",
+      type: "POST",
+      data: {op:"delete_issue", iid: id, tskid: tskid},
+      success: function(data,status) {
+        $("#show-resault-done-issue").html(data);
+        $("#show_chart_issue").modal('hide');
+      },
+      error: function() {$("#show-resault-done-issue").html("problem in ajax")}
+    });
+}
+function deleteTask(tskid) {
+    $("#show-resault-delete_task").html('<img src="img/wait.gif">');
+    $.ajax({
+      url: "aj.php",
+      type: "POST",
+      data: {op:"delete_task", tskid: tskid},
+      success: function(data,status) {
+        $("#show-resault-delete_task").html(data);
+        location.reload();
+      },
+      error: function() {$("#show-resault-delete_task").html("problem in ajax")}
     });
 }

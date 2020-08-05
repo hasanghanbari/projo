@@ -1,14 +1,48 @@
 <?php 
 require_once 'main.php';
-$issue = new ManageIssues();
-$project = new ManageProjects();
-$issue_types = new ManageIssue_types();
-$task_issue = new ManageTasks_issues();
-$admins_tasks = new ManageAdmins_Tasks();
+$issue 			= new ManageIssues();
+$project 		= new ManageProjects();
+$issue_types 	= new ManageIssue_types();
+$task_issue 	= new ManageTasks_issues();
+$admins_tasks 	= new ManageAdmins_Tasks();
+$task 			= new ManageTasks();
+
 $op = $_POST['op'];
 switch ($op) {
+	case 'add_task':
+		$task_title = $_POST['task_title'];
+		$prjid 		= $_POST['prjid'];
+		$aid 		= $_POST['aid'];
+
+		if ($task->AddFast($prjid, $task_title, $aid) == 1) {
+			Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
+			echo '
+			<script type="text/javascript">
+				$(document).ready(function() {
+					location.reload();
+				});
+			</script>
+			';
+		}
+		break;
+	case 'delete_task':
+		$tskid = $_POST['tskid'];
+		if ($permissions[0]['allow_delete_task']==1) {
+			if ($task->Delete($tskid)) 
+			{
+				Toast('success', 'موفق', _RECORD_DELETED_SUCCESSFULLI);
+			}
+			else
+			{
+				Toast('error', 'خطا', _DELETING_RECORD_FAILED);
+			}
+		}
+		else{
+			Toast('error', 'خطا', _ACCESS_DENIED);
+		}
+		break;
 	case 'issue_list':
-		$tskId = $_POST['tskid'];
+	  $tskId = $_POST['tskid'];
 
 	  $query='WHERE iarchive=0';
 	  $order = "ORDER BY idone,icomplexity DESC";
@@ -53,7 +87,7 @@ switch ($op) {
 	  		$ifile3 = $task_issueInfo['ifile3'];
 	  		if ($tskId == $task_issueInfo['tskid']) {
 	  		echo'
-	  		<a href="javascript:chart_issue('.$task_issueInfo['iid'].')" onclick="IssueInfo('.$task_issueInfo['iid'].')">
+	  		<a href="javascript:chart_issue('.$task_issueInfo['iid'].')" onclick="IssueInfo('.$task_issueInfo['iid'].', '.$task_issueInfo['tskid'].')">
 		  		<div class="card card-body mb-2'.($task_issueInfo['idone']==1?'  text-white bg-success':'').'">
 			  		<ul class="list-inline p-0">
 			  			<li class="list-inline-item">
@@ -71,43 +105,7 @@ switch ($op) {
 			  			</li>
 			  		</ul>
   				</div>
-  				<input type="hidden" value="'.$task_issueInfo['tskid'].'" name="issueId">
-				</a>
-
-		<script type="text/javascript">
-			function chart_issue(id){
-				$("#issue_id").val(id);
-				$("#show_chart_issue").modal()
-			}
-			function reset_password_hide(){
-				document.getElementById(\'show_chart_issue\').style.display = "none";
-			}
-		</script>
-				<!-- Modal -->
-				<div class="modal fade bs-example-modal-lg" id="show_chart_issue" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-				  <div class="modal-dialog modal-lg" role="document">
-				   <input type="hidden" value="" name="issue_id" id="issue_id">
-				   <script>
-			         function IssueInfo(id) {
-			           $("#vqs").html(\'<img src="img/wait.gif">\');
-			   		   var issue_id= $("#issue_id").val();
-			   		   $("#issue_id").val(id)
-			           $.ajax({
-			             url: "aj.php",
-			             type: "POST",
-			             data: {op:"issue_info",issue_id:$("#issue_id").val()},
-			             success: function(data,status) {
-			               $("#vqs").html(data);
-			             },
-			             error: function() {$("#vqs").html("problem in ajax")}
-			           });
-			         }
-				    </script>
-				    <div class="modal-content" id="vqs">
-				       
-				    </div>
-				  </div>
-				</div>
+			</a>
 	  		';
 	  		}
 	  	}
@@ -135,6 +133,12 @@ switch ($op) {
 					$task_issue->Add($tskid,$iid);
 
 					Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
+					// echo '
+					// <script type="text/javascript">
+					// 	IssueInfo('.$iid.', '.$tskid.');
+					// </script>
+					// ';
+
 				}
 				else{
 					Toast('error', 'خطا', _ADDING_RECORD_FAILED);
@@ -242,6 +246,8 @@ switch ($op) {
 		break;
 	case 'issue_info':
 		$iid = $_POST['issue_id'];
+		$tskid = $_POST['tskid'];
+
 		$start=$page=0;
 		$archive= (isset($_GET['archive'])?'1':'0');
 		$query= "WHERE iarchive=$archive";
@@ -311,7 +317,7 @@ switch ($op) {
 		      
 		       <div class="modal-header">
 		       	<div class="row w-100">
-		       		<div id="vqs2" class="col-12"></div>
+		       		<div id="show-resault-done-issue" class="col-12"></div>
 		       		<div class="col-12">
 			       		<ul class="list-inline p-0 mini-show-issue">
 			    			<li class="list-inline-item">
@@ -331,11 +337,11 @@ switch ($op) {
 						  			}
 						  			if ($issueInfo['idone']==0) {
 										echo '
-										<a class="dropdown-item" href="javascript:doneIssue('.$issueInfo['iid'].')">'._DONE_ISSUE.'</a>';
+										<a class="dropdown-item" href="javascript:doneIssue('.$issueInfo['iid'].', '.$tskid.')">'._DONE_ISSUE.'</a>';
 									}
 									else {
 										echo '
-										<a class="dropdown-item" href="javascript:startIssue('.$issueInfo['iid'].')">'._START_ISSUE.'</a>';
+										<a class="dropdown-item" href="javascript:startIssue('.$issueInfo['iid'].', '.$tskid.')">'._START_ISSUE.'</a>';
 									}
 						  			echo'
 				    	           </div>
@@ -355,37 +361,9 @@ switch ($op) {
 				    </div>
 		       	</div>
 		      </div>
-		      <script>
-			      function doneIssue(id) {
-			        $("#vqs2").html(\'<img src="img/wait.gif">\');
-					$("#iid").val(id)
-			        $.ajax({
-			          url: "aj.php",
-			          type: "POST",
-			          data: {op:"done_issue",iid:$("#iid").val()},
-			          success: function(data,status) {
-			            $("#vqs2").html(data);
-			          },
-			          error: function() {$("#vqs2").html("problem in ajax")}
-			        });
-			      }
-			      function startIssue(id) {
-			        $("#vqs2").html(\'<img src="img/wait.gif">\');
-					$("#iid").val(id)
-			        $.ajax({
-			          url: "aj.php",
-			          type: "POST",
-			          data: {op:"start_issue",iid:$("#iid").val()},
-			          success: function(data,status) {
-			            $("#vqs2").html(data);
-			          },
-			          error: function() {$("#vqs2").html("problem in ajax")}
-			        });
-			      }
-		      </script>
 		      <div class="modal-body">
 		      
-		      <div class="row">
+		      	<div class="row">
 				  <div class="col-md-4">
 					  <div class="form-group">
 					    <label for="icode">'._CODE.':</label>&nbsp
@@ -509,13 +487,13 @@ switch ($op) {
 	  			}
 	  			if ($permissions[0]['allow_delete_issues']==1) {
 	  			echo'
-	             <a onclick="return Sure();" class="btn btn-danger" href="issues.php?op=delete&iid='.$issueInfo['iid'].'">'._DELETE.'</a>';
+	             <a onclick="return Sure();" class="btn btn-danger" href="javascript:deleteIssue('.$issueInfo['iid'].', '.$tskid.')">'._DELETE.'</a>';
 	  			}
 	  			if ($issueInfo['idone']==0) {
-					echo '<a class="btn btn-success" href="javascript:doneIssue('.$issueInfo['iid'].')">'._DONE.'</a>';
+					echo '<a class="btn btn-success" href="javascript:doneIssue('.$issueInfo['iid'].', '.$tskid.')">'._DONE.'</a>';
 				}
 				else {
-					echo '<a class="btn btn-default" href="javascript:startIssue('.$issueInfo['iid'].')">'._START.'</a>';
+					echo '<a class="btn btn-default" href="javascript:startIssue('.$issueInfo['iid'].', '.$tskid.')">'._START.'</a>';
 				}
 	  			echo'
 		        </div>
@@ -524,24 +502,62 @@ switch ($op) {
 		break;
 	case 'done_issue':
 		$iid = $_POST['iid'];
+		$tskid = $_POST['tskid'];
 		$idone = "1";
 		$idone_date = date('Y-m-d');
 		if ($issue->UpdateDone($iid, $idone_date , $idone)==1) {
-			echo Success(_RECORD_ENDED_SUCCESSFULLI.' <a href="">'._RELOAD.'</a>');
+			Toast('success', 'موفق', _RECORD_ENDED_SUCCESSFULLI);
+			echo '
+				<script type="text/javascript">
+					IssueInfo('.$iid.', '.$tskid.');
+					IssueList('.$tskid.');
+				</script>
+			';
 		}
 		else{
-			echo Failure(_ENDING_RECORD_FAILED.' <a href="">'._RELOAD.'</a>');
+			Toast('error', 'خطا', _ENDING_RECORD_FAILED);
 		}
 		break;
 	case 'start_issue':
 		$iid = $_POST['iid'];
+		$tskid = $_POST['tskid'];
 		$idone = "0";
 		$idone_date = "";
 		if ($issue->UpdateDone($iid, $idone_date , $idone)==1) {
-			echo Success(_RECORD_STARTED_SUCCESSFULLI.' <a href="">'._RELOAD.'</a>');
+			Toast('success', 'موفق', _RECORD_STARTED_SUCCESSFULLI);
+			echo '
+				<script type="text/javascript">
+					IssueInfo('.$iid.', '.$tskid.');
+					IssueList('.$tskid.');
+				</script>
+			';
 		}
 		else{
-			echo Failure(_STARTING_RECORD_FAILED.' <a href="">'._RELOAD.'</a>');
+			Toast('error', 'خطا', _STARTING_RECORD_FAILED);
+		}
+		break;
+	case 'delete_issue':
+		$iid = $_POST['iid'];
+		$tskid = $_POST['tskid'];
+		if ($permissions[0]['allow_delete_issues']==1) {
+			$task_issue->Delete($iid);
+			if ($issue->Delete($iid)) 
+			{
+				Toast('success', 'موفق', _RECORD_DELETED_SUCCESSFULLI);
+				echo '
+				<script type="text/javascript">
+					IssueInfo('.$iid.', '.$tskid.');
+					IssueList('.$tskid.');
+				</script>
+				';
+			}
+			else
+			{
+				Toast('error', 'خطا', _DELETING_RECORD_FAILED);
+			}
+		}
+		else{
+			Toast('error', 'خطا', _ACCESS_DENIED);
 		}
 		break;
 	
