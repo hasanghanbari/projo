@@ -390,54 +390,58 @@ $admins_tasks = new ManageAdmins_Tasks();
 						</th>
 						
 					</tr>
-			';
-			foreach ($projectlist as $projectInfo) {
-				echo '
-					<tr class="">
-						<td>
-							<div style="text-align:rtl;" dir="rtl">
-								<!-- Extra small button group -->
-								<div class="btn-group">
-									<button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									  <span class="fas fa-menu-hamburger"></span>
-									</button>
-									<ul class="dropdown-menu pull-left">';
-							  			if ($permissions[0]['allow_edit_project']==1) {
-							  				echo'
-										<li><a href="?op=add&prjid='.$projectInfo['prjid'].'">'._EDIT.'</a></li>';
-							  			}
-							  			if ($permissions[0]['allow_delete_project']==1) {
-							  				echo'
-										<li><a onclick="return Sure();" style="color: red;" href="?op=delete&prjid='.$projectInfo['prjid'].'">'._DELETE.'</a></li>';
-							  			}
-							  			if ($permissions[0]['allow_list_task']==1) {
-							  			echo'
-										<li><a href="tasks.php?op=list&prjid='.$projectInfo['prjid'].'">'._THE_TASKS_OF_THIS_PROJECT.'</a></li>';
-										}
-							  			echo'
-									</ul>
-								</div>
-							</div>
-						</td>
-						<td style="text-align:ltr;" dir="ltr"><strong>'.$projectInfo['prjcode'].'</strong></td>
-						<td><strong>'.$projectInfo['prjtitle'].'</strong></td>
-						<td><div class="overflow_list">'.$projectInfo['prjdesc'].'</div></td>';
-						if(file_exists('img/project/'.$pic_prefix.$projectInfo['prjlogo'].''))
-							$prjlogo = 'img/project/'.$pic_prefix.$projectInfo['prjlogo'].'';
-						else
-							$prjlogo = 'img/proja.png';
-							
-						echo '<td style="text-align:center;">
-							<img src="'.$prjlogo.'" style="height:30px;" />
-							</td>
-						<td>'.$projectInfo['prjcomments'].'</td>
-						<td style="text-align:ltr;" dir="ltr">'.($language=='farsi'?G2J($projectInfo['prjdate']):$projectInfo['prjdate']).'</td>
-						
-					</tr>
 				';
+				$prj_list = [];
+				foreach ($projectlist as $projectInfo) {
+					if (!in_array($projectInfo['prjid'], $prj_list)) {
+					echo '
+						<tr class="">
+							<td>
+								<div style="text-align:rtl;" dir="rtl">
+									<!-- Extra small button group -->
+									<div class="btn-group">
+										<button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										  <span class="fas fa-menu-hamburger"></span>
+										</button>
+										<ul class="dropdown-menu pull-left">';
+								  			if ($permissions[0]['allow_edit_project']==1) {
+								  				echo'
+											<li><a href="?op=add&prjid='.$projectInfo['prjid'].'">'._EDIT.'</a></li>';
+								  			}
+								  			if ($permissions[0]['allow_delete_project']==1) {
+								  				echo'
+											<li><a onclick="return Sure();" style="color: red;" href="?op=delete&prjid='.$projectInfo['prjid'].'">'._DELETE.'</a></li>';
+								  			}
+								  			if ($permissions[0]['allow_list_task']==1) {
+								  			echo'
+											<li><a href="tasks.php?op=list&prjid='.$projectInfo['prjid'].'">'._THE_TASKS_OF_THIS_PROJECT.'</a></li>';
+											}
+								  			echo'
+										</ul>
+									</div>
+								</div>
+							</td>
+							<td style="text-align:ltr;" dir="ltr"><strong>'.$projectInfo['prjcode'].'</strong></td>
+							<td><strong>'.$projectInfo['prjtitle'].'</strong></td>
+							<td><div class="overflow_list">'.$projectInfo['prjdesc'].'</div></td>';
+							if(file_exists('img/project/'.$pic_prefix.$projectInfo['prjlogo'].''))
+								$prjlogo = 'img/project/'.$pic_prefix.$projectInfo['prjlogo'].'';
+							else
+								$prjlogo = 'img/proja.png';
+								
+							echo '<td style="text-align:center;">
+								<img src="'.$prjlogo.'" style="height:30px;" />
+								</td>
+							<td>'.$projectInfo['prjcomments'].'</td>
+							<td style="text-align:ltr;" dir="ltr">'.($language=='farsi'?G2J($projectInfo['prjdate']):$projectInfo['prjdate']).'</td>
+							
+						</tr>
+						';
+						array_push($prj_list, $projectInfo['prjid']);
+					}
 				}
 			echo'
-    		</div>
+			</div>
 			';
 			}
 			else{

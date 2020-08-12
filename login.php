@@ -1,7 +1,6 @@
 <?php 
 require_once 'main.php';
 
-require_once 'header.php';
 if (isset($_POST['login'])) {
 	$pass= $_POST['password'];
 	$username= $_POST['username'];
@@ -35,6 +34,8 @@ if (isset($_POST['login'])) {
 	}
 }
 
+require_once 'header.php';
+
 echo '
 		<!--=========================================================================================-->
 		<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
@@ -58,13 +59,13 @@ echo '
 
   				if (isset($_COOKIE['iproject'])) {
   					echo '
-  					<span class="login100-form-title">
+  					<span class="login100-form-title w-50">
   						'._YOU_HAVE_ALREADY_LOGGED_IN_WITH_YOUR_USERNAME.'
-  					</span>';
-  					echo '
-  					<p class="login100-form-btn">
-  						'._GO_TO.' <b><a href="./">'._HOME_PAGE.'</a>
-  					</p>';
+              <a href="./" class="login100-form-btn mt-5">
+    						'._GO_TO.' '._HOME_PAGE.'
+    					</a>
+  					</span>
+            ';
   				}
   				else{
   					echo'

@@ -39,26 +39,30 @@ echo'
 				$query = "WHERE aids=$aid";
 				$projectlist = $admins_tasks->GetListPrjAdmin($query);
 			}
+			$prj_list = [];
 			foreach ($projectlist as $projectInfo) {
-				if(file_exists('img/project/'.$pic_prefix.$projectInfo['prjlogo'].''))
-					$prjlogo = 'img/project/'.$pic_prefix.$projectInfo['prjlogo'].'';
-				else
-					$prjlogo = 'img/proja.png';
-				
-			echo'
-			<div class="col-md-6 mb-4 project-home">
-				<a href="tasks.php?op=chart&prjid='.$projectInfo['prjid'].'">
-				    <div class="card h-100">
-				      <img src="'.$prjlogo.'" class="card-img-top" alt="...">
-				      <div class="card-body">
-				        <h5 class="card-title">'.$projectInfo['prjtitle'].'</h5>
-				        <p class="card-text">'.$projectInfo['prjdesc'].'</p>
-				      </div>
-				    </div>
-				</a>
-			</div>';
+				if (!in_array($projectInfo['prjid'], $prj_list)) {
+					if(file_exists('img/project/'.$pic_prefix.$projectInfo['prjlogo'].''))
+						$prjlogo = 'img/project/'.$pic_prefix.$projectInfo['prjlogo'].'';
+					else
+						$prjlogo = 'img/proja.png';
+					
+					echo'
+					<div class="col-md-6 mb-4 project-home">
+						<a href="tasks.php?op=chart&prjid='.$projectInfo['prjid'].'">
+						    <div class="card h-100">
+						      <img src="'.$prjlogo.'" class="card-img-top" alt="...">
+						      <div class="card-body">
+						        <h5 class="card-title">'.$projectInfo['prjtitle'].'</h5>
+						        <p class="card-text">'.$projectInfo['prjdesc'].'</p>
+						      </div>
+						    </div>
+						</a>
+					</div>';
+					}
+					array_push($prj_list, $projectInfo['prjid']);
+				}
 			}
-		}
 		echo'
 		</div>
 

@@ -588,9 +588,22 @@ $admins_tasks = new ManageAdmins_Tasks();
 							   <div class="form-group">
 							    <label for="prjid">'._FOR.' '._PROJECT.':</label>
 							    <select class="form-control" name="prjid"'.(isset($_GET['tskid'])?'disabled':'').'>';
-							    $projectlist = $project->getlist();
+							    if ($permissions[0]['asuper_admin']==1) {
+							    	$projectlist= $project->GetList();
+							    }
+							    else{
+							    	$aid= $permissions[0]['aid'];
+							    	$query = "WHERE aids=$aid";
+							    	$projectlist = $admins_tasks->GetListPrjAdmin($query);
+							    }
+							    $prj_list = [];
 							    foreach ($projectlist as $projectInfo) {
-							    	echo'<option value="'.$projectInfo['prjid'].'" '.($projectInfo['prjid']==$prjid?'selected':'').'>'.$projectInfo['prjtitle'].'</option>';
+							    	if (!in_array($projectInfo['prjid'], $prj_list)) {
+							    		echo'
+							    		<option value="'.$projectInfo['prjid'].'" '.($projectInfo['prjid']==$prjid?'selected':'').'>'.$projectInfo['prjtitle'].'</option>
+							    		';
+							    		array_push($prj_list, $projectInfo['prjid']);
+									}
 							    }
 
 							    echo'

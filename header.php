@@ -81,7 +81,7 @@
   echo'
     <!-- TOAST -->
   <script type="text/javascript" src="vendor/toast/jquery.toast.min.js"></script>
-  <script>
+  <!-- <script>
     tinymce.init({
         selector: \'.editor\',';
         if ($language == 'farsi') {
@@ -105,7 +105,7 @@
         \'//www.tinymce.com/css/codepen.min.css\'
         ]
     });
-  </script>
+  </script> -->
   ';
      ?>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

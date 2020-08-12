@@ -292,6 +292,8 @@ switch ($op) {
 					case '3':
 						$iproirity=""._VERY." "._HARD."";
 						break;
+					default:
+						$iproirity="";	
 				}
 				switch ($issueInfo['icomplexity']) {
 					case '0':
@@ -312,6 +314,8 @@ switch ($op) {
 					case '5':
 						$icomplexity="!!!!!";
 						break;
+					default:
+						$icomplexity="None";
 				}
 		      echo'
 		      

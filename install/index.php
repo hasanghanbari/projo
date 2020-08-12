@@ -242,7 +242,7 @@ else
 						`tskid` int(11) NOT NULL,
 						  `prjid` int(11) NOT NULL,
 						  `aid` int(11) NOT NULL,
-						  `tskcode` varchar(255) COLLATE utf8_persian_ci NOT NULL COMMENT 'کد',
+						  `tskcode` varchar(255) COLLATE utf8_persian_ci NULL COMMENT 'کد',
 						  `tsktitle` varchar(255) COLLATE utf8_persian_ci NOT NULL COMMENT 'عنوان',
 						  `tskdesc` text COLLATE utf8_persian_ci,
 						  `tskdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'تاریخ درج',
