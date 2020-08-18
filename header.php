@@ -7,7 +7,7 @@
     <title><?php echo _ABOUT_PROJA_SYSTEM_NAME2 ?></title>
 
     <link rel="stylesheet" type="text/css" href="vendor/Persian-Jalali/style/kamadatepicker.min.css" >
-    <link rel="stylesheet" href="vendor/fontawesome-5.13.0/css/all.min.css" />
+    <link rel="stylesheet" href="vendor/fontawesome-pro-5.12.0-web/css/all.min.css" />
 
     <link rel="shortcut icon" href="themes/2020/img/logo.png">
 

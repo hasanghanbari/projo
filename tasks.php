@@ -31,7 +31,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					$prjid = $_POST['prjid'];
 					$aid = $permissions[0]['aid'];
 					
-					if (empty($tskcode) || empty($tsktitle)) {
+					if (empty($tsktitle)) {
 						Toast('error', 'خطا', _FILL_IN_REQUIRED);
 					} 
 					else 
@@ -145,7 +145,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 				<div class="row">
 				  <div class="col-md-4">
 					  <div class="form-group">
-					    <label for="tskcode">'._CODE.'<span class="required">*</span>:</label>
+					    <label for="tskcode">'._CODE.':</label>
 					    <input autofocus="" type="text" class="form-control" id="tskcode" name="tskcode" style="direction:ltr;" value="'.$tskcode.'">
 					  </div>
 					  <div class="form-group">
@@ -157,38 +157,53 @@ $admins_tasks = new ManageAdmins_Tasks();
 					    <input type="hidden" value="'.(isset($_GET['tskid'])?$_GET['tskid']:'').'" id="tskid">
 					    <select class="form-control" name="prjid" id="prjid" onclick ="loadVQs()" onkeyup="loadVQs()">
 					    	';
-					    $projectlist = $project->getlist();
+					    if ($permissions[0]['asuper_admin']==1) {
+					    	$projectlist= $project->GetList();
+					    }
+					    else{
+					    	$aid= $permissions[0]['aid'];
+					    	$query = "WHERE aids=$aid";
+					    	$projectlist = $admins_tasks->GetListPrjAdmin($query);
+					    }
+					    $prj_list = [];
 					    foreach ($projectlist as $projectInfo) {
-					    	echo'<option value="'.$projectInfo['prjid'].'" '.($projectInfo['prjid']==$prjid?'selected':'').'>'.$projectInfo['prjtitle'].'</option>';
+					    	if (!in_array($projectInfo['prjid'], $prj_list)) {
+					    		echo'<option value="'.$projectInfo['prjid'].'" '.($projectInfo['prjid']==$prjid?'selected':'').'>'.$projectInfo['prjtitle'].'</option>';
+					    		array_push($prj_list, $projectInfo['prjid']);
+					    	}
 					    }
 
 					    echo'
 					    </select>
 					  </div>
-					  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issueList" aria-expanded="false" aria-controls="issueList" onclick="loadVQs()">
-					    '._RELATED_ISSUES_LIST.'
-					  </button>
-				  		<script>
-				  	      function loadVQs() {
-				  	        $("#vqs").html(\'<img src="img/wait.gif">\');
-				  			var prjid= $("#prjid").val();
-				  			var tskid= $("#tskid").val();
-				  	        $.ajax({
-				  	          url: "aj.php",
-				  	          type: "POST",
-				  	          data: {op:"issue_prjid",prjid:$("#prjid").val(),tskid:$("#tskid").val()},
-				  	          success: function(data,status) {
-				  	            $("#vqs").html(data);
-				  	          },
-				  	          error: function() {$("#vqs").html("problem in ajax")}
-				  	        });
-				  	      }
-				        </script>
-					  <div class="collapse" id="issueList" style="direction:ltr;">
-				  		<div class="well">
-					  		<div id="vqs" style="direction:rtl; text-align:right; "></div>
-					  	</div>
-			  	  	  </div>';
+					  ';
+					  	if ($permissions[0]['asuper_admin']==1) {
+					  	echo'
+						  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issueList" aria-expanded="false" aria-controls="issueList" onclick="loadVQs()">
+						    '._RELATED_ISSUES_LIST.'
+						  </button>
+					  		<script>
+					  	      function loadVQs() {
+					  	        $("#vqs").html(\'<img src="img/wait.gif">\');
+					  			var prjid= $("#prjid").val();
+					  			var tskid= $("#tskid").val();
+					  	        $.ajax({
+					  	          url: "aj.php",
+					  	          type: "POST",
+					  	          data: {op:"issue_prjid",prjid:$("#prjid").val(),tskid:$("#tskid").val()},
+					  	          success: function(data,status) {
+					  	            $("#vqs").html(data);
+					  	          },
+					  	          error: function() {$("#vqs").html("problem in ajax")}
+					  	        });
+					  	      }
+					        </script>
+						  <div class="collapse" id="issueList" style="direction:ltr;">
+					  		<div class="well">
+						  		<div id="vqs" style="direction:rtl; text-align:right; "></div>
+						  	</div>
+				  	  	  </div>';
+				  	  	}
 			  	  	  if (isset($_GET['tskid'])) {
 			  	  	  	echo'
 					    <div class="row">
@@ -221,43 +236,45 @@ $admins_tasks = new ManageAdmins_Tasks();
 							  </div>
 					      </div>
 					    </div>';
-			  	  	  }
-			  	  	  echo'
-					  	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add_admin_task" aria-expanded="false" aria-controls="add_admin_task">
-					  	  '._ADD.' '._ADMIN.'
-					  	</button>
-					  	<div class="collapse" id="add_admin_task" style="direction:ltr;">
-					  	  <div class="well">
-			  	    		<div class="checkbox">';
-			  	    		$adminlist = $admin->GetList();
-			  	    		if (isset($_GET['tskid'])) {
-			  	    			$query = "WHERE tskid=$tskid";
-				  	    		$admins_task = $admins_tasks->GetList($query);
-				  	    		$adminTaskInfo2 ='';
-				  	    		foreach ($admins_task as $key => $adminTaskInfo) {
-				  	    			$adminTaskInfo2=$adminTaskInfo2.'-'.$adminTaskInfo['aids'];
+			  	  	  	}
+			  	  	  	if ($permissions[0]['asuper_admin']==1) {
+				  	  	  echo'
+						  	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add_admin_task" aria-expanded="false" aria-controls="add_admin_task">
+						  	  '._ADD.' '._ADMIN.'
+						  	</button>
+						  	<div class="collapse" id="add_admin_task" style="direction:ltr;">
+						  	  <div class="well">
+				  	    		<div class="checkbox">';
+				  	    		$adminlist = $admin->GetList();
+				  	    		if (isset($_GET['tskid'])) {
+				  	    			$query = "WHERE tskid=$tskid";
+					  	    		$admins_task = $admins_tasks->GetList($query);
+					  	    		$adminTaskInfo2 ='';
+					  	    		foreach ($admins_task as $key => $adminTaskInfo) {
+					  	    			$adminTaskInfo2=$adminTaskInfo2.'-'.$adminTaskInfo['aids'];
+					  	    		}
+					  	    		$adminIdTask = explode('-', $adminTaskInfo2);
+				  	    			
 				  	    		}
-				  	    		$adminIdTask = explode('-', $adminTaskInfo2);
-			  	    			
-			  	    		}
-			  	    		else{
-			  	    			$adminIdTask = array('hello' => 0);
-			  	    		}
-			  	    		// print_r($adminIdTask);
-			  	    		foreach ($adminlist as $adminInfo) {
-			  	    			if (!in_array($adminInfo['aid'], $adminIdTask) && $adminInfo['aid']!=1) {
-			  	    	       echo'
-			  	    	      <label>
-			  	    	       <input type="checkbox" id="aid" name="aid['.$adminInfo['aid'].']">&nbsp&nbsp '.$adminInfo['ausername'].'
-			  	    	      </label> <br>';
-			  	    			}
-			  	        	}
-			  	          echo'
-			  	    		</div>
-					  	  </div>
-					  	</div>
-					  
-					  	    ';
+				  	    		else{
+				  	    			$adminIdTask = array('hello' => 0);
+				  	    		}
+				  	    		// print_r($adminIdTask);
+				  	    		foreach ($adminlist as $adminInfo) {
+				  	    			if (!in_array($adminInfo['aid'], $adminIdTask) && $adminInfo['aid']!=1) {
+				  	    	       echo'
+				  	    	      <label>
+				  	    	       <input type="checkbox" id="aid" name="aid['.$adminInfo['aid'].']">&nbsp&nbsp '.$adminInfo['ausername'].'
+				  	    	      </label> <br>';
+				  	    			}
+				  	        	}
+				  	          echo'
+				  	    		</div>
+						  	  </div>
+						  	</div>
+						  
+						  	    ';
+						}
 					  	  if (isset($_GET['tskid'])) {
 					  	  	echo'
 					  	  	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="list_admin_task('.$_GET['tskid'].')">
@@ -378,8 +395,8 @@ $admins_tasks = new ManageAdmins_Tasks();
 			if (isset($_GET['prjid'])) {
 				$prjid = '&prjid='.$_GET['prjid'];
 				$prjid2 = $_GET['prjid'];
-				$projectname = $project->GetProjectInfoById($prjid2);
-				$project_title = _FOR.' '._PROJECT.' '.$projectname[2].'';
+				$project_info = $project->GetProjectInfoById($prjid2);
+				$project_title = _FOR.' '._PROJECT.' '.$project_info[2].'';
 			}
 			else{
 				$prjid = '';
@@ -570,7 +587,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 	case 'chart':
 		require_once 'menu.php';
 		echo '
-			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
+			<div class="col-sm-12 col-md-12" id="content">';
 			if ($permissions[0]['allow_list_task']==1) {
 				$query=$q=$filter=$order="";
 				$start=$page=0;
@@ -616,8 +633,16 @@ $admins_tasks = new ManageAdmins_Tasks();
 				if (isset($_GET['prjid'])) {
 					$prjid = '&prjid='.$_GET['prjid'];
 					$prjid2 = $_GET['prjid'];
-					$projectname = $project->GetProjectInfoById($prjid2);
-					$project_title = _FOR.' '._PROJECT.' '.$projectname[2].'';
+					$project_info = $project->GetProjectInfoById($prjid2);
+					$project_title = $project_info[2];
+					echo '
+						<style type="text/css">
+							body {
+								background-color: '.$project_info['bg_color'].';
+								background-image: linear-gradient('.$project_info['bg_color'].', '.$project_info['bg_color'].');
+							}
+						</style>
+					';
 				}
 				else{
 					$prjid = '';
@@ -626,15 +651,8 @@ $admins_tasks = new ManageAdmins_Tasks();
 				echo'
 				<div class="row">
 				  <div class="col-md-4">
-					  <p class="lead">'._TASKS.'';
-					  if ($permissions[0]['allow_add_task']==1) {
-					  	AddLogo('?op=add');
-					  }
-					  if ($permissions[0]['allow_list_task']==1) {
-					  	ListLogo('?op=list'.$prjid.'');
-					  }
-					  echo'
-					  	<br><small><small>'.$project_title.'</small></small>
+					  <p class="lead">
+					  	'.$project_title.'
 					  </p>
 				  </div>
 				  <div class="col-md-8">
@@ -681,7 +699,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					$projectlist=$project->GetProjectInfoById($prjid2);
 					if ($taskInfo['prjid']==$projectlist['prjid']) {
 						echo'
-						  <div class="col-sm-4 col-md-4 mt-2">
+						  <div class="col-sm-3 col-md-3 mt-2">
 							<div class="card border-'.($taskInfo['tskdone']==1?'success':'primary').'">
 							  <div class="card-header">
 							    <ul class="list-inline p-0">
@@ -748,7 +766,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 		 									</div><!-- /.modal -->
 						    	        </div>
 						    	        <span style="">
-									        <strong>'.$taskInfo['tsktitle'].'</strong>
+									        <a href="javascript: editTask('.$taskInfo['tskid'].')" class="font-weight-bold text-decoration-none">'.$taskInfo['tsktitle'].'</a>
 									        <br><small>'._PROJECT.' '.$projectlist['prjtitle'].' '.($taskInfo['tskdone']==1?'('._DONE.')':'').'</small>
 						    	        </span>
 									</li>';
@@ -848,7 +866,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						}
 					}
 					echo'
-					<div class="col-sm-4 col-md-4">
+					<div class="col-sm-3 col-md-3">
 						<div class="card card-body p-0 mt-2">
 							<a href="javascript: openAddCase()" class="add-btn-task">
 								<span class="plus-btn">
@@ -869,7 +887,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 		    </div>
 		  </div>
 		</div>
-		<!-- Modal show issue -->
+		<!-- Modal add task -->
 		<div class="modal fade" id="show_add_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
@@ -882,6 +900,17 @@ $admins_tasks = new ManageAdmins_Tasks();
 	               		<button type="button" class="btn btn-primary mr-2" onclick="addTask('.$prjid2.', '.$aid.')">ثبت</button>
 	               		<div id="show-response-add-task"></div>
 	               </form>
+	            </div>
+		    </div>
+		  </div>
+		</div>
+
+		<!-- Modal show task -->
+		<div class="modal fade bd-example-modal-lg" id="show_edit_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		       	<div class="modal-body" id="show-resault-edit_task">
+	             	               
 	            </div>
 		    </div>
 		  </div>

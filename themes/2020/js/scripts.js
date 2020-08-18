@@ -158,3 +158,25 @@ function deleteTask(tskid) {
       error: function() {$("#show-resault-delete_task").html("problem in ajax")}
     });
 }
+function editTask(id) {
+  $("#show_edit_task").modal()
+  $.ajax({
+    url: "aj.php",
+    type: "POST",
+    data: {op:"edit_task", tskid: id},
+    success: function(data,status) {
+      $("#show-resault-edit_task").html(data);
+    },
+    error: function() {$("#show-resault-edit_task").html("problem in ajax")}
+  });
+}
+function openAddProject() {
+    $("#show_add_project").modal()
+}
+function activeColor(id) {
+  const color = $("#bg_color_project" + id).val();
+  $(".box-color i").hide();
+  $("#check_bg_color_project" + id).show();
+  $(".example-new-card").css('background-color', '#' + color);
+  
+}

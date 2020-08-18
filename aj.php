@@ -564,6 +564,212 @@ switch ($op) {
 			Toast('error', 'خطا', _ACCESS_DENIED);
 		}
 		break;
+
+	case 'edit_task':
+		$tskid 			= $_POST['tskid'];
+		$taskInfo 		= $task->GetTaskInfoById($tskid);
+		$tskcode 		= $taskInfo['tskcode'];
+		$tsktitle 		= $taskInfo['tsktitle'];
+		$tskdesc 		= $taskInfo['tskdesc'];
+		$tskdone 		= $taskInfo['tskdone'];
+		$tskdone_date 	= $taskInfo['tskdone_date'];
+		$prjid 			= $taskInfo['prjid'];
+		echo '
+		<h3>ویرایش ماموریت</h3>
+		<div class="container-fload">
+				<div class="row">
+					<div class="col-md-4"></div>
+					<div class="col-md-8"></div>
+					<div class="col-md-4"></div>
+				</div>
+		</div>
+			<form method="post">
+			<div class="row">
+			  <div class="col-md-4">
+				  <div class="form-group">
+				    <label for="tskcode">'._CODE.':</label>
+				    <input autofocus="" type="text" class="form-control" id="tskcode" name="tskcode" style="direction:ltr;" value="'.$tskcode.'">
+				  </div>
+				  <div class="form-group">
+				    <label for="tsktitle">'._TITLE.'<span class="required">*</span>:</label>
+				    <input type="text" class="form-control" id="tsktitle" name="tsktitle" value="'.$tsktitle.'">
+				  </div>
+				  <div class="form-group">
+				    <label for="tsktitle">'._FOR.' '._PROJECT.'<span class="required">*</span>:</label>
+				    <input type="hidden" value="'.(isset($_GET['tskid'])?$_GET['tskid']:'').'" id="tskid">
+				    <select class="form-control" name="prjid" id="prjid" onclick ="loadVQs()" onkeyup="loadVQs()">
+				    	';
+				    if ($permissions[0]['asuper_admin']==1) {
+				    	$projectlist= $project->GetList();
+				    }
+				    else{
+				    	$aid= $permissions[0]['aid'];
+				    	$query = "WHERE aids=$aid";
+				    	$projectlist = $admins_tasks->GetListPrjAdmin($query);
+				    }
+				    $prj_list = [];
+				    foreach ($projectlist as $projectInfo) {
+				    	if (!in_array($projectInfo['prjid'], $prj_list)) {
+				    		echo'<option value="'.$projectInfo['prjid'].'" '.($projectInfo['prjid']==$prjid?'selected':'').'>'.$projectInfo['prjtitle'].'</option>';
+				    		array_push($prj_list, $projectInfo['prjid']);
+				    	}
+				    }
+
+				    echo'
+				    </select>
+				  </div>
+				  ';
+				  	if ($permissions[0]['asuper_admin']==1) {
+				  	echo'
+					  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issueList" aria-expanded="false" aria-controls="issueList" onclick="loadVQs()">
+					    '._RELATED_ISSUES_LIST.'
+					  </button>
+				  		<script>
+				  	      function loadVQs() {
+				  	        $("#vqs").html(\'<img src="img/wait.gif">\');
+				  			var prjid= $("#prjid").val();
+				  			var tskid= $("#tskid").val();
+				  	        $.ajax({
+				  	          url: "aj.php",
+				  	          type: "POST",
+				  	          data: {op:"issue_prjid",prjid:$("#prjid").val(),tskid:$("#tskid").val()},
+				  	          success: function(data,status) {
+				  	            $("#vqs").html(data);
+				  	          },
+				  	          error: function() {$("#vqs").html("problem in ajax")}
+				  	        });
+				  	      }
+				        </script>
+					  <div class="collapse" id="issueList" style="direction:ltr;">
+				  		<div class="well">
+					  		<div id="vqs" style="direction:rtl; text-align:right; "></div>
+					  	</div>
+			  	  	  </div>';
+			  	  	}
+		  	  	  if (isset($_GET['tskid'])) {
+		  	  	  	echo'
+				    <div class="row">
+				      <div class="col-md-6">
+						<div class="form-group">
+				      	  <label for="tskdone">'._CONDITION.':</label>
+				      	  <div class="radio">
+					      	  <label>
+					      	    <input type="radio" name="tskdone" id="tskdone1" value="1" '.($tskdone==1?'checked':'').'>
+					      	    '._DONE.'
+					      	  </label>
+					      	  <label>
+					      	    <input type="radio" name="tskdone" id="tskdone2" value="0"'.($tskdone==0?'checked':'').'>
+					      	    '._UNDONE.'
+					      	  </label>
+					      </div>
+				      	</div>
+					  </div>
+				      <div class="col-md-6">
+						  <div class="form-group">
+						    <label for="tskdone_date">'._COMPLETION_DATE.':</label>
+						    <input id="tskdone_date" type="'.($language=='farsi'?'text':'date').'" class="form-control input" name="tskdone_date" value="'.($tskdone_date==0?'':($language=='farsi'?G2JD($tskdone_date):$tskdone_date)).'">';
+						    if ($language == 'farsi') {
+						    	echo'
+							    <script type="text/javascript">
+							    	kamaDatepicker(\'tskdone_date\', { buttonsColor: "red",markToday: "true" , highlightSelectedDay: "true" , gotoToday: "true", nextButtonIcon: "img/timeir_next.png", previousButtonIcon: "img/timeir_prev.png"});
+							    </script>';
+						    }
+						    echo'
+						  </div>
+				      </div>
+				    </div>';
+		  	  	  	}
+		  	  	  	if ($permissions[0]['asuper_admin']==1) {
+			  	  	  echo'
+					  	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add_admin_task" aria-expanded="false" aria-controls="add_admin_task">
+					  	  '._ADD.' '._ADMIN.'
+					  	</button>
+					  	<div class="collapse" id="add_admin_task" style="direction:ltr;">
+					  	  <div class="well">
+			  	    		<div class="checkbox">';
+			  	    		$adminlist = $admin->GetList();
+			  	    		if (isset($_GET['tskid'])) {
+			  	    			$query = "WHERE tskid=$tskid";
+				  	    		$admins_task = $admins_tasks->GetList($query);
+				  	    		$adminTaskInfo2 ='';
+				  	    		foreach ($admins_task as $key => $adminTaskInfo) {
+				  	    			$adminTaskInfo2=$adminTaskInfo2.'-'.$adminTaskInfo['aids'];
+				  	    		}
+				  	    		$adminIdTask = explode('-', $adminTaskInfo2);
+			  	    			
+			  	    		}
+			  	    		else{
+			  	    			$adminIdTask = array('hello' => 0);
+			  	    		}
+			  	    		// print_r($adminIdTask);
+			  	    		foreach ($adminlist as $adminInfo) {
+			  	    			if (!in_array($adminInfo['aid'], $adminIdTask) && $adminInfo['aid']!=1) {
+			  	    	       echo'
+			  	    	      <label>
+			  	    	       <input type="checkbox" id="aid" name="aid['.$adminInfo['aid'].']">&nbsp&nbsp '.$adminInfo['ausername'].'
+			  	    	      </label> <br>';
+			  	    			}
+			  	        	}
+			  	          echo'
+			  	    		</div>
+					  	  </div>
+					  	</div>
+					  
+					  	    ';
+					}
+				  	  if (isset($_GET['tskid'])) {
+				  	  	echo'
+				  	  	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="list_admin_task('.$_GET['tskid'].')">
+				  	  	  '._LIST.' '._ADMINS.'
+				  	  	</button>
+				  	  	<div class="collapse" id="collapseExample" style="direction:ltr;">
+				  	  	  <div class="well" id="lat">
+				    	    		<script>
+				    	    	      function list_admin_task(id) {
+				    	    	        $("#lat").html(\'<img src="img/wait.gif">\');
+				    	    			var tskid= $("#tskid").val();
+				    	    	        $.ajax({
+				    	    	          url: "aj.php",
+				    	    	          type: "POST",
+				    	    	          data: {op:"list_admin_task",tskid:$("#tskid").val()},
+				    	    	          success: function(data,status) {
+				    	    	            $("#lat").html(data);
+				    	    	          },
+				    	    	          error: function() {$("#lat").html("problem in ajax")}
+				    	    	        });
+				    	    	      }
+				    	          </script>
+				  	  	  </div>
+				  	  	</div>
+				    	    <div id="dat"></div>
+				  	  <input type="hidden" value="'.$_GET['tskid'].'" id="tskid">
+				  	 		';
+				  	  	}
+				  	  	echo'
+			  </div>
+			  <div class="col-md-8">
+				<div class="form-group">
+					<label for="tskdesc">'._DESC.':</label>
+					<textarea id="tskdesc" name="tskdesc" class="form-control editor" rows="3">'.$tskdesc.'</textarea>
+				</div>
+		  		<ul class="list-inline">
+		  			<li class="left_list">';
+	    			UpdateForm('edit');
+					echo'
+		  			</li>';
+		  			if ($permissions[0]['allow_delete_task']==1) {
+	  				echo'
+		  			<li>
+		  				<a class="btn btn-link" onclick="return Sure();" style="color: red;" href="?op=delete&tskid='.$tskid.'">'._DELETE.'</a>
+		  			</li>';
+		  			}
+		  			echo'
+		  		</ul>
+			  </div>
+			</div>
+			</form>
+		';
+		break;
 	
 	default:
 		# code...

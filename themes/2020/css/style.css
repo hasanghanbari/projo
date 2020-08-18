@@ -39,14 +39,19 @@ body, html {
 }
 
 .project-home{
-  height: 230px;
+  height: 100px;
   overflow-y: hidden;
 }
+.project-home .card-body{
+  padding: 4px;
+  color: #fff;
+  text-decoration: none;
+}
 .project-home .card-img-top{
-    height: 100px;
-    width: 100px;
+    height: 30px;
+    width: 30px;
     object-fit: cover;
-    margin: 15px auto;
+    margin: 5px;
 }
 
 #ads{
@@ -240,10 +245,10 @@ body {
   font-weight: bold;
   src: url(../fonts/Samim-Bold.woff);
 }
-#wrapper {
+/*#wrapper {
     padding-left: 0;    
     margin-top: -50px;
-}
+}*/
 
 #page-wrapper {
     width: 100%;        
@@ -255,10 +260,10 @@ body {
         /*padding-left: 225px;*/
     }
 
-    #page-wrapper {
+   /* #page-wrapper {
         padding: 60px 260px;
         padding-left: 10px;
-    }
+    }*/
 }
 /* * Specific styles of signin component */
 
@@ -292,4 +297,97 @@ body {
 }
 .add-btn-task .plus-btn i {
   padding: 8px;
+}
+
+/*new header*/
+.navbar-brand {
+  position: absolute;
+  right: 50%
+}
+.navbar-brand img{
+  width: 40px;
+  height: 40px;
+}
+
+.user-menu-profile {
+  border-radius: 50%;
+}
+.user-menu-profile img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+.drop-after-none:after {
+  display: none;
+}
+
+/*add new project*/
+.modal-add-project .modal-content {
+  background-color: transparent;
+  border: none;
+}
+.example-new-card {
+  height: 82%;
+  background-color: #fd7e14;
+}
+.example-new-card input {
+  width: 85%;
+  background-color: transparent;
+  color: #fff !important;
+  border: none;
+}
+.example-new-card input::placeholder {
+  color: #fff;
+}
+
+.example-new-card input:focus, .example-new-card input:hover, .upload-btn-wrapper .btn:hover {
+  background-color: #fff4;
+  color: #fff !important;
+  box-shadow: none;
+}
+
+.bg-color-project input{
+  opacity: 0;
+}
+.bg-color-project label{
+  width: 30px;
+  height: 30px;
+  margin: 2px;
+  cursor: pointer;
+}
+.bg-color-project label .box-color{
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  border-radius: 3px;
+}
+.bg-color-project label .box-color i{
+  position: absolute;
+  color: #fff;
+  top: 7px;
+  right: 7px;
+  font-size: 16px;
+  display: none;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper .btn {
+  color: #fff;
+  background-color: transparent;
+  border-radius: 3px;
+  height: 33px;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 18px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 80px;
 }

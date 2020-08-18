@@ -26,7 +26,7 @@ echo'
   <h2>'._DASHBOARD.'</h2>
   <div class="row">';
 	echo'
-	<div class="col-md-6">';
+	<div class="col-md-8">';
 	if ($permissions[0]['allow_list_project']==1) {
 		echo'
 		<div class="row">
@@ -48,12 +48,14 @@ echo'
 						$prjlogo = 'img/proja.png';
 					
 					echo'
-					<div class="col-md-6 mb-4 project-home">
-						<a href="tasks.php?op=chart&prjid='.$projectInfo['prjid'].'">
-						    <div class="card h-100">
-						      <img src="'.$prjlogo.'" class="card-img-top" alt="...">
+					<div class="col-md-3 mb-4 project-home">
+						<a href="tasks.php?op=chart&prjid='.$projectInfo['prjid'].'" class="text-decoration-none">
+						    <div class="card h-100" style="background-color: '.$projectInfo['bg_color'].'">
 						      <div class="card-body">
-						        <h5 class="card-title">'.$projectInfo['prjtitle'].'</h5>
+						        <h5 class="card-title">
+						      		<img src="'.$prjlogo.'" class="card-img-top" alt="...">
+						        	'.$projectInfo['prjtitle'].'
+						        </h5>
 						        <p class="card-text">'.$projectInfo['prjdesc'].'</p>
 						      </div>
 						    </div>
@@ -64,10 +66,19 @@ echo'
 				}
 			}
 		echo'
+			<div class="col-md-3 mb-4 project-home">
+				<a href="javascript: openAddProject()" class="text-decoration-none">
+				    <div class="card h-100">
+				      <div class="card-body" style="margin: 0 auto; color: #111">
+				        <p class="card-text" style="margin: 41% 0">افزودن پروژه جدید</p>
+				      </div>
+				    </div>
+				</a>
+			</div>
 		</div>
 
 	  </div>
-	  <div class="col-md-6">
+	  <div class="col-md-4">
 	  	<div class="card">
 	  		<div class="card-body">
 				<h4>'._MY_MISSIONS.' <a class="btn btn-default btn-xs" href="tasks.php?op=chart" role="button">'._LIST.'</a></h4>
