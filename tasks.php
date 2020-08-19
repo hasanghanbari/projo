@@ -637,7 +637,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					$project_title = $project_info[2];
 					echo '
 						<style type="text/css">
-							body {
+							#wrapper {
 								background-color: '.$project_info['bg_color'].';
 								background-image: linear-gradient('.$project_info['bg_color'].', '.$project_info['bg_color'].');
 							}
@@ -649,13 +649,13 @@ $admins_tasks = new ManageAdmins_Tasks();
 					$project_title = '';
 				}
 				echo'
-				<div class="row">
+				<div class="row" id="task">
 				  <div class="col-md-4">
-					  <p class="lead">
+					  <p class="lead project-name">
 					  	'.$project_title.'
 					  </p>
 				  </div>
-				  <div class="col-md-8">
+				  <div class="col-md-6">
 					<form action="" method="post" class="form-inline form_search">
 						<div class="form-group">
 							<input autofocus="" type="text" value="'.$q.'" class="form-control input-sm" id="q" name="q" placeholder="'._SEARCH_TEXT.'">
@@ -687,26 +687,36 @@ $admins_tasks = new ManageAdmins_Tasks();
 						<option '.($page_limit=="50"?'selected':'').' value="50">50</option>
 						<option '.($page_limit=="100"?'selected':'').' value="100">100</option>
 					</select>
-					 <button type="submit" name="search" class="btn btn-light btn-sm">'._SEARCH.'</button>
+					 <button type="submit" name="search" class="btn btn-light btn-proj btn-sm">'._SEARCH.'</button>
 					</form><br>
 				  </div>
+				  <div class="col-md-2 text-left">';
+				  if ($permissions[0]['allow_delete_project']==1) {
+				  	echo'
+				  	<a class="btn btn-light btn-proj m-1" href="./" data-toggle="modal" data-target="#myModal2">
+				  	  <i class="fal fa-ellipsis-h align-middle font-weight-normal"></i> نمایش منو
+				  	</a>
+				  	';
+				  }
+				  echo'
+				  </div>
 				</div>
-					<div class="row">
-						<div id="show-resault-delete_task"></div>
+				<div id="show-resault-delete_task"></div>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
 				  ';
 				foreach ($tasklist as $taskInfo) {
 					$prjid2 = (isset($_GET['prjid'])?$_GET['prjid']:$taskInfo['prjid']);
 					$projectlist=$project->GetProjectInfoById($prjid2);
 					if ($taskInfo['prjid']==$projectlist['prjid']) {
 						echo'
-						  <div class="col-sm-3 col-md-3 mt-2">
+						  <div class="col mt-2 pr-2 pl-0">
 							<div class="card border-'.($taskInfo['tskdone']==1?'success':'primary').'">
-							  <div class="card-header">
+							  <div class="card-header task-chart-header">
 							    <ul class="list-inline p-0">
 								    <li class="right_list list-inline-item">
 						    			<div class="dropdown">
 						    	           <a class="dropdown-toggle no-toggle btn btn-light btn-sm" id="menu-item" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="position: relative; right: -12px;">
-						    	           		<i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+						    	           		<i class="fal fa-ellipsis-h align-middle font-weight-normal" aria-hidden="true"></i>
 						    	           </a>
 						    	           <div class="dropdown-menu" aria-labelledby="menu-item">
 						    	           ';
@@ -766,8 +776,11 @@ $admins_tasks = new ManageAdmins_Tasks();
 		 									</div><!-- /.modal -->
 						    	        </div>
 						    	        <span style="">
-									        <a href="javascript: editTask('.$taskInfo['tskid'].')" class="font-weight-bold text-decoration-none">'.$taskInfo['tsktitle'].'</a>
-									        <br><small>'._PROJECT.' '.$projectlist['prjtitle'].' '.($taskInfo['tskdone']==1?'('._DONE.')':'').'</small>
+									        <a href="javascript: editTask('.$taskInfo['tskid'].')" class="font-weight-bold text-decoration-none">
+									        	'.$taskInfo['tsktitle'].' 
+									        	'.($taskInfo['tskdone']==1?'('._DONE.')':'').'
+									        </a>
+									        '.(!isset($_GET['prjid']) ? '<br><small>'. _PROJECT.' '.$projectlist['prjtitle'] .'</small>' : '').'
 						    	        </span>
 									</li>';
 									$adminlist=$admin->GetAdminInfoById($taskInfo['aid']);
@@ -775,15 +788,15 @@ $admins_tasks = new ManageAdmins_Tasks();
 									<li class="left_list list-inline-item">'.$adminlist['ausername'].'</li>	
 						        </ul>
 							  </div>
-							  <div class="card-body task-chart-body">
+							  <div class="card-body task-chart-body" id="scrollbar-style">
 							  	<!-- <a href="issues.php?op=add&tskid='.$taskInfo['tskid'].'&prjid='.$taskInfo['prjid'].'">
 			  				  		<div class="card card-body mb-2">
 			  					  		<center>'._ADD.' '._ISSUE.'</center>
 			  		  				</div>
 			  		  			</a> -->
-							  	<a href="javascript: AddIssueBox('.$taskInfo['tskid'].')" id="addIssueButton'.$taskInfo['tskid'].'">
-			  				  		<div class="card card-body mb-2">
-			  					  		<center>'._ADD.' '._ISSUE.'</center>
+							  	<a href="javascript: AddIssueBox('.$taskInfo['tskid'].')" id="addIssueButton'.$taskInfo['tskid'].'" class="text-decoration-none">
+			  				  		<div class="add-issue-button mb-2">
+			  					  		<center><i class="fal fa-plus"></i> '._ADD.' '._ISSUE.'</center>
 			  		  				</div>
 			  		  			</a>
 		  				  		<div class="mb-2" id="addIssueText'.$taskInfo['tskid'].'" style="display: none;">
@@ -866,60 +879,180 @@ $admins_tasks = new ManageAdmins_Tasks();
 						}
 					}
 					echo'
-					<div class="col-sm-3 col-md-3">
-						<div class="card card-body p-0 mt-2">
-							<a href="javascript: openAddCase()" class="add-btn-task">
-								<span class="plus-btn">
-									<i class="fas fa-plus"></i> افزودن ماموریت
-								</span>
-							</a>
-						</div>
+					<div class="col pr-2 pl-0">
+						<a href="javascript: openAddCase()" class="btn btn-light btn-proj add-btn-task">
+							<span class="plus-btn">
+								<i class="fal fa-plus align-middle font-weight-normal"></i> افزودن ماموریت
+							</span>
+						</a>
 					</div>
 				  </div>
 				</div>
+			  </div>
 			</div>
-		</div>
-		<!-- Modal show issue -->
-		<div class="modal fade bs-example-modal-lg" id="show_chart_issue" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		  <div class="modal-dialog modal-lg" role="document">
-		    <div class="modal-content" id="show-issue-info-modal">
-		       
-		    </div>
-		  </div>
-		</div>
-		<!-- Modal add task -->
-		<div class="modal fade" id="show_add_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		       	<div class="modal-body">
-	               <p>افزودن ماموریت</p>
-	               <form class="form-inline">
+			<!-- Modal show issue -->
+			<div class="modal fade bs-example-modal-lg" id="show_chart_issue" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  <div class="modal-dialog modal-lg" role="document">
+			    <div class="modal-content" id="show-issue-info-modal">
+			       
+			    </div>
+			  </div>
+			</div>
+			<!-- Modal add task -->
+			<div class="modal fade" id="show_add_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			       	<div class="modal-body">
+		               <p>افزودن ماموریت</p>
 	               		<div class="form-group">
-	               			<input type="text" class="form-control" name="modal_new_task" id="modal_new_task" placeholder="ماموریت جدید">
+	               			<input 	type="text" 
+	               					class="form-control" 
+	               					name="modal_new_task" 
+	               					id="modal_new_task" 
+	               					placeholder="ماموریت جدید" ondragenter="addTask('.$prjid2.', '.$aid.')">
 	               		</div>
-	               		<button type="button" class="btn btn-primary mr-2" onclick="addTask('.$prjid2.', '.$aid.')">ثبت</button>
+	           			<button type="button" 
+	           					class="btn btn-primary mr-2" 
+	           					onclick="addTask('.$prjid2.', '.$aid.')">
+	           				ثبت
+	               		</button>
 	               		<div id="show-response-add-task"></div>
-	               </form>
-	            </div>
-		    </div>
-		  </div>
-		</div>
+		            </div>
+			    </div>
+			  </div>
+			</div>
 
-		<!-- Modal show task -->
-		<div class="modal fade bd-example-modal-lg" id="show_edit_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		  <div class="modal-dialog modal-lg" role="document">
-		    <div class="modal-content">
-		       	<div class="modal-body" id="show-resault-edit_task">
-	             	               
-	            </div>
-		    </div>
-		  </div>
-		</div>
+			<!-- Modal show task -->
+			<div class="modal fade bd-example-modal-lg" id="show_edit_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			  <div class="modal-dialog modal-lg" role="document">
+			    <div class="modal-content">
+			       	<div class="modal-body" id="show-resault-edit_task">
+		             	               
+		            </div>
+			    </div>
+			  </div>
+			</div>
 			';
+			if ($permissions[0]['allow_delete_project']==1) {
+				echo'
+			<!-- Modal Edit Project-->
+			<div class="modal left fade menu-project" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h5 class="modal-title" id="myModalLabel2">منو پروژه</h5>
+						</div>
+
+						<div class="modal-body">
+							 <div class="form-group">
+							    <input type="text" class="form-control" id="prjtitle" name="prjtitle" value="'.$project_info['prjtitle'].'">
+							  </div>
+						  	<div class="form-group logo">
+						  		<label for="prjlogo">'._LOGO.':</label>';	
+						  		if(isset($_REQUEST['prjid']))
+						  		{
+						  			if(file_exists('img/project/'.$pic_prefix.$project_info['prjlogo'].''))
+						  			{
+						  				echo '
+						  				<img src="img/project/'.$pic_prefix.$project_info['prjlogo'].'">
+						  				<input type="checkbox" name="delpic" value="yes" id="delpic"><label for="delpic"> '._DELETE_IMAGE.'</label>
+						  				';
+						  			}
+						  			else
+						  				echo '<img src="img/proja.png">';
+						  		}
+						  		echo '
+						  		<input type="file" id="prjlogo" name="prjlogo" value="'.$project_info['prjlogo'].'" style="direction: ltr;">
+						  	</div>
+						  	<div class="form-group">
+						  		<label for="prjlogo">پسزمینه:</label>
+		  		       				<div class="form-group form-check bg-color-project">
+		  		       					<span>
+		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project1" value="fd7e14" checked>
+		  		       						<label class="form-check-label" for="bg_color_project1" onclick="activeColorProject(1)">
+		  		       							<span class="box-color" style="background-color: #fd7e14">
+		  		       								<i class="fal fa-check" id="check_bg_color_project1" style="display: block"></i>
+		  		       							</span>
+		  		       						</label>
+		  		       					</span>
+		  		       					<span>
+		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project2" value="007bff">
+		  		       						<label class="form-check-label" for="bg_color_project2" onclick="activeColorProject(2)">
+		  		       							<span class="box-color" style="background-color: #007bff">
+		  		       								<i class="fal fa-check" id="check_bg_color_project2"></i>
+		  		       							</span>
+		  		       						</label>
+		  		       					</span>
+		  		       					<span>
+		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project3" value="6f42c1">
+		  		       						<label class="form-check-label" for="bg_color_project3" onclick="activeColorProject(3)">
+		  		       							<span class="box-color" style="background-color: #6f42c1">
+		  		       								<i class="fal fa-check" id="check_bg_color_project3"></i>
+		  		       							</span>
+		  		       						</label>
+		  		       					</span>
+		  		       					<span>
+		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project4" value="dc3545">
+		  		       						<label class="form-check-label" for="bg_color_project4" onclick="activeColorProject(4)">
+		  		       							<span class="box-color" style="background-color: #dc3545">
+		  		       								<i class="fal fa-check" id="check_bg_color_project4"></i>
+		  		       							</span>
+		  		       						</label>
+		  		       					</span>
+		  		       					<span>
+		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project5" value="ffc107">
+		  		       						<label class="form-check-label" for="bg_color_project5" onclick="activeColorProject(5)">
+		  		       							<span class="box-color" style="background-color: #ffc107">
+		  		       								<i class="fal fa-check" id="check_bg_color_project5"></i>
+		  		       							</span>
+		  		       						</label>
+		  		       					</span>
+		  		       					<span>
+		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project6" value="28a745">
+		  		       						<label class="form-check-label" for="bg_color_project6" onclick="activeColorProject(6)">
+		  		       							<span class="box-color" style="background-color: #28a745">
+		  		       								<i class="fal fa-check" id="check_bg_color_project6"></i>
+		  		       							</span>
+		  		       						</label>
+		  		       					</span>
+		  		       					<span>
+		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project7" value="17a2b8">
+		  		       						<label class="form-check-label" for="bg_color_project7" onclick="activeColorProject(7)">
+		  		       							<span class="box-color" style="background-color: #17a2b8">
+		  		       								<i class="fal fa-check" id="check_bg_color_project7"></i>
+		  		       							</span>
+		  		       						</label>
+		  		       					</span>
+		  		       					<span>
+			  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project8" value="20c997">
+			  		       						<label class="form-check-label" for="bg_color_project8" onclick="activeColorProject(8)">
+			  		       							<span class="box-color" style="background-color: #20c997">
+			  		       								<i class="fal fa-check" id="check_bg_color_project8"></i>
+			  		       							</span>
+			  		       						</label>
+			  		       					</span>
+			  			   				</div>
+							  	</div>
+
+							  	<div class="form-group">
+							  	  <label for="prjdesc">'._DESC.':</label>
+							  	  <textarea class="form-control" id="prjdesc" name="prjdesc">'.$project_info['prjdesc'].'</textarea>
+							  	</div>';
+							  	UpdateForm('edit');
+							  	echo'
+							</div>
+
+						</div><!-- modal-content -->
+					</div><!-- modal-dialog -->
+				</div><!-- modal -->
+				';
 			}
-			else{
-				Toast('error', 'خطا', _ACCESS_DENIED);
-			}
+		}
+		else{
+			Toast('error', 'خطا', _ACCESS_DENIED);
+		}
 		
 		break;
 	case 'delete':

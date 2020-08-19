@@ -1,6 +1,31 @@
 $(document).ready(function() {
     $('.editor').richText();
 });
+
+    $(document).ready(function () {
+      var popoverContent = '<div> \
+                                    <select class="form-control mb-1"> \
+                                        <option value="eq">Is equal to</option>  \
+                                        <option value="ct">Contains</option> \
+                                    </select> \
+                                    <input type="text" class="form-control"> \
+                                </div>';
+    
+      $('#exampleModalLong').on('shown.bs.modal', function (e) {
+        var popover = $('#popover-btn').popover({
+          title: '',
+          placement: 'bottom',
+          html: true,
+          content: popoverContent,
+          trigger: 'manual'
+        });
+      });
+    
+      $('#popover-btn').click(function () {
+        $(this).popover('show');
+      });
+    
+    });
 /*
 * * Function that gets the data of the profile in case 
 * thar it has already saved in localstorage. Only the 
@@ -178,5 +203,12 @@ function activeColor(id) {
   $(".box-color i").hide();
   $("#check_bg_color_project" + id).show();
   $(".example-new-card").css('background-color', '#' + color);
+  
+}
+function activeColorProject(id) {
+  const color = $("#bg_color_project" + id).val();
+  $(".box-color i").hide();
+  $("#check_bg_color_project" + id).show();
+  $("#wrapper").css('background-image', 'linear-gradient(#' + color + ', #' + color +')');
   
 }

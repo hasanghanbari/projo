@@ -88,7 +88,7 @@ switch ($op) {
 	  		if ($tskId == $task_issueInfo['tskid']) {
 	  		echo'
 	  		<a href="javascript:chart_issue('.$task_issueInfo['iid'].')" onclick="IssueInfo('.$task_issueInfo['iid'].', '.$task_issueInfo['tskid'].')">
-		  		<div class="card card-body mb-2'.($task_issueInfo['idone']==1?'  text-white bg-success':'').'">
+		  		<div class="card card-body issue-task-show mb-2'.($task_issueInfo['idone']==1?'  text-white bg-success':'').'">
 			  		<ul class="list-inline p-0">
 			  			<li class="list-inline-item">
 			  				'.$task_issueInfo['ititle'].' ('.($task_issueInfo['idone']==1?_DONE:_UNDONE).')
@@ -324,7 +324,7 @@ switch ($op) {
 		       		<div id="show-resault-done-issue" class="col-12"></div>
 		       		<div class="col-12">
 			       		<ul class="list-inline p-0 mini-show-issue">
-			    			<li class="list-inline-item">
+			    			<li class="list-inline-item w-50">
 			    				<div class="dropdown" style="float: right;">
 				    	           <a href="#" class="dropdown-toggle btn btn-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 				    	           		<i class="fas fa-ellipsis-v" aria-hidden="true"></i>
@@ -350,7 +350,7 @@ switch ($op) {
 						  			echo'
 				    	           </div>
 				    	       </div>
-				    	       <label>'.$issueInfo['ititle'].'</label>
+				    	       <input type="text" name="issue_title" class="form-control w-75 input-no-border" value="'.$issueInfo['ititle'].'">
 				    	   	</li>
 					    	<li class="list-inline-item float-left">
 					    		<div class="float-right">
@@ -577,182 +577,196 @@ switch ($op) {
 		echo '
 		<h3>ویرایش ماموریت</h3>
 		<div class="container-fload">
-				<div class="row">
-					<div class="col-md-4"></div>
-					<div class="col-md-8"></div>
-					<div class="col-md-4"></div>
-				</div>
-		</div>
 			<form method="post">
-			<div class="row">
-			  <div class="col-md-4">
-				  <div class="form-group">
-				    <label for="tskcode">'._CODE.':</label>
-				    <input autofocus="" type="text" class="form-control" id="tskcode" name="tskcode" style="direction:ltr;" value="'.$tskcode.'">
-				  </div>
-				  <div class="form-group">
-				    <label for="tsktitle">'._TITLE.'<span class="required">*</span>:</label>
-				    <input type="text" class="form-control" id="tsktitle" name="tsktitle" value="'.$tsktitle.'">
-				  </div>
-				  <div class="form-group">
-				    <label for="tsktitle">'._FOR.' '._PROJECT.'<span class="required">*</span>:</label>
-				    <input type="hidden" value="'.(isset($_GET['tskid'])?$_GET['tskid']:'').'" id="tskid">
-				    <select class="form-control" name="prjid" id="prjid" onclick ="loadVQs()" onkeyup="loadVQs()">
-				    	';
-				    if ($permissions[0]['asuper_admin']==1) {
-				    	$projectlist= $project->GetList();
-				    }
-				    else{
-				    	$aid= $permissions[0]['aid'];
-				    	$query = "WHERE aids=$aid";
-				    	$projectlist = $admins_tasks->GetListPrjAdmin($query);
-				    }
-				    $prj_list = [];
-				    foreach ($projectlist as $projectInfo) {
-				    	if (!in_array($projectInfo['prjid'], $prj_list)) {
-				    		echo'<option value="'.$projectInfo['prjid'].'" '.($projectInfo['prjid']==$prjid?'selected':'').'>'.$projectInfo['prjtitle'].'</option>';
-				    		array_push($prj_list, $projectInfo['prjid']);
-				    	}
-				    }
-
-				    echo'
-				    </select>
-				  </div>
-				  ';
-				  	if ($permissions[0]['asuper_admin']==1) {
-				  	echo'
-					  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issueList" aria-expanded="false" aria-controls="issueList" onclick="loadVQs()">
-					    '._RELATED_ISSUES_LIST.'
-					  </button>
-				  		<script>
-				  	      function loadVQs() {
-				  	        $("#vqs").html(\'<img src="img/wait.gif">\');
-				  			var prjid= $("#prjid").val();
-				  			var tskid= $("#tskid").val();
-				  	        $.ajax({
-				  	          url: "aj.php",
-				  	          type: "POST",
-				  	          data: {op:"issue_prjid",prjid:$("#prjid").val(),tskid:$("#tskid").val()},
-				  	          success: function(data,status) {
-				  	            $("#vqs").html(data);
-				  	          },
-				  	          error: function() {$("#vqs").html("problem in ajax")}
-				  	        });
-				  	      }
-				        </script>
-					  <div class="collapse" id="issueList" style="direction:ltr;">
-				  		<div class="well">
-					  		<div id="vqs" style="direction:rtl; text-align:right; "></div>
-					  	</div>
-			  	  	  </div>';
-			  	  	}
-		  	  	  if (isset($_GET['tskid'])) {
-		  	  	  	echo'
-				    <div class="row">
-				      <div class="col-md-6">
-						<div class="form-group">
-				      	  <label for="tskdone">'._CONDITION.':</label>
-				      	  <div class="radio">
-					      	  <label>
-					      	    <input type="radio" name="tskdone" id="tskdone1" value="1" '.($tskdone==1?'checked':'').'>
-					      	    '._DONE.'
-					      	  </label>
-					      	  <label>
-					      	    <input type="radio" name="tskdone" id="tskdone2" value="0"'.($tskdone==0?'checked':'').'>
-					      	    '._UNDONE.'
-					      	  </label>
-					      </div>
-				      	</div>
+				<div class="row">
+				  <div class="col-md-4">
+					  <div class="form-group">
+					    <label for="tskcode">'._CODE.':</label>
+					    <input autofocus="" type="text" class="form-control" id="tskcode" name="tskcode" style="direction:ltr;" value="'.$tskcode.'">
 					  </div>
-				      <div class="col-md-6">
-						  <div class="form-group">
-						    <label for="tskdone_date">'._COMPLETION_DATE.':</label>
-						    <input id="tskdone_date" type="'.($language=='farsi'?'text':'date').'" class="form-control input" name="tskdone_date" value="'.($tskdone_date==0?'':($language=='farsi'?G2JD($tskdone_date):$tskdone_date)).'">';
-						    if ($language == 'farsi') {
-						    	echo'
-							    <script type="text/javascript">
-							    	kamaDatepicker(\'tskdone_date\', { buttonsColor: "red",markToday: "true" , highlightSelectedDay: "true" , gotoToday: "true", nextButtonIcon: "img/timeir_next.png", previousButtonIcon: "img/timeir_prev.png"});
-							    </script>';
-						    }
-						    echo'
-						  </div>
-				      </div>
-				    </div>';
-		  	  	  	}
-		  	  	  	if ($permissions[0]['asuper_admin']==1) {
-			  	  	  echo'
-					  	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add_admin_task" aria-expanded="false" aria-controls="add_admin_task">
-					  	  '._ADD.' '._ADMIN.'
-					  	</button>
-					  	<div class="collapse" id="add_admin_task" style="direction:ltr;">
-					  	  <div class="well">
-			  	    		<div class="checkbox">';
-			  	    		$adminlist = $admin->GetList();
-			  	    		if (isset($_GET['tskid'])) {
-			  	    			$query = "WHERE tskid=$tskid";
-				  	    		$admins_task = $admins_tasks->GetList($query);
-				  	    		$adminTaskInfo2 ='';
-				  	    		foreach ($admins_task as $key => $adminTaskInfo) {
-				  	    			$adminTaskInfo2=$adminTaskInfo2.'-'.$adminTaskInfo['aids'];
-				  	    		}
-				  	    		$adminIdTask = explode('-', $adminTaskInfo2);
-			  	    			
-			  	    		}
-			  	    		else{
-			  	    			$adminIdTask = array('hello' => 0);
-			  	    		}
-			  	    		// print_r($adminIdTask);
-			  	    		foreach ($adminlist as $adminInfo) {
-			  	    			if (!in_array($adminInfo['aid'], $adminIdTask) && $adminInfo['aid']!=1) {
-			  	    	       echo'
-			  	    	      <label>
-			  	    	       <input type="checkbox" id="aid" name="aid['.$adminInfo['aid'].']">&nbsp&nbsp '.$adminInfo['ausername'].'
-			  	    	      </label> <br>';
-			  	    			}
-			  	        	}
-			  	          echo'
-			  	    		</div>
-					  	  </div>
-					  	</div>
-					  
-					  	    ';
-					}
-				  	  if (isset($_GET['tskid'])) {
-				  	  	echo'
-				  	  	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="list_admin_task('.$_GET['tskid'].')">
-				  	  	  '._LIST.' '._ADMINS.'
-				  	  	</button>
-				  	  	<div class="collapse" id="collapseExample" style="direction:ltr;">
-				  	  	  <div class="well" id="lat">
-				    	    		<script>
-				    	    	      function list_admin_task(id) {
-				    	    	        $("#lat").html(\'<img src="img/wait.gif">\');
-				    	    			var tskid= $("#tskid").val();
-				    	    	        $.ajax({
-				    	    	          url: "aj.php",
-				    	    	          type: "POST",
-				    	    	          data: {op:"list_admin_task",tskid:$("#tskid").val()},
-				    	    	          success: function(data,status) {
-				    	    	            $("#lat").html(data);
-				    	    	          },
-				    	    	          error: function() {$("#lat").html("problem in ajax")}
-				    	    	        });
-				    	    	      }
-				    	          </script>
-				  	  	  </div>
-				  	  	</div>
-				    	    <div id="dat"></div>
-				  	  <input type="hidden" value="'.$_GET['tskid'].'" id="tskid">
-				  	 		';
+					  <div class="form-group">
+					    <label for="tsktitle">'._TITLE.'<span class="required">*</span>:</label>
+					    <input type="text" class="form-control" id="tsktitle" name="tsktitle" value="'.$tsktitle.'">
+					  </div>
+					  <div class="form-group">
+					    <label for="tsktitle">'._FOR.' '._PROJECT.'<span class="required">*</span>:</label>
+					    <input type="hidden" value="'.(isset($_GET['tskid'])?$_GET['tskid']:'').'" id="tskid">
+					    <select class="form-control" name="prjid" id="prjid" onclick ="loadVQs()" onkeyup="loadVQs()">
+					    	';
+					    if ($permissions[0]['asuper_admin']==1) {
+					    	$projectlist= $project->GetList();
+					    }
+					    else{
+					    	$aid= $permissions[0]['aid'];
+					    	$query = "WHERE aids=$aid";
+					    	$projectlist = $admins_tasks->GetListPrjAdmin($query);
+					    }
+					    $prj_list = [];
+					    foreach ($projectlist as $projectInfo) {
+					    	if (!in_array($projectInfo['prjid'], $prj_list)) {
+					    		echo'<option value="'.$projectInfo['prjid'].'" '.($projectInfo['prjid']==$prjid?'selected':'').'>'.$projectInfo['prjtitle'].'</option>';
+					    		array_push($prj_list, $projectInfo['prjid']);
+					    	}
+					    }
+
+					    echo'
+					    </select>
+					  </div>
+					  ';
+					  	if ($permissions[0]['asuper_admin']==1) {
+					  	echo'
+						  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issueList" aria-expanded="false" aria-controls="issueList" onclick="loadVQs()">
+						    '._RELATED_ISSUES_LIST.'
+						  </button>
+					  		<script>
+					  	      function loadVQs() {
+					  	        $("#vqs").html(\'<img src="img/wait.gif">\');
+					  			var prjid= $("#prjid").val();
+					  			var tskid= $("#tskid").val();
+					  	        $.ajax({
+					  	          url: "aj.php",
+					  	          type: "POST",
+					  	          data: {op:"issue_prjid",prjid:$("#prjid").val(),tskid:$("#tskid").val()},
+					  	          success: function(data,status) {
+					  	            $("#vqs").html(data);
+					  	          },
+					  	          error: function() {$("#vqs").html("problem in ajax")}
+					  	        });
+					  	      }
+					        </script>
+						  <div class="collapse" id="issueList" style="direction:ltr;">
+					  		<div class="well">
+						  		<div id="vqs" style="direction:rtl; text-align:right; "></div>
+						  	</div>
+				  	  	  </div>';
 				  	  	}
-				  	  	echo'
-			  </div>
-			  <div class="col-md-8">
-				<div class="form-group">
-					<label for="tskdesc">'._DESC.':</label>
-					<textarea id="tskdesc" name="tskdesc" class="form-control editor" rows="3">'.$tskdesc.'</textarea>
+			  	  	  if (isset($_GET['tskid'])) {
+			  	  	  	echo'
+					    <div class="row">
+					      <div class="col-md-6">
+							<div class="form-group">
+					      	  <label for="tskdone">'._CONDITION.':</label>
+					      	  <div class="radio">
+						      	  <label>
+						      	    <input type="radio" name="tskdone" id="tskdone1" value="1" '.($tskdone==1?'checked':'').'>
+						      	    '._DONE.'
+						      	  </label>
+						      	  <label>
+						      	    <input type="radio" name="tskdone" id="tskdone2" value="0"'.($tskdone==0?'checked':'').'>
+						      	    '._UNDONE.'
+						      	  </label>
+						      </div>
+					      	</div>
+						  </div>
+					      <div class="col-md-6">
+							  <div class="form-group">
+							    <label for="tskdone_date">'._COMPLETION_DATE.':</label>
+							    <input id="tskdone_date" type="'.($language=='farsi'?'text':'date').'" class="form-control input" name="tskdone_date" value="'.($tskdone_date==0?'':($language=='farsi'?G2JD($tskdone_date):$tskdone_date)).'">';
+							    if ($language == 'farsi') {
+							    	echo'
+								    <script type="text/javascript">
+								    	kamaDatepicker(\'tskdone_date\', { buttonsColor: "red",markToday: "true" , highlightSelectedDay: "true" , gotoToday: "true", nextButtonIcon: "img/timeir_next.png", previousButtonIcon: "img/timeir_prev.png"});
+								    </script>';
+							    }
+							    echo'
+							  </div>
+					      </div>
+					    </div>';
+			  	  	  	}
+			  	  	  	if ($permissions[0]['asuper_admin']==1) {
+				  	  	  echo'
+						  	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add_admin_task" aria-expanded="false" aria-controls="add_admin_task">
+						  	  '._ADD.' '._ADMIN.'
+						  	</button>
+						  	<div class="collapse" id="add_admin_task" style="direction:ltr;">
+						  	  <div class="well">
+				  	    		<div class="checkbox">';
+				  	    		$adminlist = $admin->GetList();
+				  	    		if (isset($_GET['tskid'])) {
+				  	    			$query = "WHERE tskid=$tskid";
+					  	    		$admins_task = $admins_tasks->GetList($query);
+					  	    		$adminTaskInfo2 ='';
+					  	    		foreach ($admins_task as $key => $adminTaskInfo) {
+					  	    			$adminTaskInfo2=$adminTaskInfo2.'-'.$adminTaskInfo['aids'];
+					  	    		}
+					  	    		$adminIdTask = explode('-', $adminTaskInfo2);
+				  	    			
+				  	    		}
+				  	    		else{
+				  	    			$adminIdTask = array('hello' => 0);
+				  	    		}
+				  	    		// print_r($adminIdTask);
+				  	    		foreach ($adminlist as $adminInfo) {
+				  	    			if (!in_array($adminInfo['aid'], $adminIdTask) && $adminInfo['aid']!=1) {
+				  	    	       echo'
+				  	    	      <label>
+				  	    	       <input type="checkbox" id="aid" name="aid['.$adminInfo['aid'].']">&nbsp&nbsp '.$adminInfo['ausername'].'
+				  	    	      </label> <br>';
+				  	    			}
+				  	        	}
+				  	          echo'
+				  	    		</div>
+						  	  </div>
+						  	</div>
+						  
+						  	    ';
+						}
+					  	  if (isset($_GET['tskid'])) {
+					  	  	echo'
+					  	  	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="list_admin_task('.$_GET['tskid'].')">
+					  	  	  '._LIST.' '._ADMINS.'
+					  	  	</button>
+					  	  	<div class="collapse" id="collapseExample" style="direction:ltr;">
+					  	  	  <div class="well" id="lat">
+					    	    		<script>
+					    	    	      function list_admin_task(id) {
+					    	    	        $("#lat").html(\'<img src="img/wait.gif">\');
+					    	    			var tskid= $("#tskid").val();
+					    	    	        $.ajax({
+					    	    	          url: "aj.php",
+					    	    	          type: "POST",
+					    	    	          data: {op:"list_admin_task",tskid:$("#tskid").val()},
+					    	    	          success: function(data,status) {
+					    	    	            $("#lat").html(data);
+					    	    	          },
+					    	    	          error: function() {$("#lat").html("problem in ajax")}
+					    	    	        });
+					    	    	      }
+					    	          </script>
+					  	  	  </div>
+					  	  	</div>
+					    	    <div id="dat"></div>
+					  	  <input type="hidden" value="'.$_GET['tskid'].'" id="tskid">
+					  	 		';
+					  	  	}
+					  	  	echo'
+				  </div>
+				  <div class="col-md-4">
+					<div class="form-group">
+						<label for="tskdesc">'._DESC.':</label>
+						<textarea id="tskdesc" name="tskdesc" class="form-control editor" rows="3">'.$tskdesc.'</textarea>
+					</div>
+				  </div>
+				  <div class="col-md-4">
+				  	<div class="dropdown">
+					  	<a class="btn btn-light btn-proj-black m-1 dropdown-toggle" href="./" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					  	  <i class="fal fa-user align-middle"></i> کاربران
+					  	</a>
+				  		<div class="dropdown-menu p-2" aria-labelledby="dropdownMenuLink">
+				  		  <p class="text-center">مدیران</p>
+				  		  <div id="popover-content-test" class="hide">
+				  		    HEY THERE NEIGHBOR. <br />Scroll Page for placement change
+				  		    <ul class="px-0">
+				  		      <li class="dropdown-item">one</li>
+				  		      <li class="dropdown-item">two</li>
+				  		      <li class="dropdown-item">three</li>
+				  		    </ul>
+				  		  </div>
+				  	</div>
+				  	<button type="button" id="popover-btn" class="btn btn-lg btn-danger">Click to toggle popover</button>
+				  </div>
 				</div>
-		  		<ul class="list-inline">
+				<ul class="list-inline">
 		  			<li class="left_list">';
 	    			UpdateForm('edit');
 					echo'
@@ -765,9 +779,8 @@ switch ($op) {
 		  			}
 		  			echo'
 		  		</ul>
-			  </div>
-			</div>
 			</form>
+		</div>
 		';
 		break;
 	

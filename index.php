@@ -22,6 +22,11 @@ if (isset($_POST['add'])) {
 	}
 }
 echo'
+<style type="text/css">
+	.navbar {
+		background-color: #007bff !important;
+	}
+</style>
 <div class="col-sm-12 col-md-12 jumbotron" id="content">
   <h2>'._DASHBOARD.'</h2>
   <div class="row">';
