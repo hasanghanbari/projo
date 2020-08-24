@@ -1,31 +1,13 @@
 $(document).ready(function() {
     $('.editor').richText();
+    $('madal .editor').richText();
 });
 
-    $(document).ready(function () {
-      var popoverContent = '<div> \
-                                    <select class="form-control mb-1"> \
-                                        <option value="eq">Is equal to</option>  \
-                                        <option value="ct">Contains</option> \
-                                    </select> \
-                                    <input type="text" class="form-control"> \
-                                </div>';
-    
-      $('#exampleModalLong').on('shown.bs.modal', function (e) {
-        var popover = $('#popover-btn').popover({
-          title: '',
-          placement: 'bottom',
-          html: true,
-          content: popoverContent,
-          trigger: 'manual'
-        });
-      });
-    
-      $('#popover-btn').click(function () {
-        $(this).popover('show');
-      });
-    
-    });
+// In your Javascript (external .js resource or <script> tag)
+$(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+});
+
 /*
 * * Function that gets the data of the profile in case 
 * thar it has already saved in localstorage. Only the 
@@ -188,9 +170,12 @@ function editTask(id) {
   $.ajax({
     url: "aj.php",
     type: "POST",
-    data: {op:"edit_task", tskid: id},
+    data: {op:"edit_task_form", tskid: id},
     success: function(data,status) {
       $("#show-resault-edit_task").html(data);
+      $(".js-example-basic-multiple-user").select2({
+        placeholder: 'انتخاب مدیرانی که دسترسی دارند'
+      });
     },
     error: function() {$("#show-resault-edit_task").html("problem in ajax")}
   });
@@ -201,9 +186,165 @@ function openAddProject() {
 function activeColor(id) {
   const color = $("#bg_color_project" + id).val();
   $(".box-color i").hide();
-  $("#check_bg_color_project" + id).show();
+  $("#check_bg_color_project_add_" + id).show();
   $(".example-new-card").css('background-color', '#' + color);
   
+}
+function activeColorMini(id) {
+  const color = $("#bg_color_project_mini_" + id).val();
+  $(".box-color i").hide();
+  $("#check_bg_color_project_add_" + id).show();
+  $(".example-new-card").css('background-color', '#' + color);
+  
+}
+
+$("form#edit_project").submit(function(e) {
+  e.preventDefault();    
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: "aj.php",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+          $("#show-resault-add_project").html(data);
+          $("#myModal2").modal('hide');
+          window.location = "tasks.php?op=chart&prjid="+ $("#prjid").val();
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
+
+$("form#project").submit(function(e) {
+    e.preventDefault();    
+    var formData = new FormData(this);
+
+    $.ajax({
+        url: "aj.php",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+          $("#show-resault-add_project").html(data);
+          $("#show_add_project").modal('hide');
+          window.location = "index.php";
+          // alert(data)
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
+
+function editIssue() {
+  $("#resault-edit_issue").html('<img src="img/wait.gif">');
+
+  var x = $("form#edit_issue").serializeArray(); 
+  $.each(x, function(i, field) { 
+      $("#output").append(field.name + ":" 
+              + field.value + " "); 
+  }); 
+  console.log($("#output"));
+  $.ajax({
+      url: "aj.php",
+      type: "POST",
+      data: {op: "edit_issue_form"},
+      success: function (data) {
+        $("#resault-edit_issue").html(data);
+        // $("#show_add_project").modal('hide');
+        // window.location = "index.php";
+        // alert(data)
+      },
+      cache: false,
+      contentType: false,
+      processData: false
+  });
+}
+$(".modal form#edit_issue").submit(function(e) {
+  console.log('ok');
+    // e.preventDefault();    
+    // var formData = new FormData(this);
+
+    // $.ajax({
+    //     url: "aj.php",
+    //     type: 'POST',
+    //     data: formData,
+    //     success: function (data) {
+    //       $("#show-resault-add_project").html(data);
+    //       $("#show_add_project").modal('hide');
+    //       window.location = "index.php";
+    //       // alert(data)
+    //     },
+    //     cache: false,
+    //     contentType: false,
+    //     processData: false
+    // });
+});
+
+function editTaskForm(tskid, aid) {
+    $("#resault-edit_task").html('<img src="img/wait.gif">');
+    console.log($("input[name='tskdone']:checked").val());
+    $.ajax({
+      url: "aj.php",
+      type: "POST",
+      data: {op:"edit_task", 
+              tskid         : tskid, 
+              tsktitle      : $("#tsktitle").val(),
+              tskdesc       : $("#tskdesc").val(),
+              tskdone       : $("input[name='tskdone']:checked").val(),
+              tskdone_date  : $("#tskdone_date").val(),
+              admins        : $("#admins").val(),
+              prjid         : $("#prjid").val(),
+              admin_id      : aid
+            },
+      success: function(data,status) {
+        $("#resault-edit_task").html(data);
+        $("#show_edit_task").modal();
+        location.reload();
+        // $("#show_chart_issue").modal('hide');
+      },
+      error: function() {$("#resault-edit_task").html("problem in ajax")}
+    });
+};
+
+function showUsers(tskid) {
+  // console.log($(".popover.fade.bs-popover-bottom.show"));
+  // if ($(".popover.fade.bs-popover-bottom.show").length > 0)
+  // {
+  //      $("#popover-show-user").popover('hide');
+  // }
+  // else {
+    $.ajax({
+          url: "aj.php",
+          type: 'POST',
+          data: {op:"show_user_task", task_id: tskid},
+          dataType: 'html',
+          success: function(answer) {
+              $("#popover-show-user").popover({
+                  container: 'body',
+                  html: true,
+                  content: answer
+              });
+              // $("#popover-show-user").popover('show')
+          },
+      })    
+  }
+// }
+
+function setAdmin(userId, tskid) {
+  $.ajax({
+        url: "aj.php",
+        type: 'POST',
+        data: {op:"set_admin_task", taskid: tskid, admin_id: userId},
+        success: function(data) {
+            $("#show-resault-set_admin").html(data);
+        },
+    })  
+}
+
+function hideShowUser() {
+  $("#popover-show-user").popover('hide')
 }
 function activeColorProject(id) {
   const color = $("#bg_color_project" + id).val();

@@ -30,6 +30,7 @@ echo'
             <i class="fal fa-info-circle align-middle"></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+            '.($permissions[0]['asuper_admin'] == 1 ? '<a class="dropdown-item" href="admins.php?op=list">'._LIST.' '._ADMINS.'</a>' : '').'
             '.($permissions[0]['asuper_admin'] == 1 ? '<a class="dropdown-item" href="settings.php?op=settings">'._SETTING.' '._SISTEM.'</a>' : '').'
             <a class="dropdown-item" href="settings.php?op=about">'._ABOUT_ME.'</a>
           </div>
@@ -40,7 +41,6 @@ echo'
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             '.($permissions[0]['allow_add_project'] == 1 ? '<a class="dropdown-item" href="javascript: openAddProject()">'._ADD.' '._PROJECT.'</a>' :'').'
-            '.($permissions[0]['allow_add_task'] == 1 ? '<a class="dropdown-item" href="tasks.php?op=add">'._ADD.' '._TASK.'</a>' : '').'
             <div class="dropdown-divider"></div>
             '.($permissions[0]['asuper_admin'] == 1 ? '<a class="dropdown-item" href="admins.php?op=add">'._ADD.' '._ADMIN.'</a>' : '').'
           </div>

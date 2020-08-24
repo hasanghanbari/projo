@@ -23,7 +23,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 				// if($admin->AdminPermission($cookie_admin[0],"asuper_admin"))
 				// {
 
-					$tskcode = $_POST['tskcode'];
+					$tskcode = '';
 					$tsktitle = $_POST['tsktitle'];
 					$tskdesc = $_POST['tskdesc'];
 					$tskdone = (isset($_POST['tskdone'])?$_POST['tskdone']:0);
@@ -79,7 +79,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					// $cookie_admin= explode(':', $_COOKIE['linka_admin']);
 					// if($admin->AdminPermission($cookie_admin[0],"asuper_admin"))
 					// {	
-					$tskcode = $_POST['tskcode'];
+					$tskcode = '';
 					$tsktitle = $_POST['tsktitle'];
 					$tskdesc = $_POST['tskdesc'];
 					$tskdone = $_POST['tskdone'];
@@ -585,6 +585,10 @@ $admins_tasks = new ManageAdmins_Tasks();
 				}
 			break;
 	case 'chart':
+		echo '
+			<link href="vendor/select2/select2.min.css" rel="stylesheet">
+			<script src="vendor/select2/select2.min.js"></script>
+		';
 		require_once 'menu.php';
 		echo '
 			<div class="col-sm-12 col-md-12" id="content">';
@@ -631,10 +635,12 @@ $admins_tasks = new ManageAdmins_Tasks();
 				$num_of_pages= intval($num_of_records/$page_limit);
 				$num_of_pages= ($num_of_records%$page_limit==0?$num_of_pages:$num_of_pages+1);
 				if (isset($_GET['prjid'])) {
-					$prjid = '&prjid='.$_GET['prjid'];
-					$prjid2 = $_GET['prjid'];
-					$project_info = $project->GetProjectInfoById($prjid2);
-					$project_title = $project_info[2];
+					$prjid 			= '&prjid='.$_GET['prjid'];
+					$prjid2 		= $_GET['prjid'];
+					$project_info 	= $project->GetProjectInfoById($prjid2);
+					$project_logo 	= $project_info['prjlogo'];
+					$bg_color 		= $project_info['bg_color'];
+					$project_title 	= $project_info[2];
 					echo '
 						<style type="text/css">
 							#wrapper {
@@ -647,11 +653,18 @@ $admins_tasks = new ManageAdmins_Tasks();
 				else{
 					$prjid = '';
 					$project_title = '';
+					$project_logo = '';
 				}
+
+				if(file_exists('img/project/'.$pic_prefix.$project_logo.''))
+					$prjlogo = 'img/project/'.$pic_prefix.$project_logo.'';
+				else
+					$prjlogo = 'img/proja.png';
 				echo'
 				<div class="row" id="task">
 				  <div class="col-md-4">
 					  <p class="lead project-name">
+					  	<img src="'.$prjlogo.'">
 					  	'.$project_title.'
 					  </p>
 				  </div>
@@ -719,25 +732,12 @@ $admins_tasks = new ManageAdmins_Tasks();
 						    	           		<i class="fal fa-ellipsis-h align-middle font-weight-normal" aria-hidden="true"></i>
 						    	           </a>
 						    	           <div class="dropdown-menu" aria-labelledby="menu-item">
-						    	           ';
-								  			if ($permissions[0]['allow_edit_task']==1) {
-								  				echo'
-						    	             <a class="dropdown-item" href="?op=add&tskid='.$taskInfo['tskid'].'">'._EDIT.'</a>';
-								  			}
-								  			if ($permissions[0]['allow_delete_task']==1) {
-								  			echo'
-						    	             <a class="dropdown-item" onclick="return Sure();" href="javascript: deleteTask('.$taskInfo['tskid'].')" style="color: red;">'._DELETE.'</a>';
-								  			}
-								  			echo'
-						    	             <a class="dropdown-item" href="issues.php?op=chart&tskid='.$taskInfo['tskid'].'">'._ISSUES.' '._THIS.' '._TASK.'</a>';
-								  			echo'
-								  			<a class="dropdown-item" href="javascript:print_task('.$taskInfo['tskid'].')">'._PRINT.'</a>
-						    	           ';
-								  			if ($permissions[0]['allow_edit_task']==1) {
-								  				echo'
-						    	             <a class="dropdown-item" href="?op=add&tskid='.$taskInfo['tskid'].'">'._END.'</a>';
-								  			}
-								  			echo'
+								  				<a class="dropdown-item" href="javascript:print_task('.$taskInfo['tskid'].')">'._PRINT.'</a>';
+									  			if ($permissions[0]['allow_delete_task']==1) {
+									  			echo'
+						    	             	<a class="dropdown-item" onclick="return Sure();" href="javascript: deleteTask('.$taskInfo['tskid'].')" style="color: red;">'._DELETE.'</a>';
+									  			}
+									  		echo'
 						    	           </div>
 							    	        <script type="text/javascript">
 		 										function print_task(id){
@@ -767,7 +767,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 		 												<input type="hidden" class="form-control" name="tskid" id="tskid" value="">
 		 										      </div>
 		 										      <div class="modal-footer">
-		 										        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+		 										        <button type="button" class="btn btn-light" data-dismiss="modal">بستن</button>
 		 										        <button type="submit" class="btn btn-primary">'._PRINT.'</button>
 		 										      </div>
 		 										    </div><!-- /.modal-content -->
@@ -776,7 +776,9 @@ $admins_tasks = new ManageAdmins_Tasks();
 		 									</div><!-- /.modal -->
 						    	        </div>
 						    	        <span style="">
-									        <a href="javascript: editTask('.$taskInfo['tskid'].')" class="font-weight-bold text-decoration-none">
+									        <a 
+									        	href="javascript: '.($permissions[0]['allow_edit_task'] == 1 ? 'editTask('.$taskInfo['tskid'].')' : '').'" 
+									        	class="font-weight-bold text-decoration-none">
 									        	'.$taskInfo['tsktitle'].' 
 									        	'.($taskInfo['tskdone']==1?'('._DONE.')':'').'
 									        </a>
@@ -923,7 +925,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 			</div>
 
 			<!-- Modal show task -->
-			<div class="modal fade bd-example-modal-lg" id="show_edit_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal fade bd-example-modal-lg" id="show_edit_task" role="dialog" aria-labelledby="myModalLabel">
 			  <div class="modal-dialog modal-lg" role="document">
 			    <div class="modal-content">
 			       	<div class="modal-body" id="show-resault-edit_task">
@@ -946,104 +948,110 @@ $admins_tasks = new ManageAdmins_Tasks();
 						</div>
 
 						<div class="modal-body">
-							 <div class="form-group">
-							    <input type="text" class="form-control" id="prjtitle" name="prjtitle" value="'.$project_info['prjtitle'].'">
-							  </div>
-						  	<div class="form-group logo">
-						  		<label for="prjlogo">'._LOGO.':</label>';	
-						  		if(isset($_REQUEST['prjid']))
-						  		{
-						  			if(file_exists('img/project/'.$pic_prefix.$project_info['prjlogo'].''))
-						  			{
-						  				echo '
-						  				<img src="img/project/'.$pic_prefix.$project_info['prjlogo'].'">
-						  				<input type="checkbox" name="delpic" value="yes" id="delpic"><label for="delpic"> '._DELETE_IMAGE.'</label>
-						  				';
-						  			}
-						  			else
-						  				echo '<img src="img/proja.png">';
-						  		}
-						  		echo '
-						  		<input type="file" id="prjlogo" name="prjlogo" value="'.$project_info['prjlogo'].'" style="direction: ltr;">
-						  	</div>
-						  	<div class="form-group">
-						  		<label for="prjlogo">پسزمینه:</label>
-		  		       				<div class="form-group form-check bg-color-project">
-		  		       					<span>
-		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project1" value="fd7e14" checked>
-		  		       						<label class="form-check-label" for="bg_color_project1" onclick="activeColorProject(1)">
-		  		       							<span class="box-color" style="background-color: #fd7e14">
-		  		       								<i class="fal fa-check" id="check_bg_color_project1" style="display: block"></i>
-		  		       							</span>
-		  		       						</label>
-		  		       					</span>
-		  		       					<span>
-		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project2" value="007bff">
-		  		       						<label class="form-check-label" for="bg_color_project2" onclick="activeColorProject(2)">
-		  		       							<span class="box-color" style="background-color: #007bff">
-		  		       								<i class="fal fa-check" id="check_bg_color_project2"></i>
-		  		       							</span>
-		  		       						</label>
-		  		       					</span>
-		  		       					<span>
-		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project3" value="6f42c1">
-		  		       						<label class="form-check-label" for="bg_color_project3" onclick="activeColorProject(3)">
-		  		       							<span class="box-color" style="background-color: #6f42c1">
-		  		       								<i class="fal fa-check" id="check_bg_color_project3"></i>
-		  		       							</span>
-		  		       						</label>
-		  		       					</span>
-		  		       					<span>
-		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project4" value="dc3545">
-		  		       						<label class="form-check-label" for="bg_color_project4" onclick="activeColorProject(4)">
-		  		       							<span class="box-color" style="background-color: #dc3545">
-		  		       								<i class="fal fa-check" id="check_bg_color_project4"></i>
-		  		       							</span>
-		  		       						</label>
-		  		       					</span>
-		  		       					<span>
-		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project5" value="ffc107">
-		  		       						<label class="form-check-label" for="bg_color_project5" onclick="activeColorProject(5)">
-		  		       							<span class="box-color" style="background-color: #ffc107">
-		  		       								<i class="fal fa-check" id="check_bg_color_project5"></i>
-		  		       							</span>
-		  		       						</label>
-		  		       					</span>
-		  		       					<span>
-		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project6" value="28a745">
-		  		       						<label class="form-check-label" for="bg_color_project6" onclick="activeColorProject(6)">
-		  		       							<span class="box-color" style="background-color: #28a745">
-		  		       								<i class="fal fa-check" id="check_bg_color_project6"></i>
-		  		       							</span>
-		  		       						</label>
-		  		       					</span>
-		  		       					<span>
-		  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project7" value="17a2b8">
-		  		       						<label class="form-check-label" for="bg_color_project7" onclick="activeColorProject(7)">
-		  		       							<span class="box-color" style="background-color: #17a2b8">
-		  		       								<i class="fal fa-check" id="check_bg_color_project7"></i>
-		  		       							</span>
-		  		       						</label>
-		  		       					</span>
-		  		       					<span>
-			  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project8" value="20c997">
-			  		       						<label class="form-check-label" for="bg_color_project8" onclick="activeColorProject(8)">
-			  		       							<span class="box-color" style="background-color: #20c997">
-			  		       								<i class="fal fa-check" id="check_bg_color_project8"></i>
+							<form id="edit_project" method="post" enctype="multipart/form-data">
+								<input type="hidden" id="op" name="op" value="edit_project">
+								<input type="hidden" id="prjid" name="prjid" value="'.$_GET['prjid'].'">
+								<div class="form-group">
+								    <input type="text" class="form-control" id="prjtitle" name="prjtitle" value="'.$project_info['prjtitle'].'">
+								  </div>
+							  	<div class="form-group logo">
+							  		<label for="prjlogo">'._LOGO.':</label>';	
+							  		if(isset($_REQUEST['prjid']))
+							  		{
+							  			if(file_exists('img/project/'.$pic_prefix.$project_info['prjlogo'].''))
+							  			{
+							  				echo '
+							  				<img src="img/project/'.$pic_prefix.$project_info['prjlogo'].'">
+							  				<input type="checkbox" name="delpic" value="yes" id="delpic"><label for="delpic"> '._DELETE_IMAGE.'</label>
+							  				';
+							  			}
+							  			else
+							  				echo '<img src="img/proja.png">';
+							  		}
+							  		echo '
+							  		<input type="file" id="prjlogo" name="prjlogo" value="'.$project_info['prjlogo'].'" style="direction: ltr;">
+							  		<input type="hidden" name="prjlogo_temp" value="'.$project_info['prjlogo'].'">
+							  	</div>
+							  	<div class="form-group">
+							  		<label for="prjlogo">پس زمینه:</label>
+			  		       				<div class="form-group form-check bg-color-project">
+			  		       					<span>
+			  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project1" value="fd7e14" '.($bg_color == '#fd7e14' ?  'checked' : '').' checked>
+			  		       						<label class="form-check-label" for="bg_color_project1" onclick="activeColorProject(1)">
+			  		       							<span class="box-color" style="background-color: #fd7e14">
+			  		       								<i class="fal fa-check" id="check_bg_color_project1" style="'.($bg_color == '#fd7e14' ? 'display: block' : '').'"></i>
 			  		       							</span>
 			  		       						</label>
 			  		       					</span>
-			  			   				</div>
-							  	</div>
+			  		       					<span>
+			  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project2" value="007bff" '.($bg_color == '#007bff' ?  'checked' : '').'>
+			  		       						<label class="form-check-label" for="bg_color_project2" onclick="activeColorProject(2)">
+			  		       							<span class="box-color" style="background-color: #007bff">
+			  		       								<i class="fal fa-check" id="check_bg_color_project2" style="'.($bg_color == '#007bff' ? 'display: block' : '').'"></i>
+			  		       							</span>
+			  		       						</label>
+			  		       					</span>
+			  		       					<span>
+			  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project3" value="6f42c1" '.($bg_color == '#6f42c1' ?  'checked' : '').'>
+			  		       						<label class="form-check-label" for="bg_color_project3" onclick="activeColorProject(3)">
+			  		       							<span class="box-color" style="background-color: #6f42c1">
+			  		       								<i class="fal fa-check" id="check_bg_color_project3" style="'.($bg_color == '#6f42c1' ? 'display: block' : '').'"></i>
+			  		       							</span>
+			  		       						</label>
+			  		       					</span>
+			  		       					<span>
+			  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project4" value="dc3545" '.($bg_color == '#dc3545' ?  'checked' : '').'>
+			  		       						<label class="form-check-label" for="bg_color_project4" onclick="activeColorProject(4)">
+			  		       							<span class="box-color" style="background-color: #dc3545">
+			  		       								<i class="fal fa-check" id="check_bg_color_project4" style="'.($bg_color == '#dc3545' ? 'display: block' : '').'"></i>
+			  		       							</span>
+			  		       						</label>
+			  		       					</span>
+			  		       					<span>
+			  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project5" value="ffc107" '.($bg_color == '#ffc107' ?  'checked' : '').'>
+			  		       						<label class="form-check-label" for="bg_color_project5" onclick="activeColorProject(5)">
+			  		       							<span class="box-color" style="background-color: #ffc107">
+			  		       								<i class="fal fa-check" id="check_bg_color_project5" style="'.($bg_color == '#ffc107' ? 'display: block' : '').'"></i>
+			  		       							</span>
+			  		       						</label>
+			  		       					</span>
+			  		       					<span>
+			  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project6" value="28a745" '.($bg_color == '#28a745' ?  'checked' : '').'>
+			  		       						<label class="form-check-label" for="bg_color_project6" onclick="activeColorProject(6)">
+			  		       							<span class="box-color" style="background-color: #28a745">
+			  		       								<i class="fal fa-check" id="check_bg_color_project6" style="'.($bg_color == '#28a745' ? 'display: block' : '').'"></i>
+			  		       							</span>
+			  		       						</label>
+			  		       					</span>
+			  		       					<span>
+			  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project7" value="17a2b8" '.($bg_color == '#17a2b8' ?  'checked' : '').'>
+			  		       						<label class="form-check-label" for="bg_color_project7" onclick="activeColorProject(7)">
+			  		       							<span class="box-color" style="background-color: #17a2b8">
+			  		       								<i class="fal fa-check" id="check_bg_color_project7" style="'.($bg_color == '#17a2b8' ? 'display: block' : '').'"></i>
+			  		       							</span>
+			  		       						</label>
+			  		       					</span>
+			  		       					<span>
+				  		       						<input type="radio" class="form-check-input" name="bg_color_project" id="bg_color_project8" value="20c997" '.($bg_color == '#20c997' ?  'checked' : '').'>
+				  		       						<label class="form-check-label" for="bg_color_project8" onclick="activeColorProject(8)">
+				  		       							<span class="box-color" style="background-color: #20c997">
+				  		       								<i class="fal fa-check" id="check_bg_color_project8" style="'.($bg_color == '#20c997' ? 'display: block' : '').'"></i>
+				  		       							</span>
+				  		       						</label>
+				  		       					</span>
+				  			   				</div>
+								  	</div>
 
-							  	<div class="form-group">
-							  	  <label for="prjdesc">'._DESC.':</label>
-							  	  <textarea class="form-control" id="prjdesc" name="prjdesc">'.$project_info['prjdesc'].'</textarea>
-							  	</div>';
-							  	UpdateForm('edit');
-							  	echo'
-							</div>
-
+								  	<div class="form-group">
+								  	  <label for="prjdesc">'._DESC.':</label>
+								  	  <textarea class="form-control" id="prjdesc" name="prjdesc">'.$project_info['prjdesc'].'</textarea>
+								  	</div>
+								  	<div id="show-resault-add_project"></div>
+								  	';
+								  	UpdateForm('edit');
+								  	echo'
+								</div>
+							</form>
 						</div><!-- modal-content -->
 					</div><!-- modal-dialog -->
 				</div><!-- modal -->

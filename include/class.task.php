@@ -66,6 +66,25 @@ class ManageTasks{
 		return $counts;
 	}
 
+	function UpdateFast($prjid, $tskid, $tsktitle, $tskdesc, $tskdone, $tskdone_date)
+	{
+		global $prefix;
+		global $dev;
+		$query = $this->link->prepare("UPDATE `tasks` SET `prjid`=?, `tsktitle`=?, `tskdesc`=?, `tskdone`=?, `tskdone_date`=? WHERE `tskid`=?");
+		$values = array($prjid, $tsktitle, $tskdesc, $tskdone, $tskdone_date, $tskid);
+		$query->execute($values);
+		$counts = $query->rowcount();
+		if ($dev==1) {
+			echo '<pre dir="ltr">';
+			print_r($query->errorInfo());
+			echo '</pre>';
+			echo '<pre dir="ltr">';
+			print_r($query->debugDumpParams());
+			echo '</pre>';
+		}
+		return $counts;
+	}
+
 	function GetList($q=NULL, $order="ORDER BY tskid DESC",$limit=NULL)
 	{
 		global $prefix;

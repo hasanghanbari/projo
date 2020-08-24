@@ -28,12 +28,50 @@ class ManageProjects{
 	}
 
 
+	function AddMini($prjtitle, $prjdesc, $prjlogo, $bg_color, $aid)
+	{
+		global $prefix;
+		global $dev;
+		$query = $this->link->prepare("INSERT INTO `projects`(prjtitle, prjdesc, prjlogo, bg_color, aid) VALUES(?,?,?,?,?)");
+		$values = array($prjtitle, $prjdesc, $prjlogo, $bg_color, $aid);
+		$query->execute($values);
+		$counts = $query->rowcount();
+		if ($dev==1) {
+			echo '<pre dir="ltr">';
+			print_r($query->errorInfo());
+			echo '</pre>';
+			echo '<pre dir="ltr">';
+			print_r($query->debugDumpParams());
+			echo '</pre>';
+		}
+		return $counts;
+	}
+
+
 	function Update($prjid, $prjcode, $prjtitle, $prjdesc, $prjlogo, $prjcomments, $aid)
 	{
 		global $prefix;
 		global $dev;
 		$query = $this->link->prepare("UPDATE `projects` SET `prjcode`=?, `prjtitle`=?, `prjdesc`=?, `prjlogo`=?, `prjcomments`=?, `aid`=? WHERE `prjid`=?");
 		$values = array($prjcode, $prjtitle, $prjdesc, $prjlogo, $prjcomments, $aid, $prjid);
+		$query->execute($values);
+		$counts = $query->rowcount();
+		if ($dev==1) {
+			echo '<pre dir="ltr">';
+			print_r($query->errorInfo());
+			echo '</pre>';
+			echo '<pre dir="ltr">';
+			print_r($query->debugDumpParams());
+			echo '</pre>';
+		}
+		return $counts;
+	}
+	function UpdateMini($prjid, $prjtitle, $prjdesc, $prjlogo, $bg_color, $aid)
+	{
+		global $prefix;
+		global $dev;
+		$query = $this->link->prepare("UPDATE `projects` SET `prjtitle`=?, `prjdesc`=?, `prjlogo`=?, `bg_color`=?, `aid`=? WHERE `prjid`=?");
+		$values = array($prjtitle, $prjdesc, $prjlogo, $bg_color, $aid, $prjid);
 		$query->execute($values);
 		$counts = $query->rowcount();
 		if ($dev==1) {

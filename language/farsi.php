@@ -15,6 +15,7 @@ define("_ARCHIVE","آرشیو");
 define("_SEARCH","<span class=\"fas fa-search\" aria-hidden=\"true\"></span>");
 define("_TOOLS","امکانات");
 define("_EDIT","ویرایش");
+define("_SHOW","نمایش");
 define("_DELETE","حذف");
 define("_UPDATE","ویرایش");
 define("_DELETE_IMAGE","حذف عکس");

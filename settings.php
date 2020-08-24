@@ -2,6 +2,13 @@
 require_once 'main.php';
 require_once 'header.php';
 require_once 'menu.php';
+echo '
+<style type="text/css">
+	.navbar {
+		background-color: #007bff !important;
+	}
+</style>
+';
 if (isset($_GET['op'])) {
 	switch ($_GET['op']) {
 		case 'settings':

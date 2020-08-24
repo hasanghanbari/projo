@@ -9,6 +9,145 @@ $task 			= new ManageTasks();
 
 $op = $_POST['op'];
 switch ($op) {
+	case 'edit_project':
+		$prjid 			= $_POST['prjid'];
+		//image admin
+		$whitelist = array("png", "jpg", "gif");
+		if (!empty($_POST['delpic'])) {
+			$delpic = $_POST['delpic'];
+		}
+		else{
+			$delpic = '';
+		}
+		if($delpic=="yes")
+		{
+			$project->DelPic($prjid);
+			$prjlogo = $prjlogo2 = '';
+		}
+		if(!empty($_FILES['prjlogo']['name']))
+		{
+			
+			if(!in_array(substr(basename($_FILES['prjlogo']['name']),-3), $whitelist))
+			{
+				Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
+			}
+			else
+			{
+				$imageinfo = getimagesize($_FILES['prjlogo']['tmp_name']);
+				if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg' && $imageinfo['mime'] != 'image/png')
+				{
+					Toast('error', 'خطا', _ADMIN_PIC_CONTENT_ERROR);
+				}
+				else
+				{
+					if($_FILES['prjlogo']['size']<(_IMAGE_SIZE*1024))
+					{
+						$uploaddir = 'img/project/';
+						$pic_name = $pic_prefix;
+						$uploadfile = $uploaddir .$pic_name.'-'.substr(time(),-7).'.'.substr(basename($_FILES['prjlogo']['name']),-3);
+						$project->DelPic($prjid);
+						if (move_uploaded_file($_FILES['prjlogo']['tmp_name'], $uploadfile))
+						{
+							$prjlogo = $prjlogo2 = '-'.substr(time(),-7).'.'.substr(basename($_FILES['prjlogo']['name']),-3);
+						}
+						else
+						{
+							Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+							$prjlogo = "";
+						}
+					}
+					else
+					{
+						$prjlogo = $prjlogo2 = $_REQUEST['prjlogo_temp'];
+						Toast('error', 'خطا', _IMAGE_SIZE_ERROR);
+					}
+				}
+			}
+			//--Upload Image
+		}
+		else
+		{
+			if(isset($_POST['delpic'])!="yes")
+				$prjlogo = $prjlogo2 = $_REQUEST['prjlogo_temp'];
+		}
+		
+		$prjtitle 		= $_POST['prjtitle'];
+		$prjdesc 		= $_POST['prjdesc'];
+		$bg_color 		= '#'.$_POST['bg_color_project'];
+		$aid 			= $permissions[0]['aid'];
+		if ($permissions[0]['allow_edit_project']==1) {
+			if($project->UpdateMini($prjid, $prjtitle, $prjdesc, $prjlogo, $bg_color, $aid)==1){
+				Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
+			}
+			else{
+				Toast('error', 'خطا', _EDITING_RECORD_FAILED.' ('._NOT_CHANGED_RECORD.')');
+			}
+		}
+		else{
+			Toast('error', 'خطا', _ACCESS_DENIED);
+		}
+		break;
+	case 'add_project':
+		if(!empty($_FILES['logo']['name']))
+		{
+			$whitelist = array("png", "jpg", "gif");
+			if(!in_array(substr(basename($_FILES['logo']['name']),-3), $whitelist))
+			{
+				Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
+			}
+			else
+			{
+				if($_FILES['logo']['size']<(_IMAGE_SIZE*1024))
+				{
+					$imageinfo = getimagesize($_FILES['logo']['tmp_name']);
+					if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg' && $imageinfo['mime'] != 'image/png')
+					{
+						Toast('error', 'خطا', _ADMIN_PIC_CONTENT_ERROR);
+					}
+					else
+					{
+						$uploaddir = 'img/project/';
+						$pic_name = $pic_prefix;
+						$uploadfile = $uploaddir.$pic_name.'-'.substr(time(),-7).'.'.substr(basename($_FILES['logo']['name']),-3);
+						if (move_uploaded_file($_FILES['logo']['tmp_name'], $uploadfile))
+						{
+							$logo = '-'.substr(time(),-7).'.'.substr(basename($_FILES['logo']['name']),-3);
+						}
+						else
+						{
+							Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+							$logo = "";
+						}
+					}
+				}
+				else
+				{
+					Toast('error', 'خطا', _IMAGE_SIZE_ERROR);
+				}
+			}
+		}
+		$title 		= $_POST['title-project'];
+		$bg_color 	= '#'.$_POST['bg_color_project'];
+		$desc 		= '';
+		$aid 		= $permissions[0]['aid'];
+		if (empty($title)) {
+			Toast('error', 'خطا', _FILL_IN_REQUIRED );
+		} 
+		else 
+		{		
+			if ($permissions[0]['allow_add_project']==1) {
+				if ($project->AddMini($title, $desc, $logo, $bg_color, $aid)==1) {
+					Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
+				}
+				else{
+					Toast('error', 'خطا', _ADDING_RECORD_FAILED);
+				}
+			}
+			else{
+				Toast('error', 'خطا', _ACCESS_DENIED);
+			}
+		}
+		break;
 	case 'add_task':
 		$task_title = $_POST['task_title'];
 		$prjid 		= $_POST['prjid'];
@@ -317,79 +456,269 @@ switch ($op) {
 					default:
 						$icomplexity="None";
 				}
+				$adminlist=$admin->GetAdminInfoById($issueInfo['aid']);
 		      echo'
 		      
 		       <div class="modal-header">
 		       	<div class="row w-100">
 		       		<div id="show-resault-done-issue" class="col-12"></div>
-		       		<div class="col-12">
-			       		<ul class="list-inline p-0 mini-show-issue">
-			    			<li class="list-inline-item w-50">
-			    				<div class="dropdown" style="float: right;">
-				    	           <a href="#" class="dropdown-toggle btn btn-light" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-				    	           		<i class="fas fa-ellipsis-v" aria-hidden="true"></i>
-				    	           	</a>
-				    	           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				    	           		<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
-					  				if ($permissions[0]['allow_edit_issues']==1) {
-						  				echo'
-				    	             	<a class="dropdown-item" href="issues.php?op=add&iid='.$issueInfo['iid'].'">'._EDIT.' '._ISSUE.'</a>';
-						  			}
-						  			if ($permissions[0]['allow_delete_issues']==1) {
-						  			echo'
-				    	             	<a class="dropdown-item" onclick="return Sure();" href="issues.php?op=delete&iid='.$issueInfo['iid'].'" style="color: red;">'._DELETE.' '._ISSUE.'</a>';
-						  			}
-						  			if ($issueInfo['idone']==0) {
-										echo '
-										<a class="dropdown-item" href="javascript:doneIssue('.$issueInfo['iid'].', '.$tskid.')">'._DONE_ISSUE.'</a>';
-									}
-									else {
-										echo '
-										<a class="dropdown-item" href="javascript:startIssue('.$issueInfo['iid'].', '.$tskid.')">'._START_ISSUE.'</a>';
-									}
-						  			echo'
-				    	           </div>
-				    	       </div>
-				    	       <input type="text" name="issue_title" class="form-control w-75 input-no-border" value="'.$issueInfo['ititle'].'">
-				    	   	</li>
-					    	<li class="list-inline-item float-left">
-					    		<div class="float-right">
-					    			<label>'._PROIRITY.'</label>: '.$iproirity.' | 
-					    			<label>'._COMPLEXITY.'</label>: '.$icomplexity.'&nbsp&nbsp
-					    		</div>
-					    		<a href="#" role="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">
-					    			<i class="fas fa-times"></i>
-					    		</a>
-					    	</li>
-				        </ul>
-				    </div>
+		       		<div class="col-6">
+						<h5>
+				    		<a href="#" role="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">
+				    			<i class="fas fa-times"></i>
+				    		</a>
+							'._EDIT.' '._ISSUE.'
+						</h5>
+					</div>
+					<div class="col-6">		
+			    		<div class="float-left">
+			    			<span>
+			    				'._PROIRITY.': '.$iproirity.' | 
+			    			</span>
+			    			<span>
+			    				'._COMPLEXITY.': '.$icomplexity.' |
+			    			</span>
+			    			<span>
+		  						'._INSERTED_BY.': '. $adminlist['ausername'].'
+			    			</span>
+			    		</div>
+					</div>
 		       	</div>
 		      </div>
-		      <div class="modal-body">
-		      
+		      <div class="modal-body">';
+  				if ($permissions[0]['allow_add_issues']==1 || $permissions[0]['allow_edit_issues']==1) {	
+  				echo'
+  					<form id="edit_issue" method="post" enctype="multipart/form-data">
+  						<div class="row">
+  						  <div class="col-md-8">
+							  <div class="form-group">
+							    <label for="ititle">'._TITLE.'<span class="required">*</span>:</label>
+							    <input type="text" class="form-control" id="ititle" name="ititle" value="'.$ititle.'">
+							  </div>
+  							  <div class="row">
+  								  <div class="col-md-6">
+  									  <div class="form-group">
+  									    <label for="iproirity">'._PROIRITY.':</label>
+  									    <select class="form-control" name="iproirity">
+  									      <option value="0" '.($iproirity==0?'selected':'').'>'._EASY.'</option>
+  									      <option value="1" '.($iproirity==1?'selected':'').'>'._NORMAL.'</option>
+  									      <option value="2" '.($iproirity==2?'selected':'').'>'._HARD.'</option>
+  									      <option value="3" '.($iproirity==3?'selected':'').'>'._VERY.' '._HARD.'</option>
+  									    </select>
+  									  </div>
+  								  </div>
+  								  <div class="col-md-6">
+  									  <div class="form-group">
+  									    <label for="icomplexity">'._COMPLEXITY.':</label>
+  									    <select class="form-control" name="icomplexity">
+  									      <option value="0" '.($icomplexity==0?'selected':'').'>None</option>
+  									      <option value="1" '.($icomplexity==1?'selected':'').'>!</option>
+  									      <option value="2" '.($icomplexity==2?'selected':'').'>!!</option>
+  									      <option value="3" '.($icomplexity==3?'selected':'').'>!!!</option>
+  									      <option value="4" '.($icomplexity==4?'selected':'').'>!!!!</option>
+  									      <option value="5" '.($icomplexity==5?'selected':'').'>!!!!!</option>
+  									    </select>
+  									  </div>
+  								  </div>
+  							  </div>
+  						    <div class="row">
+  						  	  <div class="col-md-6">
+  								  <div class="form-group">
+  								    <label for="ineeded_time">'._NEEDED_TIME.':</label>
+  								    <input type="text" class="form-control" id="ineeded_time" name="ineeded_time" value="'.$ineeded_time.'" placeholder="'._NEEDED_TIME_EXAMPLE.'">
+  								  </div>
+  							  </div>
+  						  	  <div class="col-md-6">
+  							      <div class="form-group">
+  					  	    	<label for="tyid">'._TYPE.' '._ISSUE.':</label><br>
+  						  	  	  <select class="form-control" id="tyid" name="tyid">';
+  						  	        foreach ($issue_typeslist as $issue_typesInfo) {
+  						  	         echo'<option value="'.$issue_typesInfo['tyid'].'" '.($issue_typesInfo['tyid']==$tyid?'selected':'').'>'.$issue_typesInfo['tytitle'].'</option>
+  						  	        ';
+  						  	   		}
+  						  	       echo'
+  						  	  	  </select>
+  						  	    </div>
+  							  </div>
+  							</div>
+  					  	    <div class="row">
+  							  <div class="col-md-6">
+  								   <div class="form-group">
+  								    <label for="prjid">'._FOR.' '._PROJECT.':</label>
+  								    <select class="form-control" name="prjid"'.(isset($_GET['tskid'])?'disabled':'').'>';
+  								    if ($permissions[0]['asuper_admin']==1) {
+  								    	$projectlist= $project->GetList();
+  								    }
+  								    else{
+  								    	$aid= $permissions[0]['aid'];
+  								    	$query = "WHERE aids=$aid";
+  								    	$projectlist = $admins_tasks->GetListPrjAdmin($query);
+  								    }
+  								    $prj_list = [];
+  								    foreach ($projectlist as $projectInfo) {
+  								    	if (!in_array($projectInfo['prjid'], $prj_list)) {
+  								    		echo'
+  								    		<option value="'.$projectInfo['prjid'].'" '.($projectInfo['prjid']==$prjid?'selected':'').'>'.$projectInfo['prjtitle'].'</option>
+  								    		';
+  								    		array_push($prj_list, $projectInfo['prjid']);
+  										}
+  								    }
+
+  								    echo'
+  								    </select>
+  								  </div>
+  					  	      </div>
+  							  <div class="col-md-6">
+  							    <div class="form-group">
+  							      <label for="iversion">'._PROJECT_VERSION.':</label>
+  							      <input type="text" class="form-control" id="iversion" name="iversion" value="'.$iversion.'">
+  							    </div>
+  					  	      </div>
+  							</div>
+  							<div class="form-group">
+  							  <label for="idesc">'._DESC.':</label>
+  							  <textarea class="form-control editor" rows="3" id="idesc" name="idesc">'.$idesc.'</textarea>
+  							</div>
+  						  </div>
+  						  <div class="col-md-4">
+  						  	<div class="row">
+  							  <div class="col">
+  								  <div class="form-group">
+  								    <label for="ifile1" class="btn btn-light">'._FILE1.'</label>
+  								    ';
+  	    								if(file_exists('file_issue/file1/'.$file_prefix.$ifile1.''))
+  	    								{
+  	    									echo '
+  	    									&nbsp<a href="file_issue/file1/'.$file_prefix.$ifile1.'" download="file1-'.$file_prefix.$ifile1.'">
+  	    										'._DOWNLOAD.' '._FILE1.'
+  	    									</a>
+  	    									<br>
+  	    									<input type="checkbox" name="delpic1" value="yes" id="delpic1"><label for="delpic1"> '._DELETE_FILE.'1</label>
+  	    									';
+  	    								}
+  		    							else{
+  		    								echo'
+  							    				<input type="file" style="opacity: 0" id="ifile1" name="ifile1">
+  		    								';
+  		    							}
+  								echo '
+  									<br>
+  								    <input type="hidden" name="ifile1_temp" value="'.$ifile12.'">
+  								  </div>
+  						  	  </div>
+  							  <div class="col">
+  								  <div class="form-group">
+  								    <label for="ifile2" class="btn btn-light">'._FILE2.'</label>
+  								    ';
+    								if(file_exists('file_issue/file2/'.$file_prefix.$ifile2.''))
+    								{
+    									echo '
+    									&nbsp<a href="file_issue/file2/'.$file_prefix.$ifile2.'" download="file2-'.$file_prefix.$ifile2.'">
+    										'._DOWNLOAD.' '._FILE2.'
+    									</a>
+    									<br>
+    									<input type="checkbox" name="delpic2" value="yes" id="delpic2"><label for="delpic2"> '._DELETE_FILE.'2</label>
+    									';
+    								}
+	    							else{
+	    								echo'
+							    			<input type="file" style="opacity: 0" id="ifile2" name="ifile2">
+										';
+									}
+  									echo '
+  									<br>
+  								    <input type="hidden" name="ifile2_temp" value="'.$ifile22.'">
+  								  </div>
+  						  	  </div>
+  						  	  <div class="col">
+				  	  			<div class="form-group">
+				  	  			  <label for="ifile3" class="btn btn-light">'._FILE3.'</label>
+				  	  		    ';
+				  	  				if(file_exists('file_issue/file3/'.$file_prefix.$ifile3.''))
+				  	  				{
+				  	  					echo '
+				  	  					&nbsp<a href="file_issue/file3/'.$file_prefix.$ifile3.'" download="file3'.$file_prefix.$ifile3.'">
+				  	  						'._DOWNLOAD.' '._FILE3.'
+				  	  					</a>
+				  	  					<br>
+				  	  					<input type="checkbox" name="delpic3" value="yes" id="delpic3"><label for="delpic3"> '._DELETE_FILE.'3</label>
+				  	  					';
+				  	  				}
+				  	  				else{
+				  	  					echo'
+				  	  	    	  			<input type="file" style="opacity: 0" id="ifile3" name="ifile3">
+				  	  					';
+				  	  				}
+				  	  			echo '
+				  	  			  <br>
+				  	  			  <input type="hidden" name="ifile3_temp" value="'.$ifile32.'">
+				  	  			</div>
+  						  	  </div>
+  							</div>
+  							<div class="form-group">
+  							  <label for="iwho_fullname">'._NAME_OF_PROPOSER.':</label>
+  							  <input type="text" class="form-control" id="iwho_fullname" name="iwho_fullname" value="'.$iwho_fullname.'">
+  							</div>
+  							<div class="form-group">
+  							  <label for="iwho_email">'._EMAIL_OF_PROPOSER.':</label>
+  							  <input type="text" class="form-control" id="iwho_email" name="iwho_email" style="direction:ltr;" value="'.$iwho_email.'">
+  							</div>
+  							<div class="form-group">
+  							  <label for="iwho_tel">'._PHONE_NUMBER_OF_PROPOSER.':</label>
+  							  <input type="text" class="form-control" id="iwho_tel" name="iwho_tel" style="direction:ltr;" value="'.$iwho_tel.'">
+  							</div>
+  							<div class="checkbox">
+  							    <label>
+  							      <input type="checkbox" id="iarchive" name="iarchive" '.($iarchive==1?'checked':'').'> '._ARCHIVE.'
+  							    </label>
+  							 </div>
+  							 <label for="idone">'._CONDITION.':</label>
+  							 <div class="radio">
+  							   <label>
+  							     <input type="radio" name="idone" id="idone1" value="1" '.($idone==1?'checked':'').'>
+  							     '._DONE.'
+  							   </label>
+  							   <label>
+  							     <input type="radio" name="idone" id="idone2" value="0"'.($idone==0?'checked':'').'>
+  							     '._UNDONE.'
+  							   </label>
+  							 </div>
+  							 <div class="row">
+  							 	<div class="col-md-6">
+  								 <div class="form-group">
+  								  <label for="idone_date">'._COMPLETION_DATE_ISSUE.':</label>
+  								  <input type="'.($language=='farsi'?'text':'date').'" class="form-control" id="idone_date" name="idone_date" style="direction:ltr;" value="'.($idone_date==0?'':$idone_date).'">';
+  								  if ($language=='farsi') {
+  								  	echo'
+  									  <script type="text/javascript">
+  								        kamaDatepicker(\'idone_date\', { buttonsColor: "red",markToday: "true", highlightSelectedDay: "true" , gotoToday: "true", nextButtonIcon: "img/timeir_next.png", previousButtonIcon: "img/timeir_prev.png"});
+  									  </script>
+  								  	';
+  								  }
+  								  echo'
+  								 </div>
+  							 	</div>
+  							 	<div class="col-md-6">
+  								 <div class="form-group">
+  								  <label for="idone_version">'._DONE_VERSION.':</label>
+  								  <input type="text" class="form-control" id="idone_version" name="idone_version" style="direction:ltr;" value="'.$idone_version.'">
+  								</div>
+  							 	</div>
+  							 </div>
+  						  </div>
+  						</div>
+  						<input type="text" name="op" id="op" value="edit_issue_form">
+  					</form>
+  					<div id="resault-edit_issue"></div>
+  					<button class="btn btn-warning" onclick="editIssue()">ویرایش</button>';
+  				}
+  				else{
+  					Failure(_ACCESS_DENIED);
+  				}
+  				echo'
 		      	<div class="row">
 				  <div class="col-md-4">
-					  <div class="form-group">
-					    <label for="icode">'._CODE.':</label>&nbsp
-					    '.$icode.'
-					  </div>
-					  <div class="form-group">
-					    <label for="ititle">'._TITLE.':</label>&nbsp
-					    '.$ititle.'
-					  </div>
-					  <div class="form-group">
-					    <label for="ineeded_time">'._NEEDED_TIME.':</label>&nbsp
-					    '.$ineeded_time.'
-					  </div>
-			  	    <div class="form-group">
-			  	    	<label for="tyid">'._TYPE.' '._ISSUE.':</label>&nbsp';
-			  	      foreach ($issue_typeslist as $issue_typesInfo) {
-			  	      	if ($issue_typesInfo['tyid']==$tyid) {
-			  	         echo $issue_typesInfo['tytitle'];
-			  	      	}
-			  	   	  }
-			  	     echo'
-			  	    </div>
+					  
 			  	    <div class="form-group">';
 			  	      if(file_exists('file_issue/file1/'.$pic_prefix.$ifile1.''))
 			  	      {
@@ -426,69 +755,12 @@ switch ($op) {
 			  	      }
 			  	      echo'
 			  	    </div>
-			  	    <div class="form-group">
-			  	      <label for="prjid">'._FOR.' '._PROJECT.':</label>&nbsp';
-			  	      $projectlist = $project->getlist();
-			  	      foreach ($projectlist as $projectInfo) {
-			  	      	if ($projectInfo['prjid']==$prjid) {
-			  	      		echo $projectInfo['prjtitle'];
-			  	      	}
-			  	      }
-			  	      echo'
-			  	    </div>  
-					<div class="form-group">
-						<label for="iversion">'._PRIJECT_VERSION.':</label>&nbsp
-					'.$iversion.'
-					</div>
-				  </div>
-				  <div class="col-md-4">
-					  <div class="form-group">
-					    <label for="idesc">'._DESC.': </label>&nbsp
-					    '.$idesc.'
-					  </div>
-				  </div>
-				  <div class="col-md-4">
-				  	<div class="form-group">
-				  	  <label for="iwho_fullname">'._NAME_OF_PROPOSER.':</label>&nbsp
-				  	  '.$iwho_fullname.'
-				  	</div>
-				  	<div class="form-group">
-				  	  <label for="iwho_email">'._EMAIL_OF_PROPOSER.':</label>&nbsp
-				  	  '.$iwho_email.'
-				  	</div>
-				  	<div class="form-group">
-				  	  <label for="iwho_tel">'._PHONE_NUMBER_OF_PROPOSER.':</label>&nbsp
-				  	  '.$iwho_tel.'
-				  	</div>
-				  	<div class="form-group">
-				  	  	<label for="idone">'._CONDITION.':</label>&nbsp
-				  	      '.($idone==1?''._DONE.'':''._UNDONE.'').'
-				  	 </div>
-				  	 <div class="form-group">
-				  	  <label for="idone_date">'._COMPLETION_DATE_ISSUE.':</label>&nbsp
-				  	 '.($idone_date!=0?$idone_date:_UNDONE).'
-				  	 </div>
-				  	 <div class="form-group">
-				  	  <label for="idone_version">'._PROJECT_VERSION.':</label>&nbsp
-				  	  '.$idone_version.'
-				  	</div>
-  				  	<div>
-  				  		<label for="idone_version">'._INSERTED_BY.':</label>&nbsp
-  				  	';
-						$adminlist=$admin->GetAdminInfoById($issueInfo['aid']);
-						echo'
-							'.$adminlist['ausername'].'
-					</div>
 				</div>
 		      </div>
 
 		    </div>
 			    <div class="modal-footer" style="text-align: '.$align1.'">
 	           		<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
-  				if ($permissions[0]['allow_edit_issues']==1) {
-	  				echo'
-	             <a class="btn btn-primary" href="issues.php?op=add&iid='.$issueInfo['iid'].'">'._EDIT.' '._ISSUE.'</a>';
-	  			}
 	  			if ($permissions[0]['allow_delete_issues']==1) {
 	  			echo'
 	             <a onclick="return Sure();" class="btn btn-danger" href="javascript:deleteIssue('.$issueInfo['iid'].', '.$tskid.')">'._DELETE.'</a>';
@@ -503,6 +775,9 @@ switch ($op) {
 		        </div>
 				';
 		}
+		break;
+	case 'edit_issue_form':
+		echo "string";
 		break;
 	case 'done_issue':
 		$iid = $_POST['iid'];
@@ -565,7 +840,7 @@ switch ($op) {
 		}
 		break;
 
-	case 'edit_task':
+	case 'edit_task_form':
 		$tskid 			= $_POST['tskid'];
 		$taskInfo 		= $task->GetTaskInfoById($tskid);
 		$tskcode 		= $taskInfo['tskcode'];
@@ -575,15 +850,11 @@ switch ($op) {
 		$tskdone_date 	= $taskInfo['tskdone_date'];
 		$prjid 			= $taskInfo['prjid'];
 		echo '
-		<h3>ویرایش ماموریت</h3>
+		<h3>'._SHOW.' '._TASK.'</h3>
 		<div class="container-fload">
-			<form method="post">
+			<form id="form_edit_task" method="post" enctype="multipart/form-data">
 				<div class="row">
 				  <div class="col-md-4">
-					  <div class="form-group">
-					    <label for="tskcode">'._CODE.':</label>
-					    <input autofocus="" type="text" class="form-control" id="tskcode" name="tskcode" style="direction:ltr;" value="'.$tskcode.'">
-					  </div>
 					  <div class="form-group">
 					    <label for="tsktitle">'._TITLE.'<span class="required">*</span>:</label>
 					    <input type="text" class="form-control" id="tsktitle" name="tsktitle" value="'.$tsktitle.'">
@@ -612,176 +883,169 @@ switch ($op) {
 					    echo'
 					    </select>
 					  </div>
-					  ';
-					  	if ($permissions[0]['asuper_admin']==1) {
-					  	echo'
-						  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#issueList" aria-expanded="false" aria-controls="issueList" onclick="loadVQs()">
-						    '._RELATED_ISSUES_LIST.'
-						  </button>
-					  		<script>
-					  	      function loadVQs() {
-					  	        $("#vqs").html(\'<img src="img/wait.gif">\');
-					  			var prjid= $("#prjid").val();
-					  			var tskid= $("#tskid").val();
-					  	        $.ajax({
-					  	          url: "aj.php",
-					  	          type: "POST",
-					  	          data: {op:"issue_prjid",prjid:$("#prjid").val(),tskid:$("#tskid").val()},
-					  	          success: function(data,status) {
-					  	            $("#vqs").html(data);
-					  	          },
-					  	          error: function() {$("#vqs").html("problem in ajax")}
-					  	        });
-					  	      }
-					        </script>
-						  <div class="collapse" id="issueList" style="direction:ltr;">
-					  		<div class="well">
-						  		<div id="vqs" style="direction:rtl; text-align:right; "></div>
-						  	</div>
-				  	  	  </div>';
-				  	  	}
-			  	  	  if (isset($_GET['tskid'])) {
-			  	  	  	echo'
-					    <div class="row">
-					      <div class="col-md-6">
-							<div class="form-group">
-					      	  <label for="tskdone">'._CONDITION.':</label>
-					      	  <div class="radio">
-						      	  <label>
-						      	    <input type="radio" name="tskdone" id="tskdone1" value="1" '.($tskdone==1?'checked':'').'>
-						      	    '._DONE.'
-						      	  </label>
-						      	  <label>
-						      	    <input type="radio" name="tskdone" id="tskdone2" value="0"'.($tskdone==0?'checked':'').'>
-						      	    '._UNDONE.'
-						      	  </label>
-						      </div>
-					      	</div>
-						  </div>
-					      <div class="col-md-6">
-							  <div class="form-group">
-							    <label for="tskdone_date">'._COMPLETION_DATE.':</label>
-							    <input id="tskdone_date" type="'.($language=='farsi'?'text':'date').'" class="form-control input" name="tskdone_date" value="'.($tskdone_date==0?'':($language=='farsi'?G2JD($tskdone_date):$tskdone_date)).'">';
-							    if ($language == 'farsi') {
-							    	echo'
-								    <script type="text/javascript">
-								    	kamaDatepicker(\'tskdone_date\', { buttonsColor: "red",markToday: "true" , highlightSelectedDay: "true" , gotoToday: "true", nextButtonIcon: "img/timeir_next.png", previousButtonIcon: "img/timeir_prev.png"});
-								    </script>';
-							    }
-							    echo'
-							  </div>
-					      </div>
-					    </div>';
-			  	  	  	}
-			  	  	  	if ($permissions[0]['asuper_admin']==1) {
-				  	  	  echo'
-						  	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add_admin_task" aria-expanded="false" aria-controls="add_admin_task">
-						  	  '._ADD.' '._ADMIN.'
-						  	</button>
-						  	<div class="collapse" id="add_admin_task" style="direction:ltr;">
-						  	  <div class="well">
-				  	    		<div class="checkbox">';
-				  	    		$adminlist = $admin->GetList();
-				  	    		if (isset($_GET['tskid'])) {
-				  	    			$query = "WHERE tskid=$tskid";
-					  	    		$admins_task = $admins_tasks->GetList($query);
-					  	    		$adminTaskInfo2 ='';
-					  	    		foreach ($admins_task as $key => $adminTaskInfo) {
-					  	    			$adminTaskInfo2=$adminTaskInfo2.'-'.$adminTaskInfo['aids'];
-					  	    		}
-					  	    		$adminIdTask = explode('-', $adminTaskInfo2);
-				  	    			
-				  	    		}
-				  	    		else{
-				  	    			$adminIdTask = array('hello' => 0);
-				  	    		}
-				  	    		// print_r($adminIdTask);
-				  	    		foreach ($adminlist as $adminInfo) {
-				  	    			if (!in_array($adminInfo['aid'], $adminIdTask) && $adminInfo['aid']!=1) {
-				  	    	       echo'
-				  	    	      <label>
-				  	    	       <input type="checkbox" id="aid" name="aid['.$adminInfo['aid'].']">&nbsp&nbsp '.$adminInfo['ausername'].'
-				  	    	      </label> <br>';
-				  	    			}
-				  	        	}
-				  	          echo'
-				  	    		</div>
-						  	  </div>
-						  	</div>
-						  
-						  	    ';
-						}
-					  	  if (isset($_GET['tskid'])) {
-					  	  	echo'
-					  	  	<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="list_admin_task('.$_GET['tskid'].')">
-					  	  	  '._LIST.' '._ADMINS.'
-					  	  	</button>
-					  	  	<div class="collapse" id="collapseExample" style="direction:ltr;">
-					  	  	  <div class="well" id="lat">
-					    	    		<script>
-					    	    	      function list_admin_task(id) {
-					    	    	        $("#lat").html(\'<img src="img/wait.gif">\');
-					    	    			var tskid= $("#tskid").val();
-					    	    	        $.ajax({
-					    	    	          url: "aj.php",
-					    	    	          type: "POST",
-					    	    	          data: {op:"list_admin_task",tskid:$("#tskid").val()},
-					    	    	          success: function(data,status) {
-					    	    	            $("#lat").html(data);
-					    	    	          },
-					    	    	          error: function() {$("#lat").html("problem in ajax")}
-					    	    	        });
-					    	    	      }
-					    	          </script>
-					  	  	  </div>
-					  	  	</div>
-					    	    <div id="dat"></div>
-					  	  <input type="hidden" value="'.$_GET['tskid'].'" id="tskid">
-					  	 		';
-					  	  	}
-					  	  	echo'
 				  </div>
 				  <div class="col-md-4">
 					<div class="form-group">
 						<label for="tskdesc">'._DESC.':</label>
 						<textarea id="tskdesc" name="tskdesc" class="form-control editor" rows="3">'.$tskdesc.'</textarea>
 					</div>
+				    <div class="row">
+				      <div class="col-md-6">
+						<div class="form-group">
+				      	  <label for="tskdone">'._CONDITION.':</label>
+				      	  <div class="radio">
+					      	  <label>
+					      	    <input type="radio" name="tskdone" id="tskdone1" value="1" '.($tskdone==1?'checked':'').'>
+					      	    '._DONE.'
+					      	  </label>
+					      	  <label>
+					      	    <input type="radio" name="tskdone" id="tskdone2" value="0"'.($tskdone==0?'checked':'').'>
+					      	    '._UNDONE.'
+					      	  </label>
+					      </div>
+				      	</div>
+					  </div>
+				      <div class="col-md-6">
+						  <div class="form-group">
+						    <label for="tskdone_date">'._COMPLETION_DATE.':</label>
+						    <input id="tskdone_date" type="'.($language=='farsi'?'text':'date').'" class="form-control input" name="tskdone_date" value="'.($tskdone_date==0?'':($language=='farsi'?G2JD($tskdone_date):$tskdone_date)).'">';
+						    if ($language == 'farsi') {
+						    	echo'
+							    <script type="text/javascript">
+							    	kamaDatepicker(\'tskdone_date\', { buttonsColor: "red",markToday: "true" , highlightSelectedDay: "true" , gotoToday: "true", nextButtonIcon: "img/timeir_next.png", previousButtonIcon: "img/timeir_prev.png"});
+							    </script>';
+						    }
+						    echo'
+						  </div>
+				      </div>
+				    </div>
 				  </div>
 				  <div class="col-md-4">
-				  	<div class="dropdown">
-					  	<a class="btn btn-light btn-proj-black m-1 dropdown-toggle" href="./" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					  	  <i class="fal fa-user align-middle"></i> کاربران
-					  	</a>
-				  		<div class="dropdown-menu p-2" aria-labelledby="dropdownMenuLink">
-				  		  <p class="text-center">مدیران</p>
-				  		  <div id="popover-content-test" class="hide">
-				  		    HEY THERE NEIGHBOR. <br />Scroll Page for placement change
-				  		    <ul class="px-0">
-				  		      <li class="dropdown-item">one</li>
-				  		      <li class="dropdown-item">two</li>
-				  		      <li class="dropdown-item">three</li>
-				  		    </ul>
-				  		  </div>
-				  	</div>
-				  	<button type="button" id="popover-btn" class="btn btn-lg btn-danger">Click to toggle popover</button>
+				  	<div id="show-resault-set_admin"></div>';
+				  	if ($permissions[0]['asuper_admin']==1) {
+  	  	    			$adminlist = $admin->GetList();
+	  	  	    		$adminIdTask = array();
+	  	    			$query = "WHERE tskid=$tskid";
+		  	    		$admins_task = $admins_tasks->GetList($query);
+		  	    		foreach ($admins_task as $key => $adminTaskInfo) {
+		  	    			array_push($adminIdTask, $adminTaskInfo['aids']);
+		  	    		}
+	  	  	        	echo '
+					  	<label for="tskdesc">'._ADMINS.':</label>
+					  	<select class="js-example-basic-multiple-user w-100" multiple="multiple" id="admins" name="admins">';
+				  			foreach ($adminlist as $adminInfo) {
+				  				if ($adminInfo['aid']!=1) {
+				  		       echo'
+					  	  		<option value="'.$adminInfo['aid'].'" '.(in_array($adminInfo['aid'], $adminIdTask) ? 'selected' : '').'>'.$adminInfo['ausername'].'</option>
+					  	  		';
+				  				}
+				  	    	}
+				  	    	echo'
+					  	</select>
+					  	';
+					  }
+					echo '
 				  </div>
 				</div>
-				<ul class="list-inline">
-		  			<li class="left_list">';
-	    			UpdateForm('edit');
-					echo'
-		  			</li>';
-		  			if ($permissions[0]['allow_delete_task']==1) {
-	  				echo'
-		  			<li>
-		  				<a class="btn btn-link" onclick="return Sure();" style="color: red;" href="?op=delete&tskid='.$tskid.'">'._DELETE.'</a>
-		  			</li>';
-		  			}
-		  			echo'
-		  		</ul>
 			</form>
+			<ul class="list-inline">
+	  			<li class="left_list">';
+	  			if ($permissions[0]['allow_edit_task']==1) {
+    				echo'
+    					<button class="btn btn-success" onclick="editTaskForm('.$tskid.', '.$permissions[0]['aid'].')">ویرایش</button>
+    				';
+    			}
+				echo'
+	  			</li>';
+	  			if ($permissions[0]['allow_delete_task']==1) {
+  				echo'
+	  			<li>
+	  				<a class="btn btn-link" onclick="return Sure();" style="color: red;" href="?op=delete&tskid='.$tskid.'">'._DELETE.'</a>
+	  			</li>';
+	  			}
+	  			echo'
+	  		</ul>
+			<div id="resault-edit_task"></div>
 		</div>
 		';
+		break;
+	case 'edit_task':
+		$tskid 			= $_POST['tskid'];
+		$tsktitle 		= $_POST['tsktitle'];
+		$prjid 			= $_POST['prjid'];
+		$tskdesc 		= $_POST['tskdesc'];
+		$tskdone 		= $_POST['tskdone'];
+		$admins 		= isset($_POST['admins']) ? $_POST['admins'] : array();
+		$admin_id 		= $permissions[0]['aid'];
+		$tskdone_date = (!empty($_POST['tskdone_date'])?($language=='farsi'?J2GD($_POST['tskdone_date']):$_POST['tskdone_date']):NULL);
+
+		$query = "WHERE tskid=$tskid";
+		$admins_task = $admins_tasks->GetList($query);
+		foreach ($admins_task as $key => $value) {
+			if (!in_array($value['aids'], $admins)) {
+				$admins_tasks->Delete($value['atid']);
+			}
+		}
+
+		if ($permissions[0]['allow_edit_task']==1) {
+			if($task->UpdateFast($prjid, $tskid, $tsktitle, $tskdesc, $tskdone, $tskdone_date)==1 || !empty($admins)){
+				if (!empty($admins)) {
+					foreach ($admins as $aid) {
+						$admins_tasks->Add($aid, $tskid);
+					}
+				}
+				Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
+			}
+			else{
+				Toast('error', 'خطا', _EDITING_RECORD_FAILED.'('._NOT_CHANGED_RECORD.')');
+			}					
+		}
+		else{
+			Toast('error', 'خطا', _ADMIN_YOU_DO_NOT_HAVE_NECCESSARY_PERMISSIONS);
+		}
+
+		break;
+	case 'show_user_task':
+		$tskid = $_POST['task_id'];
+
+		$adminlist = $admin->GetList();
+
+		$query = "WHERE tskid=$tskid";
+		$admins_task = $admins_tasks->GetList($query);
+		$adminTaskInfo2 ='';
+		foreach ($admins_task as $key => $adminTaskInfo) {
+			$adminTaskInfo2=$adminTaskInfo2.'-'.$adminTaskInfo['aids'];
+		}
+
+		$adminIdTask = explode('-', $adminTaskInfo2);
+		// print_r($adminIdTask);
+		
+
+		echo '
+			<a href="#" class="btn btn-link" onclick="hideShowUser()">
+				<i class="fal fa-times"></i>
+			</a>
+			<div class="list-group">';
+			foreach ($adminlist as $adminInfo) {
+				if ($adminInfo['aid']!=1) {
+		       		echo'
+		       		<a href="#" class="list-group-item list-group-item-action '.(in_array($adminInfo['aid'], $adminIdTask) ? 'list-group-item-success' : '').'">
+		       		  '.(in_array($adminInfo['aid'], $adminIdTask) ? '<i class="fal fa-check-square text-success"></i>' : '<i class="fal fa-square"></i>').' '.$adminInfo['ausername'].'
+		       		</a>
+		      		';
+				}
+	    	}
+	    	echo'
+			</div>
+		';
+		break;
+	case 'set_admin_task':
+		$tskid 			= $_POST['tskid'];
+		$admin_id 		= $_POST['admin_id'];
+		$query 			= "WHERE tskid=$tskid && aids = $admin_id";
+		$check_admin 	= $admins_tasks->GetList($query);
+		PRINTR($check_admin);
+		echo "string";
 		break;
 	
 	default:

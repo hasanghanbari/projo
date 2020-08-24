@@ -88,7 +88,7 @@ echo'
 	  		<div class="card-body">
 				<h4>'._MY_MISSIONS.' <a class="btn btn-default btn-xs" href="tasks.php?op=chart" role="button">'._LIST.'</a></h4>
 
-				<div class="table-responsive">
+				<div class="table-responsive" style="height: 300px; overflow: auto;">
 					<table class="table table-hover">
 						<tr>
 						  <th>'._TITLE.'</th>
@@ -98,12 +98,12 @@ echo'
 					$cookie_admin= explode(':', $_COOKIE['iproject']);
 					$aid = $permissions[0]['aid'];
 					if ($aid==1) {
-						$query = "";
+						$query = "WHERE tskdone=0";
 						$order ="ORDER BY tskdone,tskid DESC";
 						$admin_tasks = $task->GetList($query,$order);
 					}
 					else{
-						$query = "WHERE aids=$aid";
+						$query = "WHERE aids=$aid && tskdone=0";
 						$order ="ORDER BY tskdone,atid DESC";
 				 		$start=0;
 						$admin_tasks = $admins_tasks->GetList_task($query,$order,$limit="LIMIT $start,$page_limit_index");
@@ -111,17 +111,22 @@ echo'
 						foreach ($admin_tasks as $admin_task) {
 							echo'
 						  <tr class="'.($admin_task['tskdone']==1?'success':'active').'" style="'.($admin_task['tskdone']==1?'color:#A6A6A6;':'').'">
-						    <td class="active"><strong>'.$admin_task['tsktitle'].'</strong> ('.($admin_task['tskdone']==0?''._UNDONE.'':''._DONE.'').')</td>';
+						    <td class="active">
+						    	<strong>'.$admin_task['tsktitle'].'</strong>
+						    </td>';
 							$projectlist=$project->GetProjectInfoById($admin_task['prjid']);
-							echo'<td class="active">
-								'.$projectlist['prjtitle'];
-							if(file_exists('img/project/'.$pic_prefix.$projectlist['prjlogo'].''))
-								$prjlogo = 'img/project/'.$pic_prefix.$projectlist['prjlogo'].'';
-							else
-								$prjlogo = 'img/proja.png';
-								
-							echo '
-								<img src="'.$prjlogo.'" style="height:30px;" />
+							echo'
+							<td class="active">
+								<a href="tasks.php?op=chart&prjid='.$admin_task['prjid'].'">';
+								if(file_exists('img/project/'.$pic_prefix.$projectlist['prjlogo'].''))
+									$prjlogo = 'img/project/'.$pic_prefix.$projectlist['prjlogo'].'';
+								else
+									$prjlogo = 'img/proja.png';
+									
+								echo '
+									<img src="'.$prjlogo.'" style="height:30px;" />
+									<span class="mr-1">'.$projectlist['prjtitle'].'</span>
+								</a>
 							</td>
 						  </tr>
 							';

@@ -8,7 +8,13 @@ $task = new ManageTasks();
 $admins_tasks = new ManageAdmins_Tasks();
 $project = new ManageProjects();
 $op= $_GET['op'];
-
+echo '
+<style type="text/css">
+	.navbar {
+		background-color: #007bff !important;
+	}
+</style>
+';
 switch ($op) {
 	case 'add':
 	$aidInfo=$ausername= $apass= $afname= $alname= $atel= $apic2= $aemail=$allow_add_project= $allow_edit_project= $allow_list_project= $allow_add_issues= $allow_edit_issues= $allow_list_issues= $allow_add_task= $allow_list_task= $allow_edit_task= $allow_delete_project= $allow_delete_task= $allow_delete_issues=$apic=$acomments=$tskid='';

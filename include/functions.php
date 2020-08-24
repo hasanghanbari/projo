@@ -80,7 +80,7 @@ function J2GD($date)
 	else
 		$timestamp =jmktime($hour,$minute,$second,$month,$day,$year)+12600;
 	// print_r($timestamp);
-	return date("Y/m/d",$timestamp,$none='',$time_zone);
+	return date("Y-m-d",$timestamp);
 }
 function Success($message)
 {

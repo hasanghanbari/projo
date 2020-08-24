@@ -11,6 +11,12 @@ body, html {
 #popover2 {
   position: absolute;
 }
+.popover {
+  width: 17%;
+}
+.select2-container {
+  width: 100% !important;
+}
 /*
  *  scrollbar STYLE
  */
@@ -112,6 +118,10 @@ body, html {
 }
 .issue-task-show li {
   color: #000;
+}
+
+.text-white li {
+  color: #fff;
 }
 
 .nav-side-menu {
@@ -289,7 +299,11 @@ body {
 #wrapper {
     /*padding-left: 0;    
     margin-top: -50px;*/
-    height: 100vh
+  top: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  min-height: 100vh;
 }
 
 #page-wrapper {
@@ -445,6 +459,11 @@ body {
   width: 80px;
 }
 
+#task .project-name img{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
 #task .project-name {
   color: #fff;
   font-weight: bold;
