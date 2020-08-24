@@ -67,6 +67,25 @@ class ManageIssues{
 		return $counts;
 	}
 
+	function UpdateFast($iid, $tyid, $prjid, $iversion, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version)
+	{
+		global $prefix;
+		global $dev;
+		$query = $this->link->prepare("UPDATE `issues` SET tyid=?, prjid=?, iversion=?, ititle=?, idesc=?, iproirity=?, icomplexity=?, ineeded_time=?, ifile1=?, ifile2=?, ifile3=?, iarchive=?, iwho_fullname=?, iwho_email=?, iwho_tel=?, idone=?, idone_date=?, idone_version=? WHERE iid=?");
+		$values = array($tyid, $prjid, $iversion, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version, $iid);
+		$query->execute($values);
+		$counts = $query->rowcount();
+		if ($dev==1) {
+			echo '<pre dir="ltr">';
+			print_r($query->errorInfo());
+			echo '</pre>';
+			echo '<pre dir="ltr">';
+			print_r($query->debugDumpParams());
+			echo '</pre>';
+		}
+		return $counts;
+	}
+
 
 	function UpdateDone($iid, $idone_date , $idone)
 	{

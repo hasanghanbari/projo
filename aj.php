@@ -499,7 +499,7 @@ switch ($op) {
   								  <div class="col-md-6">
   									  <div class="form-group">
   									    <label for="iproirity">'._PROIRITY.':</label>
-  									    <select class="form-control" name="iproirity">
+  									    <select class="form-control" name="iproirity" id="iproirity">
   									      <option value="0" '.($iproirity==0?'selected':'').'>'._EASY.'</option>
   									      <option value="1" '.($iproirity==1?'selected':'').'>'._NORMAL.'</option>
   									      <option value="2" '.($iproirity==2?'selected':'').'>'._HARD.'</option>
@@ -510,7 +510,7 @@ switch ($op) {
   								  <div class="col-md-6">
   									  <div class="form-group">
   									    <label for="icomplexity">'._COMPLEXITY.':</label>
-  									    <select class="form-control" name="icomplexity">
+  									    <select class="form-control" name="icomplexity" id="icomplexity">
   									      <option value="0" '.($icomplexity==0?'selected':'').'>None</option>
   									      <option value="1" '.($icomplexity==1?'selected':'').'>!</option>
   									      <option value="2" '.($icomplexity==2?'selected':'').'>!!</option>
@@ -707,10 +707,9 @@ switch ($op) {
   							 </div>
   						  </div>
   						</div>
-  						<input type="text" name="op" id="op" value="edit_issue_form">
   					</form>
   					<div id="resault-edit_issue"></div>
-  					<button class="btn btn-warning" onclick="editIssue()">ویرایش</button>';
+  					<button class="btn btn-warning" onclick="editIssueForm('.$iid.')">ویرایش</button>';
   				}
   				else{
   					Failure(_ACCESS_DENIED);
@@ -777,7 +776,227 @@ switch ($op) {
 		}
 		break;
 	case 'edit_issue_form':
-		echo "string";
+		$iid			= $_POST['iid'];
+
+		$whitelist =  array("jpg", "png", "gif", "doc", "docx", "zip", "rar", "pdf", "mp4");
+		$ext_error=0;
+		if (!empty($_POST['delpic1'])) {
+			$delpic1 = $_POST['delpic1'];
+		}
+		else{
+			$delpic1 = '';
+		}
+		if($delpic1=="yes")
+		{
+			$issue->DelPic($iid);
+			$ifile1 = $ifile12 = '';
+		}
+		if(!empty($_FILES['ifile1']['name']))
+		{
+				
+			$file_name = strtolower(basename($_FILES['ifile1']['name']));
+			foreach ($whitelist as $ext)
+			{
+			 if(substr($file_name,-strlen($ext))!=$ext)
+			  $ext_error++;
+			}
+			if($ext_error==count($whitelist))
+			 echo '<div class="alert alert-danger">
+			     '._ADMIN_PIC_EXTENSION_ERROR.'!
+			    </div>';
+			else
+			{
+			 if($_FILES['ifile1']['size']>(_FILE_SIZE*1048576))
+			  echo '<div class="alert alert-danger">
+			     '._FILE_SIZE_ERROR.'!
+			    </div>';
+			 else
+			 {
+			  $uploaddir = 'file_issue/file1/';
+			  $final_ext = explode('.',$file_name);
+			  
+			  $file_name = $file_prefix.'-file1-'.substr(time(),-5).'.'.$final_ext[count($final_ext)-1];
+			  $uploadfile = $uploaddir .$file_name;
+			  if (move_uploaded_file($_FILES['ifile1']['tmp_name'], $uploadfile))
+			  {
+			  	$ifile1 = $ifile12 = '-file1-'.substr(time(),-5).'.'.$final_ext[count($final_ext)-1];
+			  }
+			  else
+			  {
+			  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+			  	$ifile1 = "";
+			  }
+			 }
+			}
+		}
+		else
+		{
+			if (isset($_POST['delpic1'])) {
+				$delpic1 = $_POST['delpic1'];
+			}
+			else{
+				$delpic1 = '';
+			}
+			if($delpic1!="yes")
+				$ifile1 = $ifile12 = $_REQUEST['ifile1_temp'];
+		}
+		//file1
+		//file2
+			$whitelist =  array("jpg", "png", "gif", "doc", "docx", "zip", "rar", "pdf", "mp4");
+			$ext_error=0;
+			if (!empty($_POST['delpic2'])) {
+				$delpic2 = $_POST['delpic2'];
+			}
+			else{
+				$delpic2 = '';
+			}
+			if($delpic2=="yes")
+			{
+				$issue->DelPic($iid);
+				$ifile2 = $ifile22 = '';
+			}
+			if(!empty($_FILES['ifile2']['name']))
+			{
+					
+				$file_name = strtolower(basename($_FILES['ifile2']['name']));
+				foreach ($whitelist as $ext)
+				{
+				 if(substr($file_name,-strlen($ext))!=$ext)
+				  $ext_error++;
+				}
+				if($ext_error==count($whitelist))
+				 echo '<div class="alert alert-danger">
+				     '._ADMIN_PIC_EXTENSION_ERROR.'!
+				    </div>';
+				else
+				{
+				 if($_FILES['ifile2']['size']>(_FILE_SIZE*1048576))
+				  echo '<div class="alert alert-danger">
+				     '._FILE_SIZE_ERROR.'!
+				    </div>';
+				 else
+				 {
+				  $uploaddir = 'file_issue/file2/';
+				  $final_ext = explode('.',$file_name);
+				  
+				  $file_name = $file_prefix.'-file2-'.substr(time(),-5).'.'.$final_ext[count($final_ext)-1];
+				  $uploadfile = $uploaddir .$file_name;
+				  if (move_uploaded_file($_FILES['ifile2']['tmp_name'], $uploadfile))
+				  {
+				  	$ifile2 = $ifile22 = '-file2-'.substr(time(),-5).'.'.$final_ext[count($final_ext)-1];
+				  }
+				  else
+				  {
+				  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+				  	$ifile2 = "";
+				  }
+				 }
+				}
+			}
+			else
+			{
+				if (isset($_POST['delpic2'])) {
+					$delpic2 = $_POST['delpic2'];
+				}
+				else{
+					$delpic2 = '';
+				}
+				if($delpic2!="yes")
+					$ifile2 = $ifile22 = $_REQUEST['ifile2_temp'];
+			}
+			//file2
+	//file3
+		$whitelist =  array("jpg", "png", "gif", "doc", "docx", "zip", "rar", "pdf", "mp4");
+		$ext_error=0;
+		if (!empty($_POST['delpic3'])) {
+			$delpic3 = $_POST['delpic3'];
+		}
+		else{
+			$delpic3 = '';
+		}
+		if($delpic3=="yes")
+		{
+			$issue->DelPic($iid);
+			$ifile3 = $ifile32 = '';
+		}
+		if(!empty($_FILES['ifile3']['name']))
+		{
+				
+			$file_name = strtolower(basename($_FILES['ifile3']['name']));
+			foreach ($whitelist as $ext)
+			{
+			 if(substr($file_name,-strlen($ext))!=$ext)
+			  $ext_error++;
+			}
+			if($ext_error==count($whitelist))
+			 echo '<div class="alert alert-danger">
+			     '._ADMIN_PIC_EXTENSION_ERROR.'!
+			    </div>';
+			else
+			{
+			 if($_FILES['ifile3']['size']>(_FILE_SIZE*1048576))
+			  echo '<div class="alert alert-danger">
+			     '._FILE_SIZE_ERROR.'!
+			    </div>';
+			 else
+			 {
+			  $uploaddir = 'file_issue/file3/';
+			  $final_ext = explode('.',$file_name);
+			  
+			  $file_name = $file_prefix.'-file3-'.substr(time(),-5).'.'.$final_ext[count($final_ext)-1];
+			  $uploadfile = $uploaddir .$file_name;
+	
+			  if (move_uploaded_file($_FILES['ifile3']['tmp_name'], $uploadfile))
+			  {
+			  	$ifile3 = $ifile32 = '-file3-'.substr(time(),-5).'.'.$final_ext[count($final_ext)-1];
+			  }
+			  else
+			  {
+			  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+			  	$ifile3 = "";
+			  }
+			 }
+			}
+		}
+		else
+		{
+			if (isset($_POST['delpic3'])) {
+				$delpic3 = $_POST['delpic3'];
+			}
+			else{
+				$delpic3 = '';
+			}
+			if($delpic3!="yes")
+				$ifile3 = $ifile32 = $_REQUEST['ifile3_temp'];
+		}
+		//file3
+		$ititle			= $_POST['ititle'];
+		$iproirity		= $_POST['iproirity'];
+		$icomplexity	= $_POST['icomplexity'];
+		$ineeded_time	= $_POST['ineeded_time'];
+		$tyid			= $_POST['tyid'];
+		$prjid			= $_POST['prjid'];
+		$iversion		= $_POST['iversion'];
+		$idesc			= $_POST['idesc'];
+		$iwho_fullname	= $_POST['iwho_fullname'];
+		$iwho_email		= $_POST['iwho_email'];
+		$iwho_tel		= $_POST['iwho_tel'];
+		$iarchive		= $_POST['iarchive'];
+		$idone			= $_POST['idone'];
+		$idone_version	= $_POST['idone_version'];
+		$idone_date = ($_POST['idone_date']==0?'':($language=='farsi'?J2GD($_POST['idone_date']):$_POST['idone_date'])); 
+			
+			if ($permissions[0]['allow_edit_issues']==1) {
+				if($issue->UpdateFast($iid, $tyid, $prjid, $iversion, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version)==1){
+					Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
+				}
+				else{
+					Toast('error', 'خطا', _EDITING_RECORD_FAILED.' ('._FILL_IN_REQUIRED.')');
+				}
+			}
+			else{
+				Toast('error', 'خطا', _ACCESS_DENIED);
+			}
 		break;
 	case 'done_issue':
 		$iid = $_POST['iid'];

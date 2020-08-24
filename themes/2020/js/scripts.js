@@ -237,50 +237,45 @@ $("form#project").submit(function(e) {
     });
 });
 
-function editIssue() {
-  $("#resault-edit_issue").html('<img src="img/wait.gif">');
-
-  var x = $("form#edit_issue").serializeArray(); 
-  $.each(x, function(i, field) { 
-      $("#output").append(field.name + ":" 
-              + field.value + " "); 
-  }); 
-  console.log($("#output"));
-  $.ajax({
+function editIssueForm(iid) {
+    $("#resault-edit_issue").html('<img src="img/wait.gif">');
+    console.log($("input[name='idone']:checked").val());
+    $.ajax({
       url: "aj.php",
       type: "POST",
-      data: {op: "edit_issue_form"},
-      success: function (data) {
+      data: {op:"edit_issue_form", 
+              iid           : iid, 
+              ititle        : $("#ititle").val(),
+              iproirity     : $("#iproirity").val(),
+              icomplexity   : $("#icomplexity").val(),
+              ineeded_time  : $("#ineeded_time").val(),
+              tyid          : $("#tyid").val(),
+              prjid         : $("#prjid").val(),
+              iversion      : $("#iversion").val(),
+              idesc         : $("#idesc").val(),
+              ifile1        : $("#ifile1").val(),
+              ifile1_temp   : $("#ifile1_temp ").val(),
+              ifile2        : $("#ifile2").val(),
+              ifile2_temp   : $("#ifile2_temp ").val(),
+              ifile3        : $("#ifile3").val(),
+              ifile3_temp   : $("#ifile3_temp").val(),
+              iwho_fullname : $("#iwho_fullname").val(),
+              iwho_email    : $("#iwho_email").val(),
+              iwho_tel      : $("#iwho_tel").val(),
+              iarchive      : $("#iarchive").val(),
+              idone_date    : $("#idone_date").val(),
+              idone_version : $("#idone_version").val(),
+              idone         : $("input[name='idone']:checked").val(),
+            },
+      success: function(data,status) {
         $("#resault-edit_issue").html(data);
-        // $("#show_add_project").modal('hide');
-        // window.location = "index.php";
-        // alert(data)
+        // $("#show_edit_task").modal();
+        // location.reload();
+        // $("#show_chart_issue").modal('hide');
       },
-      cache: false,
-      contentType: false,
-      processData: false
-  });
-}
-$(".modal form#edit_issue").submit(function(e) {
-  console.log('ok');
-    // e.preventDefault();    
-    // var formData = new FormData(this);
-
-    // $.ajax({
-    //     url: "aj.php",
-    //     type: 'POST',
-    //     data: formData,
-    //     success: function (data) {
-    //       $("#show-resault-add_project").html(data);
-    //       $("#show_add_project").modal('hide');
-    //       window.location = "index.php";
-    //       // alert(data)
-    //     },
-    //     cache: false,
-    //     contentType: false,
-    //     processData: false
-    // });
-});
+      error: function() {$("#resault-edit_issue").html("problem in ajax")}
+    });
+};
 
 function editTaskForm(tskid, aid) {
     $("#resault-edit_task").html('<img src="img/wait.gif">');
