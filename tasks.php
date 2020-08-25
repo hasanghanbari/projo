@@ -764,7 +764,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 		 										        </label>
 		 										      </div>
 		 												<br>
-		 												<input type="hidden" class="form-control" name="tskid" id="tskid" value="">
+		 												<!-- <input type="hidden" class="form-control" name="tskid" id="tskid" value=""> -->
 		 										      </div>
 		 										      <div class="modal-footer">
 		 										        <button type="button" class="btn btn-light" data-dismiss="modal">بستن</button>
@@ -861,7 +861,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 								        </label>
 								      </div>
 										<br>
-										<input type="hidden" class="form-control" name="tskid" id="tskid" value="">
+										<!-- <input type="hidden" class="form-control" name="tskid" id="tskid" value=""> -->
 								      </div>
 								      <div class="modal-footer">
 								        <button type="button" class="btn btn-light" data-dismiss="modal">

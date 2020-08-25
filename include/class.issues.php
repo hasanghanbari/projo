@@ -28,12 +28,12 @@ class ManageIssues{
 	}
 
 
-	function AddMini($tyid, $prjid, $ititle, $archive, $aid)
+	function AddMini($tyid, $prjid, $ititle, $archive, $iproirity, $icomplexity, $aid)
 	{
 		global $prefix;
 		global $dev;
-		$query = $this->link->prepare("INSERT INTO `issues`(tyid, prjid, ititle, iarchive, aid) VALUES(?,?,?,?,?)");
-		$values = array($tyid, $prjid, $ititle, $archive, $aid);
+		$query = $this->link->prepare("INSERT INTO `issues`(tyid, prjid, ititle, iarchive, iproirity, icomplexity, aid) VALUES(?,?,?,?,?,?,?)");
+		$values = array($tyid, $prjid, $ititle, $archive, $iproirity, $icomplexity, $aid);
 		$query->execute($values);
 		$counts = $query->rowcount();
 		if ($dev==1) {

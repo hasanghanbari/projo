@@ -237,45 +237,64 @@ $("form#project").submit(function(e) {
     });
 });
 
-function editIssueForm(iid) {
+function editIssueForm(iid, tskid) {
     $("#resault-edit_issue").html('<img src="img/wait.gif">');
-    console.log($("input[name='idone']:checked").val());
+
+    var fd = new FormData();
+
+    fd.append('op'            , "edit_issue_form");
+    fd.append('iid'           , iid);
+    fd.append('ifile1'        , ($('#ifile1').length == 0 ? '' : $('#ifile1')[0].files[0]));
+    fd.append('ifile2'        , ($('#ifile2').length == 0 ? '' : $('#ifile2')[0].files[0]));
+    fd.append('ifile3'        , ($('#ifile3').length == 0 ? '' : $('#ifile3')[0].files[0]));
+    fd.append('ititle'        , $("#ititle").val());
+    fd.append('iproirity'     , $("#iproirity").val());
+    fd.append('icomplexity'   , $("#icomplexity").val());
+    fd.append('ineeded_time'  , $("#ineeded_time").val());
+    fd.append('tyid'          , $("#tyid").val());
+    fd.append('prjid'         , $("#prjid").val());
+    fd.append('iversion'      , $("#iversion").val());
+    fd.append('idesc'         , $("#idesc").val());
+    fd.append('ifile1_temp'   , $("#ifile1_temp ").val());
+    fd.append('delpic1'       , $("#delpic1").is(":checked") == 'true' ? '1' : '0');
+    fd.append('ifile2_temp'   , $("#ifile2_temp ").val());
+    fd.append('delpic2'       , $("#delpic2").is(":checked") == 'true' ? '1' : '0');
+    fd.append('ifile3_temp'   , $("#ifile3_temp").val());
+    fd.append('delpic3'       , $("#delpic3").is(":checked") == 'true' ? '1' : '0');
+    fd.append('iwho_fullname' , $("#iwho_fullname").val());
+    fd.append('iwho_email'    , $("#iwho_email").val());
+    fd.append('iwho_tel'      , $("#iwho_tel").val());
+    fd.append('iarchive'      , $("#iarchive").val());
+    fd.append('idone_date'    , $("#idone_date").val());
+    fd.append('idone_version' , $("#idone_version").val());
+    fd.append('idone'         , $("input[name='idone']:checked").val());
+
+
     $.ajax({
       url: "aj.php",
       type: "POST",
-      data: {op:"edit_issue_form", 
-              iid           : iid, 
-              ititle        : $("#ititle").val(),
-              iproirity     : $("#iproirity").val(),
-              icomplexity   : $("#icomplexity").val(),
-              ineeded_time  : $("#ineeded_time").val(),
-              tyid          : $("#tyid").val(),
-              prjid         : $("#prjid").val(),
-              iversion      : $("#iversion").val(),
-              idesc         : $("#idesc").val(),
-              ifile1        : $("#ifile1").val(),
-              ifile1_temp   : $("#ifile1_temp ").val(),
-              ifile2        : $("#ifile2").val(),
-              ifile2_temp   : $("#ifile2_temp ").val(),
-              ifile3        : $("#ifile3").val(),
-              ifile3_temp   : $("#ifile3_temp").val(),
-              iwho_fullname : $("#iwho_fullname").val(),
-              iwho_email    : $("#iwho_email").val(),
-              iwho_tel      : $("#iwho_tel").val(),
-              iarchive      : $("#iarchive").val(),
-              idone_date    : $("#idone_date").val(),
-              idone_version : $("#idone_version").val(),
-              idone         : $("input[name='idone']:checked").val(),
-            },
+      data: fd,
+      processData: false,
+      contentType: false,
       success: function(data,status) {
         $("#resault-edit_issue").html(data);
-        // $("#show_edit_task").modal();
+        $("#show_chart_issue").modal('hide');
+        IssueInfo(iid, tskid);
+        IssueList(tskid);
         // location.reload();
-        // $("#show_chart_issue").modal('hide');
       },
       error: function() {$("#resault-edit_issue").html("problem in ajax")}
     });
 };
+
+function checkDonBox() {
+  if ($("input[name='idone']:checked").val() == 1) {
+    $("#done_issue_box").show();
+  }
+  else {
+    $("#done_issue_box").hide();
+  }
+}
 
 function editTaskForm(tskid, aid) {
     $("#resault-edit_task").html('<img src="img/wait.gif">');

@@ -200,6 +200,8 @@ switch ($op) {
 	  			case '3':
 	  				$iproirity=""._VERY." "._HARD."";
 	  				break;
+				default:
+					$iproirity = "";	
 	  		}
 	  		switch ($task_issueInfo['icomplexity']) {
 	  			case '0':
@@ -220,27 +222,30 @@ switch ($op) {
 	  			case '5':
 	  				$icomplexity="!!!!!";
 	  				break;
+				default:
+					$icomplexity = "";
 	  		}
 	  		$ifile1 = $task_issueInfo['ifile1'];
 	  		$ifile2 = $task_issueInfo['ifile2'];
 	  		$ifile3 = $task_issueInfo['ifile3'];
 	  		if ($tskId == $task_issueInfo['tskid']) {
 	  		echo'
-	  		<a href="javascript:chart_issue('.$task_issueInfo['iid'].')" onclick="IssueInfo('.$task_issueInfo['iid'].', '.$task_issueInfo['tskid'].')">
+	  		<a href="javascript:IssueInfo('.$task_issueInfo['iid'].', '.$task_issueInfo['tskid'].')">
 		  		<div class="card card-body issue-task-show mb-2'.($task_issueInfo['idone']==1?'  text-white bg-success':'').'">
 			  		<ul class="list-inline p-0">
 			  			<li class="list-inline-item">
-			  				'.$task_issueInfo['ititle'].' ('.($task_issueInfo['idone']==1?_DONE:_UNDONE).')
+			  				'.$task_issueInfo['ititle'].'
 			  			</li><br>
 			  			<li class="left_list list-inline-item">
 			  			'.(!empty($task_issueInfo['idesc'])?'<span class="fas fa-align-justify" aria-hidden="true"></span>':'').'
-			  			'.(file_exists('file_issue/file1/'.$pic_prefix.$ifile1.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>1':'').'
-			  			'.(file_exists('file_issue/file2/'.$pic_prefix.$ifile2.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>2':'').'
-			  			'.(file_exists('file_issue/file3/'.$pic_prefix.$ifile3.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>3':'').'
+			  			'.(file_exists('file_issue/file1/'.$file_prefix.$ifile1.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>1':'').'
+			  			'.(file_exists('file_issue/file2/'.$file_prefix.$ifile2.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>2':'').'
+			  			'.(file_exists('file_issue/file3/'.$file_prefix.$ifile3.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>3':'').'
 			  			</li>
-			  			<li class="list-inline-item">
-			  				'.(isset($iproirity) ? $iproirity : '').'
-			  				'.(isset($icomplexity) ? $icomplexity : '').'
+			  			<li class="list-inline-item tag-issue-task-chart">
+			  				'.($task_issueInfo['idone']==1 ? '<span class="badge badge-light">'._DONE.'</span>' : '').'
+			  				'.(isset($iproirity) ? '<span class="badge badge-info">'.$iproirity.'</span>' : '').'
+			  				'.(isset($icomplexity) && $task_issueInfo['icomplexity'] != 0 ? '<span class="badge badge-warning font-weight-light">'.$icomplexity.'</span>' : '').'
 			  			</li>
 			  		</ul>
   				</div>
@@ -258,6 +263,8 @@ switch ($op) {
 		$aid 			= $permissions[0]['aid'];
 		$tyid 			= 1;
 		$archive 		= 0;
+		$iproirity 		= 1;
+		$icomplexity 	= 0;
 
 		if (empty($ititle)) {
 			Toast('error', 'خطا', _FILL_IN_REQUIRED);
@@ -265,7 +272,7 @@ switch ($op) {
 		else 
 		{
 			if ($permissions[0]['allow_add_issues']==1) {
-				if ($issue->AddMini($tyid, $prjid, $ititle, $archive, $aid)==1) {
+				if ($issue->AddMini($tyid, $prjid, $ititle, $archive,  $iproirity,  $icomplexity, $aid)==1) {
 					
 					// add task issue
 					$iid = $issue->LastID();
@@ -384,79 +391,78 @@ switch ($op) {
 		}
 		break;
 	case 'issue_info':
-		$iid = $_POST['issue_id'];
-		$tskid = $_POST['tskid'];
+		$iid 				= $_POST['issue_id'];
+		$tskid 				= $_POST['tskid'];
 
-		$start=$page=0;
-		$archive= (isset($_GET['archive'])?'1':'0');
-		$query= "WHERE iarchive=$archive";
-		$order ="ORDER BY icomplexity DESC";
-		$projectlist= $project->GetList();
-		$issue_typeslist= $issue_types->GetList();
-		$issueInfo= $issue->GetInfo("iid",$iid);
-			if ($iid==$issueInfo['iid']) {
-				$tyid = $issueInfo['tyid']; 
-				$prjid = $issueInfo['prjid']; 
-				$iversion = $issueInfo['iversion']; 
-				$icode = $issueInfo['icode']; 
-				$ititle = $issueInfo['ititle']; 
-				$idesc = $issueInfo['idesc']; 
-				// $iproirity = $issueInfo['iproirity']; 
-				// $icomplexity = $issueInfo['icomplexity']; 
-				$ineeded_time = $issueInfo['ineeded_time']; 
-				$ifile1 = $issueInfo['ifile1']; 
-				$ifile12 = $issueInfo['ifile1']; 
-				$ifile2 = $issueInfo['ifile2']; 
-				$ifile22 = $issueInfo['ifile2']; 
-				$ifile3 = $issueInfo['ifile3']; 
-				$ifile32 = $issueInfo['ifile3']; 
-				$iarchive = $issueInfo['iarchive']; 
-				$idate = $issueInfo['idate']; 
-				$iwho_fullname = $issueInfo['iwho_fullname']; 
-				$iwho_email = $issueInfo['iwho_email']; 
-				$iwho_tel = $issueInfo['iwho_tel']; 
-				$idone = $issueInfo['idone']; 
-				$idone_date = $issueInfo['idone_date']; 
-				$idone_version = $issueInfo['idone_version'];
+		$start = $page 		= 0;
+		$archive 			= (isset($_GET['archive'])?'1':'0');
+		$query 				= "WHERE iarchive=$archive";
+		$order 				= "ORDER BY icomplexity DESC";
+		$projectlist 		= $project->GetList();
+		$issue_typeslist 	= $issue_types->GetList();
+		$issueInfo 			= $issue->GetInfo("iid",$iid);
+			if ($iid == $issueInfo['iid']) {
+				$tyid 			= $issueInfo['tyid']; 
+				$prjid 			= $issueInfo['prjid']; 
+				$iversion 		= $issueInfo['iversion']; 
+				$icode 			= $issueInfo['icode']; 
+				$ititle 		= $issueInfo['ititle']; 
+				$idesc 			= $issueInfo['idesc'];
+				$ineeded_time 	= $issueInfo['ineeded_time']; 
+				$ifile1 		= $issueInfo['ifile1']; 
+				$ifile12 		= $issueInfo['ifile1']; 
+				$ifile2 		= $issueInfo['ifile2']; 
+				$ifile22 		= $issueInfo['ifile2']; 
+				$ifile3 		= $issueInfo['ifile3']; 
+				$ifile32 		= $issueInfo['ifile3']; 
+				$iarchive 		= $issueInfo['iarchive']; 
+				$idate 			= $issueInfo['idate']; 
+				$iwho_fullname 	= $issueInfo['iwho_fullname']; 
+				$iwho_email 	= $issueInfo['iwho_email']; 
+				$iwho_tel 		= $issueInfo['iwho_tel']; 
+				$idone 			= $issueInfo['idone']; 
+				$idone_date 	= $issueInfo['idone_date'] == 0 ? '' : ($language=='farsi'	? G2JD($issueInfo['idone_date']) 
+																							: $issueInfo['idone_date']); 
+				$idone_version	= $issueInfo['idone_version'];
 				switch ($issueInfo['iproirity']) {
 					case '0':
-						$iproirity=""._EASY."";
+						$iproirity = ""._EASY."";
 						break;
 					case '1':
-						$iproirity=""._NORMAL."";
+						$iproirity = ""._NORMAL."";
 						break;
 					case '2':
-						$iproirity=""._HARD."";
+						$iproirity = ""._HARD."";
 						break;
 					case '3':
-						$iproirity=""._VERY." "._HARD."";
+						$iproirity = ""._VERY." "._HARD."";
 						break;
 					default:
-						$iproirity="";	
+						$iproirity = "";	
 				}
 				switch ($issueInfo['icomplexity']) {
 					case '0':
-						$icomplexity="None";
+						$icomplexity = "None";
 						break;
 					case '1':
-						$icomplexity="!";
+						$icomplexity = "!";
 						break;
 					case '2':
-						$icomplexity="!!";
+						$icomplexity = "!!";
 						break;
 					case '3':
-						$icomplexity="!!!";
+						$icomplexity = "!!!";
 						break;
 					case '4':
-						$icomplexity="!!!!";
+						$icomplexity = "!!!!";
 						break;
 					case '5':
-						$icomplexity="!!!!!";
+						$icomplexity = "!!!!!";
 						break;
 					default:
-						$icomplexity="None";
+						$icomplexity = "None";
 				}
-				$adminlist=$admin->GetAdminInfoById($issueInfo['aid']);
+				$adminlist = $admin->GetAdminInfoById($issueInfo['aid']);
 		      echo'
 		      
 		       <div class="modal-header">
@@ -500,10 +506,10 @@ switch ($op) {
   									  <div class="form-group">
   									    <label for="iproirity">'._PROIRITY.':</label>
   									    <select class="form-control" name="iproirity" id="iproirity">
-  									      <option value="0" '.($iproirity==0?'selected':'').'>'._EASY.'</option>
-  									      <option value="1" '.($iproirity==1?'selected':'').'>'._NORMAL.'</option>
-  									      <option value="2" '.($iproirity==2?'selected':'').'>'._HARD.'</option>
-  									      <option value="3" '.($iproirity==3?'selected':'').'>'._VERY.' '._HARD.'</option>
+  									      <option value="0" '.($issueInfo['iproirity']==0?'selected':'').'>'._EASY.'</option>
+  									      <option value="1" '.($issueInfo['iproirity']==1?'selected':'').'>'._NORMAL.'</option>
+  									      <option value="2" '.($issueInfo['iproirity']==2?'selected':'').'>'._HARD.'</option>
+  									      <option value="3" '.($issueInfo['iproirity']==3?'selected':'').'>'._VERY.' '._HARD.'</option>
   									    </select>
   									  </div>
   								  </div>
@@ -511,12 +517,12 @@ switch ($op) {
   									  <div class="form-group">
   									    <label for="icomplexity">'._COMPLEXITY.':</label>
   									    <select class="form-control" name="icomplexity" id="icomplexity">
-  									      <option value="0" '.($icomplexity==0?'selected':'').'>None</option>
-  									      <option value="1" '.($icomplexity==1?'selected':'').'>!</option>
-  									      <option value="2" '.($icomplexity==2?'selected':'').'>!!</option>
-  									      <option value="3" '.($icomplexity==3?'selected':'').'>!!!</option>
-  									      <option value="4" '.($icomplexity==4?'selected':'').'>!!!!</option>
-  									      <option value="5" '.($icomplexity==5?'selected':'').'>!!!!!</option>
+  									      <option value="0" '.($issueInfo['icomplexity']==0?'selected':'').'>None</option>
+  									      <option value="1" '.($issueInfo['icomplexity']==1?'selected':'').'>!</option>
+  									      <option value="2" '.($issueInfo['icomplexity']==2?'selected':'').'>!!</option>
+  									      <option value="3" '.($issueInfo['icomplexity']==3?'selected':'').'>!!!</option>
+  									      <option value="4" '.($issueInfo['icomplexity']==4?'selected':'').'>!!!!</option>
+  									      <option value="5" '.($issueInfo['icomplexity']==5?'selected':'').'>!!!!!</option>
   									    </select>
   									  </div>
   								  </div>
@@ -584,74 +590,74 @@ switch ($op) {
   						  	<div class="row">
   							  <div class="col">
   								  <div class="form-group">
-  								    <label for="ifile1" class="btn btn-light">'._FILE1.'</label>
   								    ';
   	    								if(file_exists('file_issue/file1/'.$file_prefix.$ifile1.''))
   	    								{
   	    									echo '
-  	    									&nbsp<a href="file_issue/file1/'.$file_prefix.$ifile1.'" download="file1-'.$file_prefix.$ifile1.'">
+  	    									<a href="file_issue/file1/'.$file_prefix.$ifile1.'" download="file1-'.$file_prefix.$ifile1.'">
   	    										'._DOWNLOAD.' '._FILE1.'
   	    									</a>
   	    									<br>
-  	    									<input type="checkbox" name="delpic1" value="yes" id="delpic1"><label for="delpic1"> '._DELETE_FILE.'1</label>
+  	    									<input type="checkbox" name="delpic1" value="1" id="delpic1"><label for="delpic1"> '._DELETE_FILE.'1</label>
   	    									';
   	    								}
   		    							else{
   		    								echo'
+  								    			<label for="ifile1" class="btn btn-light">'._FILE1.'</label>
   							    				<input type="file" style="opacity: 0" id="ifile1" name="ifile1">
   		    								';
   		    							}
   								echo '
   									<br>
-  								    <input type="hidden" name="ifile1_temp" value="'.$ifile12.'">
+  								    <input type="hidden" name="ifile1_temp" id="ifile1_temp" value="'.$ifile12.'">
   								  </div>
   						  	  </div>
   							  <div class="col">
   								  <div class="form-group">
-  								    <label for="ifile2" class="btn btn-light">'._FILE2.'</label>
   								    ';
     								if(file_exists('file_issue/file2/'.$file_prefix.$ifile2.''))
     								{
     									echo '
-    									&nbsp<a href="file_issue/file2/'.$file_prefix.$ifile2.'" download="file2-'.$file_prefix.$ifile2.'">
+    									<a href="file_issue/file2/'.$file_prefix.$ifile2.'" download="file2-'.$file_prefix.$ifile2.'">
     										'._DOWNLOAD.' '._FILE2.'
     									</a>
     									<br>
-    									<input type="checkbox" name="delpic2" value="yes" id="delpic2"><label for="delpic2"> '._DELETE_FILE.'2</label>
+    									<input type="checkbox" name="delpic2" value="1" id="delpic2"><label for="delpic2"> '._DELETE_FILE.'2</label>
     									';
     								}
 	    							else{
 	    								echo'
+  								    		<label for="ifile2" class="btn btn-light">'._FILE2.'</label>
 							    			<input type="file" style="opacity: 0" id="ifile2" name="ifile2">
 										';
 									}
   									echo '
   									<br>
-  								    <input type="hidden" name="ifile2_temp" value="'.$ifile22.'">
+  								    <input type="hidden" name="ifile2_temp" id="ifile2_temp" value="'.$ifile22.'">
   								  </div>
   						  	  </div>
   						  	  <div class="col">
 				  	  			<div class="form-group">
-				  	  			  <label for="ifile3" class="btn btn-light">'._FILE3.'</label>
 				  	  		    ';
 				  	  				if(file_exists('file_issue/file3/'.$file_prefix.$ifile3.''))
 				  	  				{
 				  	  					echo '
-				  	  					&nbsp<a href="file_issue/file3/'.$file_prefix.$ifile3.'" download="file3'.$file_prefix.$ifile3.'">
+				  	  					<a href="file_issue/file3/'.$file_prefix.$ifile3.'" download="file3'.$file_prefix.$ifile3.'">
 				  	  						'._DOWNLOAD.' '._FILE3.'
 				  	  					</a>
 				  	  					<br>
-				  	  					<input type="checkbox" name="delpic3" value="yes" id="delpic3"><label for="delpic3"> '._DELETE_FILE.'3</label>
+				  	  					<input type="checkbox" name="delpic3" value="1" id="delpic3"><label for="delpic3"> '._DELETE_FILE.'3</label>
 				  	  					';
 				  	  				}
 				  	  				else{
 				  	  					echo'
+				  	  			  			<label for="ifile3" class="btn btn-light">'._FILE3.'</label>
 				  	  	    	  			<input type="file" style="opacity: 0" id="ifile3" name="ifile3">
 				  	  					';
 				  	  				}
 				  	  			echo '
 				  	  			  <br>
-				  	  			  <input type="hidden" name="ifile3_temp" value="'.$ifile32.'">
+				  	  			  <input type="hidden" name="ifile3_temp" id="ifile3_temp" value="'.$ifile32.'">
 				  	  			</div>
   						  	  </div>
   							</div>
@@ -675,15 +681,15 @@ switch ($op) {
   							 <label for="idone">'._CONDITION.':</label>
   							 <div class="radio">
   							   <label>
-  							     <input type="radio" name="idone" id="idone1" value="1" '.($idone==1?'checked':'').'>
+  							     <input type="radio" name="idone" id="idone1" value="1" '.($idone==1?'checked':'').' onclick="checkDonBox()">
   							     '._DONE.'
   							   </label>
   							   <label>
-  							     <input type="radio" name="idone" id="idone2" value="0"'.($idone==0?'checked':'').'>
+  							     <input type="radio" name="idone" id="idone2" value="0"'.($idone==0?'checked':'').' onclick="checkDonBox()">
   							     '._UNDONE.'
   							   </label>
   							 </div>
-  							 <div class="row">
+  							 <div class="row" id="done_issue_box" style="display: '.($idone==1?'block':'none').'">
   							 	<div class="col-md-6">
   								 <div class="form-group">
   								  <label for="idone_date">'._COMPLETION_DATE_ISSUE.':</label>
@@ -709,69 +715,40 @@ switch ($op) {
   						</div>
   					</form>
   					<div id="resault-edit_issue"></div>
-  					<button class="btn btn-warning" onclick="editIssueForm('.$iid.')">ویرایش</button>';
+  					<div class="row">
+  						<div class="col-6">
+  							<button class="btn btn-warning" onclick="editIssueForm('.$iid.', '.$tskid.')">ویرایش</button>
+  						</div>
+  						<div class="col-6" style="text-align: left">
+				           	<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
+				  			if ($permissions[0]['allow_delete_issues']==1) {
+				  				echo'
+				             	<a onclick="return Sure();" class="btn btn-danger ml-1" href="javascript:deleteIssue('.$issueInfo['iid'].', '.$tskid.')">
+				             		'._DELETE.'
+				             	</a>';
+				  			}
+				  			if ($issueInfo['idone']==0) {
+								echo '
+								<a class="btn btn-success" href="javascript:doneIssue('.$issueInfo['iid'].', '.$tskid.')">
+									'._DONE.'
+								</a>';
+							}
+							else {
+								echo '
+								<a class="btn btn-default" href="javascript:startIssue('.$issueInfo['iid'].', '.$tskid.')">
+									'._START.'
+								</a>';
+							}
+				  			echo'
+  						</div>
+  					</div>';
   				}
   				else{
   					Failure(_ACCESS_DENIED);
   				}
   				echo'
-		      	<div class="row">
-				  <div class="col-md-4">
-					  
-			  	    <div class="form-group">';
-			  	      if(file_exists('file_issue/file1/'.$pic_prefix.$ifile1.''))
-			  	      {
-			  	      	echo '
-			  	      	<label for="ifile1">'._FILE1.':</label>&nbsp
-			  	      	<a href="file_issue/file1/'.$pic_prefix.$ifile1.'" download="file1-'.$pic_prefix.$ifile1.'">
-			  	      		'._DOWNLOAD.' '._FILE1.'
-			  	      	</a>
-			  	      	';
-			  	      }
-			  	      echo'
-			  	    </div>
-			  	    <div class="form-group">';
-			  	      if(file_exists('file_issue/file2/'.$pic_prefix.$ifile2.''))
-			  	      {
-			  	      	echo '
-			  	      	<label for="ifile2">'._FILE2.':</label>&nbsp
-			  	      	<a href="file_issue/file2/'.$pic_prefix.$ifile2.'" download="file2-'.$pic_prefix.$ifile2.'">
-			  	      		'._DOWNLOAD.' '._FILE2.'
-			  	      	</a>
-			  	      	';
-			  	      }
-			  	      echo'
-			  	    </div>
-			  	    <div class="form-group">';
-			  	      if(file_exists('file_issue/file3/'.$pic_prefix.$ifile3.''))
-			  	      {
-			  	      	echo '
-			  	      	<label for="ifile3">'._FILE3.':</label>&nbsp
-			  	      	<a href="file_issue/file3/'.$pic_prefix.$ifile3.'" download="file3-'.$pic_prefix.$ifile3.'">
-			  	      		'._DOWNLOAD.' '._FILE3.'
-			  	      	</a>
-			  	      	';
-			  	      }
-			  	      echo'
-			  	    </div>
-				</div>
 		      </div>
-
 		    </div>
-			    <div class="modal-footer" style="text-align: '.$align1.'">
-	           		<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
-	  			if ($permissions[0]['allow_delete_issues']==1) {
-	  			echo'
-	             <a onclick="return Sure();" class="btn btn-danger" href="javascript:deleteIssue('.$issueInfo['iid'].', '.$tskid.')">'._DELETE.'</a>';
-	  			}
-	  			if ($issueInfo['idone']==0) {
-					echo '<a class="btn btn-success" href="javascript:doneIssue('.$issueInfo['iid'].', '.$tskid.')">'._DONE.'</a>';
-				}
-				else {
-					echo '<a class="btn btn-default" href="javascript:startIssue('.$issueInfo['iid'].', '.$tskid.')">'._START.'</a>';
-				}
-	  			echo'
-		        </div>
 				';
 		}
 		break;
@@ -786,14 +763,13 @@ switch ($op) {
 		else{
 			$delpic1 = '';
 		}
-		if($delpic1=="yes")
+		if($delpic1=="1")
 		{
 			$issue->DelPic($iid);
 			$ifile1 = $ifile12 = '';
 		}
 		if(!empty($_FILES['ifile1']['name']))
 		{
-				
 			$file_name = strtolower(basename($_FILES['ifile1']['name']));
 			foreach ($whitelist as $ext)
 			{
@@ -801,15 +777,11 @@ switch ($op) {
 			  $ext_error++;
 			}
 			if($ext_error==count($whitelist))
-			 echo '<div class="alert alert-danger">
-			     '._ADMIN_PIC_EXTENSION_ERROR.'!
-			    </div>';
+			 	Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
 			else
 			{
 			 if($_FILES['ifile1']['size']>(_FILE_SIZE*1048576))
-			  echo '<div class="alert alert-danger">
-			     '._FILE_SIZE_ERROR.'!
-			    </div>';
+			 	Toast('error', 'خطا', _FILE_SIZE_ERROR);
 			 else
 			 {
 			  $uploaddir = 'file_issue/file1/';
@@ -837,75 +809,71 @@ switch ($op) {
 			else{
 				$delpic1 = '';
 			}
-			if($delpic1!="yes")
+			if($delpic1!="1")
 				$ifile1 = $ifile12 = $_REQUEST['ifile1_temp'];
 		}
 		//file1
 		//file2
-			$whitelist =  array("jpg", "png", "gif", "doc", "docx", "zip", "rar", "pdf", "mp4");
-			$ext_error=0;
-			if (!empty($_POST['delpic2'])) {
+		$whitelist =  array("jpg", "png", "gif", "doc", "docx", "zip", "rar", "pdf", "mp4");
+		$ext_error=0;
+		if (!empty($_POST['delpic2'])) {
+			$delpic2 = $_POST['delpic2'];
+		}
+		else{
+			$delpic2 = '';
+		}
+		if($delpic2=="1")
+		{
+			$issue->DelPic($iid);
+			$ifile2 = $ifile22 = '';
+		}
+		if(!empty($_FILES['ifile2']['name']))
+		{
+				
+			$file_name = strtolower(basename($_FILES['ifile2']['name']));
+			foreach ($whitelist as $ext)
+			{
+			 if(substr($file_name,-strlen($ext))!=$ext)
+			  $ext_error++;
+			}
+			if($ext_error==count($whitelist))
+				Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
+			else
+			{
+			 if($_FILES['ifile2']['size']>(_FILE_SIZE*1048576))
+				Toast('error', 'خطا', _FILE_SIZE_ERROR);
+			 else
+			 {
+			  $uploaddir = 'file_issue/file2/';
+			  $final_ext = explode('.',$file_name);
+			  
+			  $file_name = $file_prefix.'-file2-'.substr(time(),-5).'.'.$final_ext[count($final_ext)-1];
+			  $uploadfile = $uploaddir .$file_name;
+			  if (move_uploaded_file($_FILES['ifile2']['tmp_name'], $uploadfile))
+			  {
+			  	$ifile2 = $ifile22 = '-file2-'.substr(time(),-5).'.'.$final_ext[count($final_ext)-1];
+			  }
+			  else
+			  {
+			  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+			  	$ifile2 = "";
+			  }
+			 }
+			}
+		}
+		else
+		{
+			if (isset($_POST['delpic2'])) {
 				$delpic2 = $_POST['delpic2'];
 			}
 			else{
 				$delpic2 = '';
 			}
-			if($delpic2=="yes")
-			{
-				$issue->DelPic($iid);
-				$ifile2 = $ifile22 = '';
-			}
-			if(!empty($_FILES['ifile2']['name']))
-			{
-					
-				$file_name = strtolower(basename($_FILES['ifile2']['name']));
-				foreach ($whitelist as $ext)
-				{
-				 if(substr($file_name,-strlen($ext))!=$ext)
-				  $ext_error++;
-				}
-				if($ext_error==count($whitelist))
-				 echo '<div class="alert alert-danger">
-				     '._ADMIN_PIC_EXTENSION_ERROR.'!
-				    </div>';
-				else
-				{
-				 if($_FILES['ifile2']['size']>(_FILE_SIZE*1048576))
-				  echo '<div class="alert alert-danger">
-				     '._FILE_SIZE_ERROR.'!
-				    </div>';
-				 else
-				 {
-				  $uploaddir = 'file_issue/file2/';
-				  $final_ext = explode('.',$file_name);
-				  
-				  $file_name = $file_prefix.'-file2-'.substr(time(),-5).'.'.$final_ext[count($final_ext)-1];
-				  $uploadfile = $uploaddir .$file_name;
-				  if (move_uploaded_file($_FILES['ifile2']['tmp_name'], $uploadfile))
-				  {
-				  	$ifile2 = $ifile22 = '-file2-'.substr(time(),-5).'.'.$final_ext[count($final_ext)-1];
-				  }
-				  else
-				  {
-				  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
-				  	$ifile2 = "";
-				  }
-				 }
-				}
-			}
-			else
-			{
-				if (isset($_POST['delpic2'])) {
-					$delpic2 = $_POST['delpic2'];
-				}
-				else{
-					$delpic2 = '';
-				}
-				if($delpic2!="yes")
-					$ifile2 = $ifile22 = $_REQUEST['ifile2_temp'];
-			}
-			//file2
-	//file3
+			if($delpic2!="1")
+				$ifile2 = $ifile22 = $_REQUEST['ifile2_temp'];
+		}
+		//file2
+		//file3
 		$whitelist =  array("jpg", "png", "gif", "doc", "docx", "zip", "rar", "pdf", "mp4");
 		$ext_error=0;
 		if (!empty($_POST['delpic3'])) {
@@ -914,7 +882,7 @@ switch ($op) {
 		else{
 			$delpic3 = '';
 		}
-		if($delpic3=="yes")
+		if($delpic3=="1")
 		{
 			$issue->DelPic($iid);
 			$ifile3 = $ifile32 = '';
@@ -929,15 +897,11 @@ switch ($op) {
 			  $ext_error++;
 			}
 			if($ext_error==count($whitelist))
-			 echo '<div class="alert alert-danger">
-			     '._ADMIN_PIC_EXTENSION_ERROR.'!
-			    </div>';
+			 	Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
 			else
 			{
 			 if($_FILES['ifile3']['size']>(_FILE_SIZE*1048576))
-			  echo '<div class="alert alert-danger">
-			     '._FILE_SIZE_ERROR.'!
-			    </div>';
+			  	Toast('error', 'خطا', _FILE_SIZE_ERROR);
 			 else
 			 {
 			  $uploaddir = 'file_issue/file3/';
@@ -966,7 +930,7 @@ switch ($op) {
 			else{
 				$delpic3 = '';
 			}
-			if($delpic3!="yes")
+			if($delpic3!="1")
 				$ifile3 = $ifile32 = $_REQUEST['ifile3_temp'];
 		}
 		//file3
@@ -984,7 +948,8 @@ switch ($op) {
 		$iarchive		= $_POST['iarchive'];
 		$idone			= $_POST['idone'];
 		$idone_version	= $_POST['idone_version'];
-		$idone_date = ($_POST['idone_date']==0?'':($language=='farsi'?J2GD($_POST['idone_date']):$_POST['idone_date'])); 
+		$idone_date = ($_POST['idone_date'] ==0 ? date('Y-m-d') 
+												: ($language=='farsi' ? J2GD($_POST['idone_date']) : $_POST['idone_date'])); 
 			
 			if ($permissions[0]['allow_edit_issues']==1) {
 				if($issue->UpdateFast($iid, $tyid, $prjid, $iversion, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version)==1){
@@ -1019,8 +984,8 @@ switch ($op) {
 	case 'start_issue':
 		$iid = $_POST['iid'];
 		$tskid = $_POST['tskid'];
-		$idone = "0";
-		$idone_date = "";
+		$idone = NULL;
+		$idone_date = 0;
 		if ($issue->UpdateDone($iid, $idone_date , $idone)==1) {
 			Toast('success', 'موفق', _RECORD_STARTED_SUCCESSFULLI);
 			echo '

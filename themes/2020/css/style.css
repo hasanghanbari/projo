@@ -119,6 +119,12 @@ body, html {
 .issue-task-show li {
   color: #000;
 }
+.tag-issue-task-chart {
+  position: relative;
+  top: 10px;
+  font-size: 14px;
+  right: 6px;
+}
 
 .text-white li {
   color: #fff;
