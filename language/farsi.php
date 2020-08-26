@@ -12,7 +12,7 @@ define("_CANCEL","کنسل");
 define("_LIST","لیست");
 define("_CHART","فهرست");
 define("_ARCHIVE","آرشیو");
-define("_SEARCH","<span class=\"fas fa-search\" aria-hidden=\"true\"></span>");
+define("_SEARCH","<i class=\"fal fa-search\" aria-hidden=\"true\"></i>");
 define("_TOOLS","امکانات");
 define("_EDIT","ویرایش");
 define("_SHOW","نمایش");

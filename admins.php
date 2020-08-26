@@ -672,8 +672,12 @@ switch ($op) {
 							</div>
 						</td>
 						<td style="text-align: left;"><strong>'.$adminInfo['ausername'].'</strong></td>
-						<td style="text-align:center;">'.($adminInfo['aactive']==1?'<img src="../themes/'.$themes.'/img/yes.png"':'<img src="../themes/'.$themes.'/img/no.png"').'</td>
-						<td style="text-align:center;">'.($adminInfo['asuper_admin']==1?'<img src="../themes/'.$themes.'/img/yes.png"':'<img src="../themes/'.$themes.'/img/no.png"').'</td>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['aactive']==1?'check text-success':'times text-danger').'"></i>
+						</td>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['asuper_admin']==1?'check text-success':'times text-danger').'"></i>
+						</td>
 						<td>'.$adminInfo['afname'].'</td>
 						<td>'.$adminInfo['alname'].'</td>
 						<td style="text-align:center;">'.($adminInfo['agender']==1?''._WOMAN.'':''._MAN.'').'</td>
@@ -688,18 +692,39 @@ switch ($op) {
 							<img src="'.$apic.'" style="height:30px;" />
 							</td>
 						<td>'.$adminInfo['acomments'].'</td>
-						<td style="text-align:center;">'.($adminInfo['allow_add_project']==1?'<img src="themes/'.$themes.'/img/yes.png"':'<img src="themes/'.$themes.'/img/no.png"').'</td>
-						<td style="text-align:center;">'.($adminInfo['allow_edit_project']==1?'<img src="themes/'.$themes.'/img/yes.png"':'<img src="themes/'.$themes.'/img/no.png"').'</td>
-						<td style="text-align:center;">'.($adminInfo['allow_list_project']==1?'<img src="themes/'.$themes.'/img/yes.png"':'<img src="themes/'.$themes.'/img/no.png"').'</td>
-						<td style="text-align:center;">'.($adminInfo['allow_delete_project']==1?'<img src="themes/'.$themes.'/img/yes.png"':'<img src="themes/'.$themes.'/img/no.png"').'</td>
-						<td style="text-align:center;">'.($adminInfo['allow_add_issues']==1?'<img src="themes/'.$themes.'/img/yes.png"':'<img src="themes/'.$themes.'/img/no.png"').'</td>
-						<td style="text-align:center;">'.($adminInfo['allow_edit_issues']==1?'<img src="themes/'.$themes.'/img/yes.png"':'<img src="themes/'.$themes.'/img/no.png"').'</td>
-						<td style="text-align:center;">'.($adminInfo['allow_list_issues']==1?'<img src="themes/'.$themes.'/img/yes.png"':'<img src="themes/'.$themes.'/img/no.png"').'</td>
-						<td style="text-align:center;">'.($adminInfo['allow_delete_issues']==1?'<img src="themes/'.$themes.'/img/yes.png"':'<img src="themes/'.$themes.'/img/no.png"').'</td>
-						<td style="text-align:center;">'.($adminInfo['allow_add_task']==1?'<img src="themes/'.$themes.'/img/yes.png"':'<img src="themes/'.$themes.'/img/no.png"').'</td>
-						<td style="text-align:center;">'.($adminInfo['allow_list_task']==1?'<img src="themes/'.$themes.'/img/yes.png"':'<img src="themes/'.$themes.'/img/no.png"').'</td>
-						<td style="text-align:center;">'.($adminInfo['allow_edit_task']==1?'<img src="themes/'.$themes.'/img/yes.png"':'<img src="themes/'.$themes.'/img/no.png"').'</td>
-						<td style="text-align:center;">'.($adminInfo['allow_delete_task']==1?'<img src="themes/'.$themes.'/img/yes.png"':'<img src="themes/'.$themes.'/img/no.png"').'</td>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['allow_add_project']==1?'check text-success':'times text-danger').'"></i>
+						</td>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['allow_edit_project']==1?'check text-success':'times text-danger').'"></i>
+						</td>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['allow_list_project']==1?'check text-success':'times text-danger').'"></i>
+						</td>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['allow_delete_project']==1?'check text-success':'times text-danger').'"></i>
+						</td>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['allow_add_issues']==1?'check text-success':'times text-danger').'"></i>
+						</td>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['allow_edit_issues']==1?'check text-success':'times text-danger').'"></i>
+						</td>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['allow_list_issues']==1?'check text-success':'times text-danger').'"></i>
+						</td>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['allow_delete_issues']==1?'check text-success':'times text-danger').'"></i>
+						</td>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['allow_add_task']==1?'check text-success':'times text-danger').'"></i>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['allow_list_task']==1?'check text-success':'times text-danger').'"></i>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['allow_edit_task']==1?'check text-success':'times text-danger').'"></i>
+						<td style="text-align:center;">
+							<i class="fal fa-'.($adminInfo['allow_delete_task']==1?'check text-success':'times text-danger').'"></i>
+						</td>
 					</tr>
 				</div>
 				';

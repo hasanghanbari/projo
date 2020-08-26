@@ -170,6 +170,14 @@ class ManageProjects{
 		else
 			return 1;
 	}
+
+	function LastID()
+	{
+		global $prefix;
+		$query = $this->link->query("SELECT `prjid` FROM `projects` ORDER BY `prjid` DESC LIMIT 0,1");
+		$result = $query->fetchAll();
+		return $result[0]['prjid'];	
+	}
 	
 
 }

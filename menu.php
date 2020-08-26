@@ -7,31 +7,38 @@
 <?php if (isset($_COOKIE['iproject'])) {
 echo'
   <nav class="navbar navbar-expand-lg fixed-top navbar-light p-0" style="background-color: #0003;">
-    <a class="navbar-brand" href="./">
+    <a class="logo-menu" href="./">
       <img src="themes/2020/img/logo.png">
     </a>
     <a class="btn btn-light btn-proj m-1" href="./">
       <i class="fal fa-home align-middle"></i>
     </a>
-    <a class="btn btn-light btn-proj drop-after-none dropdown-toggle btn btn-light btn-proj" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <i class="fal fa-tasks-alt align-middle"></i> پروژه‌ها
+    <a class="btn btn-light btn-proj drop-after-none dropdown-toggle btn btn-light btn-proj btn-project-list" href="javascript:" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="showProject()">
+      <i class="fal fa-tasks-alt align-middle"></i>
+      <span> پروژه‌ها</span>
     </a>
-    <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-      <a class="dropdown-item" href="#">افزودن پروژه</a>
+    <div class="dropdown-menu project-menu-drop" aria-labelledby="navbarDropdown3" id="show_project_menu">
+      
     </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
-    </button>
+    </button> -->
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item m-1">
           <a class="btn btn-light btn-proj drop-after-none dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fal fa-info-circle align-middle"></i>
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-            '.($permissions[0]['asuper_admin'] == 1 ? '<a class="dropdown-item" href="admins.php?op=list">'._LIST.' '._ADMINS.'</a>' : '').'
-            '.($permissions[0]['asuper_admin'] == 1 ? '<a class="dropdown-item" href="settings.php?op=settings">'._SETTING.' '._SISTEM.'</a>' : '').'
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown2" style="left: 93px;">';
+            if ($permissions[0]['asuper_admin']==1) {
+            echo'
+              <a class="dropdown-item" href="admins.php?op=list">'._LIST.' '._ADMINS.'</a>
+              <a class="dropdown-item" href="settings.php?op=settings">'._SETTING.' '._SISTEM.'</a>
+              <a class="dropdown-item" href="issue_types.php?op=list">
+                '._TYPE.' '._ISSUE.'
+              </a>';
+            }
+            echo'
             <a class="dropdown-item" href="settings.php?op=about">'._ABOUT_ME.'</a>
           </div>
         </li>
@@ -58,12 +65,15 @@ echo'
           </a>
 
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <h5 class="dropdown-header">'.$permissions[0]['afname'].' '.$permissions[0]['alname'].'</h5>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="settings.php?op=profile">'._EDIT.' '._PROFILE.'</a>
             <a class="dropdown-item" href="logout.php">'._LOGOUT.'</a>
           </div>
         </li>
       </ul>
-    </div>
+    <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    </div> -->
   </nav>';
 } 
 

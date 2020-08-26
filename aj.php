@@ -126,6 +126,9 @@ switch ($op) {
 				}
 			}
 		}
+		else {
+			$logo = "";
+		}
 		$title 		= $_POST['title-project'];
 		$bg_color 	= '#'.$_POST['bg_color_project'];
 		$desc 		= '';
@@ -137,6 +140,10 @@ switch ($op) {
 		{		
 			if ($permissions[0]['allow_add_project']==1) {
 				if ($project->AddMini($title, $desc, $logo, $bg_color, $aid)==1) {
+					$last_project = $project->LastId();
+					echo '
+					<script>addTask('.$last_project.', '.$aid.', "در حال توسعه")</script>
+					';
 					Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
 				}
 				else{
@@ -148,12 +155,66 @@ switch ($op) {
 			}
 		}
 		break;
+	case 'delete_project':
+		if ($permissions[0]['allow_delete_project']==1) {
+			$prjid = $_POST['prjid'];
+			if ($project->Delete($prjid)) 
+			{
+				Toast('success', 'موفق', _RECORD_DELETED_SUCCESSFULLI);
+			}
+			else
+			{
+				Toast('error', 'خطا',_DELETING_RECORD_FAILED);
+			}
+		}
+		else{
+			Toast('error', 'خطا',_ACCESS_DENIED);
+		}
+		break;
+	case 'list_project_menu':
+		if ($permissions[0]['asuper_admin']==1) {
+			$projectlist= $project->GetList();
+		}
+		else{
+			$aid= $permissions[0]['aid'];
+			$query = "WHERE aids=$aid";
+			$projectlist = $admins_tasks->GetListPrjAdmin($query);
+		}
+		$prj_list = [];
+		foreach ($projectlist as $projectInfo) {
+			if (!in_array($projectInfo['prjid'], $prj_list)) {
+				if(file_exists('img/project/'.$pic_prefix.$projectInfo['prjlogo'].''))
+					$prjlogo = 'img/project/'.$pic_prefix.$projectInfo['prjlogo'].'';
+				else
+					$prjlogo = 'img/proja.png';
+				
+				echo'
+				<a class="dropdown-item" href="tasks.php?op=chart&prjid='.$projectInfo['prjid'].'" style="background-color: '.$projectInfo['bg_color'].'50">
+					<span class="bg-color-project">
+						<label class="form-check-label" for="bg_color_project1" onclick="activeColorProject(1)">
+							<span class="box-color" style="background-color: '.$projectInfo['bg_color'].'">
+								
+							</span>
+						</label>
+					</span>
+					<img src="'.$prjlogo.'" class="menu-img-project" alt="'.$projectInfo['prjtitle'].'">
+					<span class="menu-title-project">'.$projectInfo['prjtitle'].'</span>
+				</a>';
+
+				array_push($prj_list, $projectInfo['prjid']);
+			}
+		}
+		break;
 	case 'add_task':
 		$task_title = $_POST['task_title'];
 		$prjid 		= $_POST['prjid'];
 		$aid 		= $_POST['aid'];
 
 		if ($task->AddFast($prjid, $task_title, $aid) == 1) {
+			$last_task = $task->LastId();
+			if ($permissions[0]['asuper_admin'] != 1) {
+				$admins_tasks->Add($aid , $last_task);
+			}
 			Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
 			echo '
 			<script type="text/javascript">
@@ -716,8 +777,13 @@ switch ($op) {
   					</form>
   					<div id="resault-edit_issue"></div>
   					<div class="row">
-  						<div class="col-6">
-  							<button class="btn btn-warning" onclick="editIssueForm('.$iid.', '.$tskid.')">ویرایش</button>
+  						<div class="col-6">';
+  							if ($permissions[0]['allow_edit_task']==1) {
+  								echo'
+  								<button class="btn btn-warning" onclick="editIssueForm('.$iid.', '.$tskid.')">ویرایش</button>
+  								';
+  							}
+  							echo'
   						</div>
   						<div class="col-6" style="text-align: left">
 				           	<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';

@@ -45,8 +45,8 @@ function openAddCase() {
     $("#show_add_task").modal()
 }
 
-function addTask(prjid, aid) {
-    const task_title = $("#modal_new_task").val();
+function addTask(prjid, aid, title=null) {
+    const task_title = (title == null ? $("#modal_new_task").val() : title);
     $("#show-response-add-task").html('<img src="img/wait.gif">');
     $.ajax({
         url: "aj.php",
@@ -139,6 +139,19 @@ function startIssue(id, tskid) {
       error: function() {$("#show-resault-done-issue").html("problem in ajax")}
     });
 }
+function deleteProject(id) {
+    $("#show-resault-delete_project").html('<img src="img/wait.gif">');
+    $.ajax({
+      url: "aj.php",
+      type: "POST",
+      data: {op:"delete_project", prjid: id},
+      success: function(data,status) {
+        $("#show-resault-delete_project").html(data);
+        window.location = "index.php";
+      },
+      error: function() {$("#show-resault-delete_project").html("problem in ajax")}
+    });
+}
 function deleteIssue(id, tskid) {
     $("#show-resault-done-issue").html('<img src="img/wait.gif">');
     $.ajax({
@@ -182,6 +195,19 @@ function editTask(id) {
 }
 function openAddProject() {
     $("#show_add_project").modal()
+}
+function showProject() {
+  console.log('showProject');
+  $("#show_project_menu").html('<img src="img/wait.gif">');
+  $.ajax({
+    url: "aj.php",
+    type: "POST",
+    data: {op:"list_project_menu"},
+    success: function(data,status) {
+      $("#show_project_menu").html(data);
+    },
+    error: function() {$("#show_project_menu").html("problem in ajax")}
+  }); 
 }
 function activeColor(id) {
   const color = $("#bg_color_project" + id).val();

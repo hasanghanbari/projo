@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 18, 2020 at 11:26 AM
+-- Generation Time: Aug 26, 2020 at 02:06 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -60,9 +60,9 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`aid`, `ausername`, `apass`, `aactive`, `aexpiration_date`, `asuper_admin`, `afname`, `alname`, `agender`, `atel`, `aemail`, `apic`, `acomments`, `allow_add_project`, `allow_edit_project`, `allow_list_project`, `allow_delete_project`, `allow_add_task`, `allow_edit_task`, `allow_list_task`, `allow_delete_task`, `allow_add_issues`, `allow_edit_issues`, `allow_list_issues`, `allow_delete_issues`) VALUES
-(1, 'hasan', '81dc9bdb52d04dc20036dbd8313ed055', 1, '2020-07-11 11:33:00', 1, 'hasan', 'ghanbari', 0, '09101551518', '', '', 'grate', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+(1, 'hasan', '81dc9bdb52d04dc20036dbd8313ed055', 1, '2020-07-11 11:33:00', 1, 'حسن', 'قنبری', 0, '09101551518', '', '-7815956.jpg', 'grate', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 (2, 'mohsen', '81dc9bdb52d04dc20036dbd8313ed055', 1, '2020-07-27 10:25:28', 0, '', '', 0, '', '', '', '<div><br></div>', 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0),
-(3, 'test', '81dc9bdb52d04dc20036dbd8313ed055', 1, '2020-08-12 04:56:58', 0, '', '', 0, '', '', '', '<div><br></div>', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+(3, 'test', '81dc9bdb52d04dc20036dbd8313ed055', 1, '2020-08-12 04:56:58', 0, 'حسین', 'محمدی', 0, '', '', '', '<div><br></div>', 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -81,12 +81,11 @@ CREATE TABLE `admins_tasks` (
 --
 
 INSERT INTO `admins_tasks` (`atid`, `aids`, `tskid`) VALUES
-(1, 1, 1),
-(2, 1, 2),
-(3, 1, 3),
-(4, 3, 1),
-(5, 3, 2),
-(9, 2, 3);
+(9, 2, 3),
+(47, 2, 3),
+(49, 3, 26),
+(51, 3, 3),
+(52, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -143,15 +142,10 @@ CREATE TABLE `issues` (
 --
 
 INSERT INTO `issues` (`iid`, `prjid`, `tyid`, `aid`, `iversion`, `icode`, `ititle`, `idesc`, `iproirity`, `icomplexity`, `ineeded_time`, `ifile1`, `ifile2`, `ifile3`, `iarchive`, `idate`, `iwho_fullname`, `iwho_email`, `iwho_tel`, `idone`, `idone_date`, `idone_version`) VALUES
-(5, 1, 3, 1, '', '5', 'Invite admin to collaborate on this task.', '', '0', '3', '', '', '', '', 0, '2020-07-11 11:33:00', '', '', '', 1, '2020-08-05', 0),
-(6, 1, 3, 1, '', '6', 'Want updates on new features?', '<p dir=\"ltr\">Read our blog:<a href=\"%20http:/proja.aftab.cc/\" target=\"_blank\" rel=\"noopener\"> http://proja.aftab.cc/</a><br><br>Follow us on Google+: <a href=\"https://plus.google.com/+proja\" target=\"_blank\" rel=\"noopener\">https://plus.google.com/+proja</a><br><br>Like us on Facebook: <a href=\"https://www.facebook.com/proja\" target=\"_blank\" rel=\"noopener\">https://www.facebook.com/proja</a><br><br>Follow us on Twitter: <a href=\"http://twitter.com/proja\" target=\"_blank\" rel=\"noopener\">http://twitter.com/proja</a></p>', '0', '3', '', '', '', '', 0, '2020-07-11 11:33:00', '', '', '', 0, '0000-00-00', 0),
-(11, 1, 1, 1, '', '', 'test2', '', '0', '0', '', '', '', '', 0, '2020-07-28 07:07:35', '', '', '', 1, '2020-07-28', 0),
-(14, 1, 1, 1, NULL, NULL, 'مگه میشه', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2020-07-28 08:11:47', NULL, NULL, NULL, 1, '2020-08-04', 0),
-(15, 1, 1, 1, NULL, NULL, 'این یک مساله تست است', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2020-08-05 05:43:43', NULL, NULL, NULL, NULL, NULL, 0),
-(16, 1, 1, 1, NULL, NULL, 'مگه میشه. به این راحتی مساله اضافه کردم', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2020-08-05 05:47:02', NULL, NULL, NULL, 0, '0000-00-00', 0),
-(17, 1, 1, 1, NULL, NULL, 'بیلسبلسبلسبقل', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2020-08-05 10:41:34', NULL, NULL, NULL, NULL, NULL, 0),
-(18, 1, 1, 1, NULL, NULL, 'تست 5\n', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2020-08-05 10:42:12', NULL, NULL, NULL, NULL, NULL, 0),
-(19, 1, 1, 3, NULL, NULL, 'تست', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2020-08-12 05:22:24', NULL, NULL, NULL, NULL, NULL, 0);
+(25, 6, 1, 1, '', NULL, 'یسرسیرسیرسیرس', '', '1', '3', '', '', '', '', 0, '2020-08-24 08:12:14', '', '', '', 0, '2020-08-26', 0),
+(26, 6, 1, 1, NULL, NULL, 'یرسیرسیرسیرسیرسیرسیرسیر', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2020-08-24 08:12:17', NULL, NULL, NULL, NULL, NULL, 0),
+(27, 6, 1, 1, NULL, NULL, 'سیرسیرسیرسیرسیر', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2020-08-24 08:12:21', NULL, NULL, NULL, NULL, NULL, 0),
+(33, 8, 1, 1, NULL, NULL, 'تست شد', NULL, '1', '0', NULL, NULL, NULL, NULL, 0, '2020-08-26 07:45:01', NULL, NULL, NULL, 1, '2020-08-26', 0);
 
 -- --------------------------------------------------------
 
@@ -183,7 +177,7 @@ INSERT INTO `issue_types` (`tyid`, `tycode`, `tytitle`, `tycomments`) VALUES
 
 CREATE TABLE `projects` (
   `prjid` int(11) NOT NULL,
-  `prjcode` varchar(255) COLLATE utf8_persian_ci NOT NULL COMMENT 'کد پروژه',
+  `prjcode` varchar(255) COLLATE utf8_persian_ci DEFAULT NULL COMMENT 'کد پروژه',
   `prjtitle` varchar(255) COLLATE utf8_persian_ci NOT NULL COMMENT 'عنوان پروژه',
   `prjdesc` text COLLATE utf8_persian_ci DEFAULT NULL COMMENT 'توضیحات',
   `prjlogo` varchar(255) COLLATE utf8_persian_ci DEFAULT NULL COMMENT 'لوگو محصول',
@@ -198,8 +192,14 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`prjid`, `prjcode`, `prjtitle`, `prjdesc`, `prjlogo`, `bg_color`, `prjcomments`, `prjdate`, `aid`) VALUES
-(1, '1', 'proja', 'این پروژه به صورت تست وارد شده', '-5843029.png', '#fd7e14', 'بخش فالپ', '2020-07-11 11:33:00', 1),
-(2, '2', 'test', '', '', '#007bff', '', '2020-08-12 05:28:38', 1);
+(6, NULL, 'test3', '', '-8089051.png', '#6f42c1', NULL, '2020-08-22 09:37:31', 1),
+(8, NULL, 'سریر', '', '', '#17a2b8', NULL, '2020-08-26 07:07:08', 1),
+(9, NULL, 'test2', '', NULL, '#fd7e14', NULL, '2020-08-26 07:08:22', 3),
+(10, NULL, 'test3', '', NULL, '#fd7e14', NULL, '2020-08-26 07:09:15', 3),
+(11, NULL, 'test4', '', '', '#fd7e14', NULL, '2020-08-26 07:09:47', 3),
+(12, NULL, 'test5', '', '', '#fd7e14', NULL, '2020-08-26 07:25:03', 3),
+(13, NULL, 'test6', '', '', '#fd7e14', NULL, '2020-08-26 07:29:05', 3),
+(14, NULL, 'test7', '', '', '#28a745', NULL, '2020-08-26 07:31:15', 1);
 
 -- --------------------------------------------------------
 
@@ -245,12 +245,16 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`tskid`, `prjid`, `aid`, `tskcode`, `tsktitle`, `tskdesc`, `tskdate`, `tskdone`, `tskdone_date`) VALUES
-(1, 1, 1, '1', 'Getting Started', '<div><br></div>', '2020-07-11 11:33:00', 1, NULL),
-(2, 1, 1, '2', 'Mastering Proja', '<div><br></div>', '2020-07-11 11:33:00', 0, NULL),
-(3, 1, 1, '3', 'More Info', 'تست', '2020-07-11 11:33:00', 0, NULL),
-(9, 2, 1, NULL, 'جدید', NULL, '2020-08-18 08:42:59', 0, NULL),
-(10, 2, 1, NULL, 'خیلی جدید', NULL, '2020-08-18 08:43:14', 0, NULL),
-(11, 2, 1, NULL, 'خیلی خیلی جدید', NULL, '2020-08-18 08:43:19', 0, NULL);
+(3, 6, 1, '3', 'More Info', 'تست', '2020-07-11 11:33:00', 0, NULL),
+(24, 12, 3, NULL, 'در حال توسعه', '', '2020-08-26 07:25:03', 1, '2020-08-26'),
+(25, 13, 3, NULL, 'در حال توسعه', NULL, '2020-08-26 07:29:05', 0, NULL),
+(26, 14, 3, NULL, 'در حال توسعه', NULL, '2020-08-26 07:31:15', 0, NULL),
+(28, 8, 1, NULL, 'جدید', NULL, '2020-08-26 07:44:50', 0, NULL),
+(29, 6, 1, NULL, 'جدید', NULL, '2020-08-26 10:43:22', 0, NULL),
+(30, 6, 1, NULL, 'خیلی جدید', NULL, '2020-08-26 11:12:36', 0, NULL),
+(31, 6, 1, NULL, 'خیلی خیلی جدید', NULL, '2020-08-26 11:12:40', 0, NULL),
+(32, 6, 1, NULL, 'جدید 2', NULL, '2020-08-26 11:12:44', 0, NULL),
+(33, 6, 1, NULL, 'جدید 3', NULL, '2020-08-26 11:12:50', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -269,13 +273,10 @@ CREATE TABLE `tasks_issues` (
 --
 
 INSERT INTO `tasks_issues` (`tiid`, `tskid`, `iid`) VALUES
-(5, 2, 5),
-(6, 3, 6),
-(13, 3, 15),
-(14, 2, 16),
-(15, 1, 17),
-(16, 1, 18),
-(17, 1, 19);
+(23, 3, 25),
+(24, 3, 26),
+(25, 3, 27),
+(31, 28, 33);
 
 --
 -- Indexes for dumped tables
@@ -360,7 +361,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `admins_tasks`
 --
 ALTER TABLE `admins_tasks`
-  MODIFY `atid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `atid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `comments`
@@ -372,7 +373,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT for table `issues`
 --
 ALTER TABLE `issues`
-  MODIFY `iid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `iid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `issue_types`
@@ -384,7 +385,7 @@ ALTER TABLE `issue_types`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `prjid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `prjid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -396,13 +397,13 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `tskid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `tskid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `tasks_issues`
 --
 ALTER TABLE `tasks_issues`
-  MODIFY `tiid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `tiid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Constraints for dumped tables

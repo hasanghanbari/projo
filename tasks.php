@@ -540,7 +540,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 										        </label>
 										      </div>
 												<br>
-												<input type="hidden" class="form-control" name="tskid" id="tskid" value="">
+												<input type="hidden" class="form-control" name="tskid" id="tskid" value="'.$taskInfo['tskid'].'">
 										      </div>
 										      <div class="modal-footer">
 										        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
@@ -598,7 +598,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 				$aid = $permissions[0]['aid'];
 				if (isset($_POST['search'])) {
 					$page_limit = $_POST['page_limit'];
-					$page=$page=(isset($_POST['page'])?$_POST['page']:'');
+					$page=(isset($_POST['page'])?$_POST['page']:0);
 					$start= $page*$page_limit;
 				}
 				if (isset($_GET['order'])) {
@@ -638,19 +638,27 @@ $admins_tasks = new ManageAdmins_Tasks();
 					$prjid 			= '&prjid='.$_GET['prjid'];
 					$prjid2 		= $_GET['prjid'];
 					$project_info 	= $project->GetProjectInfoById($prjid2);
-					$project_logo 	= $project_info['prjlogo'];
-					$bg_color 		= $project_info['bg_color'];
-					$project_title 	= $project_info[2];
-					echo '
-						<style type="text/css">
-							#wrapper {
-								background-color: '.$project_info['bg_color'].';
-								background-image: linear-gradient('.$project_info['bg_color'].', '.$project_info['bg_color'].');
-							}
-						</style>
-					';
+					if (count($project_info) == 0) {
+						echo '<script>window.location = "index.php";</script>';
+						die();
+					}
+					else {
+						$project_logo 	= $project_info['prjlogo'];
+						$bg_color 		= $project_info['bg_color'];
+						$project_title 	= $project_info[2];
+						echo '
+							<style type="text/css">
+								#wrapper {
+									background-color: '.$project_info['bg_color'].';
+									background-image: linear-gradient('.$project_info['bg_color'].', '.$project_info['bg_color'].');
+								}
+							</style>
+						';
+					}
 				}
 				else{
+					echo '<script>window.location = "index.php";</script>';
+					die();
 					$prjid = '';
 					$project_title = '';
 					$project_logo = '';
@@ -662,18 +670,18 @@ $admins_tasks = new ManageAdmins_Tasks();
 					$prjlogo = 'img/proja.png';
 				echo'
 				<div class="row" id="task">
-				  <div class="col-md-4">
+				  <div class="col-md-3">
 					  <p class="lead project-name">
 					  	<img src="'.$prjlogo.'">
 					  	'.$project_title.'
 					  </p>
 				  </div>
-				  <div class="col-md-6">
-					<form action="" method="post" class="form-inline form_search">
+				  <div class="col-md-7">
+					<form action="" method="post" class="form-inline form_search form-row">
 						<div class="form-group">
-							<input autofocus="" type="text" value="'.$q.'" class="form-control input-sm" id="q" name="q" placeholder="'._SEARCH_TEXT.'">
+							<input autofocus="" type="text" value="'.$q.'" class="form-control btn-proj" id="q" name="q" placeholder="'._SEARCH_TEXT.'">
 						</div>
-						<select name="filter" class="form-control input-sm">
+						<select name="filter" class="form-control btn-proj">
 							<option '.($filter=="tskcode"?'selected':'').' value="tskcode">'._CODE.'</option>
 							<option '.($filter=="tsktitle"?'selected':'').' value="tsktitle">'._TITLE.'</option>
 							<option '.($filter=="tskdesc"?'selected':'').' value="tskdesc">'._DESC.'</option>
@@ -681,46 +689,48 @@ $admins_tasks = new ManageAdmins_Tasks();
 							<option onclick="alert(\'  '._DONE.': 1 / '._UNDONE.' : 0\')" '.($filter=="tskdone"?'selected':'').' value="tskdone">'._DONE_TASKS.'</option>
 							<option '.($filter=="tskdone_date"?'selected':'').' value="tskdone_date">'._COMPLETION_DATE.'</option>
 						</select>';
-						if ($num_of_pages>1) {
-							echo' '._PAGE_NUMBER.':<select name="page" class="form-control input-sm">';
-							for ($i=0; $i < $num_of_pages; $i++) { 
+						if ($num_of_pages>0) {
+							echo '
+							<p class="text-white m-1">'._PAGE_NUMBER.': </p>
+							<select name="page" class="form-control input-sm btn-proj">';
+							for ($i=0; $i <= $num_of_pages; $i++) { 
 								echo'
 								<option value="'.$i.'"'.($i==$page?'selected':'').'>'.($i+1).'</option>
 								';
 							}
 							echo '
-								</select>';
+							</select>';
 						}
 						echo'
-					'._NUMBER_OF_PER_PAGE.':
-					<select class="form-control input-sm" id="page_limit" name="page_limit">
+					<p class="text-white m-1">'._NUMBER_OF_PER_PAGE.':</p>
+					<select class="form-control btn-proj" id="page_limit" name="page_limit">
 						<option '.($page_limit=="5"?'selected':'').' value="5">5</option>
 						<option '.($page_limit=="10"?'selected':'').' value="10">10</option>
 						<option '.($page_limit=="20"?'selected':'').' value="20">20</option>
 						<option '.($page_limit=="50"?'selected':'').' value="50">50</option>
 						<option '.($page_limit=="100"?'selected':'').' value="100">100</option>
 					</select>
-					 <button type="submit" name="search" class="btn btn-light btn-proj btn-sm">'._SEARCH.'</button>
+					 <button type="submit" name="search" class="btn btn-light btn-proj m-1">'._SEARCH.'</button>
 					</form><br>
 				  </div>
-				  <div class="col-md-2 text-left">';
-				  if ($permissions[0]['allow_delete_project']==1) {
-				  	echo'
+				  <div class="col-md-2 text-left">
 				  	<a class="btn btn-light btn-proj m-1" href="./" data-toggle="modal" data-target="#myModal2">
 				  	  <i class="fal fa-ellipsis-h align-middle font-weight-normal"></i> نمایش منو
 				  	</a>
-				  	';
-				  }
-				  echo'
 				  </div>
 				</div>
 				<div id="show-resault-delete_task"></div>
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
 				  ';
+				  $task_arr = array();
 				foreach ($tasklist as $taskInfo) {
+
 					$prjid2 = (isset($_GET['prjid'])?$_GET['prjid']:$taskInfo['prjid']);
 					$projectlist=$project->GetProjectInfoById($prjid2);
-					if ($taskInfo['prjid']==$projectlist['prjid']) {
+
+					// check dublicated task & check prjid project with prjid task
+					if ($taskInfo['prjid']==$projectlist['prjid'] && !in_array($taskInfo['tskid'], $task_arr)) {
+						array_push($task_arr, $taskInfo['tskid']);
 						echo'
 						  <div class="col mt-2 pr-2 pl-0">
 							<div class="card border-'.($taskInfo['tskdone']==1?'success':'primary').'">
@@ -764,7 +774,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 		 										        </label>
 		 										      </div>
 		 												<br>
-		 												<!-- <input type="hidden" class="form-control" name="tskid" id="tskid" value=""> -->
+		 												<input type="hidden" class="form-control" name="tskid" id="tskid" value="">
 		 										      </div>
 		 										      <div class="modal-footer">
 		 										        <button type="button" class="btn btn-light" data-dismiss="modal">بستن</button>
@@ -934,9 +944,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 			    </div>
 			  </div>
 			</div>
-			';
-			if ($permissions[0]['allow_delete_project']==1) {
-				echo'
+			
 			<!-- Modal Edit Project-->
 			<div class="modal left fade menu-project" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
 				<div class="modal-dialog" role="document">
@@ -948,7 +956,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						</div>
 
 						<div class="modal-body">
-							<form id="edit_project" method="post" enctype="multipart/form-data">
+							<form id="'.($permissions[0]['allow_edit_project']==1 ? 'edit_project' : '').'" method="post" enctype="multipart/form-data">
 								<input type="hidden" id="op" name="op" value="edit_project">
 								<input type="hidden" id="prjid" name="prjid" value="'.$_GET['prjid'].'">
 								<div class="form-group">
@@ -1047,16 +1055,24 @@ $admins_tasks = new ManageAdmins_Tasks();
 								  	  <textarea class="form-control" id="prjdesc" name="prjdesc">'.$project_info['prjdesc'].'</textarea>
 								  	</div>
 								  	<div id="show-resault-add_project"></div>
+								  	<div id="show-resault-delete_project"></div>
 								  	';
-								  	UpdateForm('edit');
-								  	echo'
+								  	if ($permissions[0]['allow_edit_project']==1) {
+								  		UpdateForm('edit');
+								  	}
+								  	if ($permissions[0]['allow_delete_project']==1) {
+									  	echo'
+									  	<a onclick="return Sure();" class="btn btn-danger float-left" href="javascript:deleteProject('.$project_info['prjid'].')">
+					             		'._DELETE.'
+					             		</a>';
+				             		}
+				             		echo'
 								</div>
 							</form>
 						</div><!-- modal-content -->
 					</div><!-- modal-dialog -->
 				</div><!-- modal -->
 				';
-			}
 		}
 		else{
 			Toast('error', 'خطا', _ACCESS_DENIED);

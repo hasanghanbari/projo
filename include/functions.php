@@ -171,4 +171,10 @@ function Toast($type, $title, $message, $position='top-left', $text_align='right
 		</script>
 	';
 }
+function PrintR($data)
+{
+	echo "<pre>";
+	print_r($data);
+	echo "</pre>";
+}
  ?>
