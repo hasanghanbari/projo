@@ -614,7 +614,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					}
 					else{
 						$query = "";
-						$order ="ORDER BY tskdone,tskid DESC";
+						$order ="ORDER BY tskdone, tskdate ASC";
 					}
 					$tasklist = $task->GetList($query,$order,$limit="LIMIT $start,$page_limit");
 				}
@@ -627,7 +627,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					}
 					else{
 						$query = "WHERE aids=$aid";
-						$order ="ORDER BY tskdone,atid DESC";
+						$order ="ORDER BY tskdone ASC, atid DESC";
 					}
 					$tasklist= $admins_tasks->GetList_task($query, $order,$limit="LIMIT $start,$page_limit");
 				}

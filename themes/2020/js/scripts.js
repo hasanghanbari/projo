@@ -290,10 +290,11 @@ function editIssueForm(iid, tskid) {
     fd.append('iwho_fullname' , $("#iwho_fullname").val());
     fd.append('iwho_email'    , $("#iwho_email").val());
     fd.append('iwho_tel'      , $("#iwho_tel").val());
-    fd.append('iarchive'      , $("#iarchive").val());
+    fd.append('iarchive'      , $("#iarchive:checked").length);
     fd.append('idone_date'    , $("#idone_date").val());
     fd.append('idone_version' , $("#idone_version").val());
-    fd.append('idone'         , $("input[name='idone']:checked").val());
+    fd.append('idone'         , $("#status").val());
+    // fd.append('idone'         , $("input[name='idone']:checked").val());
 
 
     $.ajax({
@@ -392,4 +393,12 @@ function activeColorProject(id) {
   $("#check_bg_color_project" + id).show();
   $("#wrapper").css('background-image', 'linear-gradient(#' + color + ', #' + color +')');
   
+}
+
+function selectStatus(status, title, color) {
+  $("#status").val(status);
+  $("#status-drop").html(title);
+  $("#status-drop").removeClass();
+  $("#status-drop").addClass('btn btn-' + color + ' btn-block');
+
 }

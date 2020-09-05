@@ -245,7 +245,7 @@ switch ($op) {
 	  $tskId = $_POST['tskid'];
 
 	  $query='WHERE iarchive=0';
-	  $order = "ORDER BY idone,icomplexity DESC";
+	  $order = "ORDER BY idone ASC, idate DESC";
 	  $task_issuelist = $task_issue->Getlist($query,$order);
 	  	foreach ($task_issuelist as $task_issueInfo) {
 	  		switch ($task_issueInfo['iproirity']) {
@@ -289,10 +289,23 @@ switch ($op) {
 	  		$ifile1 = $task_issueInfo['ifile1'];
 	  		$ifile2 = $task_issueInfo['ifile2'];
 	  		$ifile3 = $task_issueInfo['ifile3'];
+	  		$bg_issue = '';
+	  		if ($task_issueInfo['idone'] == 0) {
+	  			$bg_issue = '';
+	  		}
+	  		else if ($task_issueInfo['idone'] == 1) {
+	  			$bg_issue = 'text-white bg-success';
+	  		}
+	  		else if ($task_issueInfo['idone'] == 2) {
+	  			$bg_issue = 'text-white bg-danger';
+	  		}
+	  		else if ($task_issueInfo['idone'] == 3) {
+	  			$bg_issue = 'text-white bg-warning';
+	  		}
 	  		if ($tskId == $task_issueInfo['tskid']) {
 	  		echo'
 	  		<a href="javascript:IssueInfo('.$task_issueInfo['iid'].', '.$task_issueInfo['tskid'].')">
-		  		<div class="card card-body issue-task-show mb-2'.($task_issueInfo['idone']==1?'  text-white bg-success':'').'">
+		  		<div class="card card-body issue-task-show mb-2 '.$bg_issue.'">
 			  		<ul class="list-inline p-0">
 			  			<li class="list-inline-item">
 			  				'.$task_issueInfo['ititle'].'
@@ -305,6 +318,8 @@ switch ($op) {
 			  			</li>
 			  			<li class="list-inline-item tag-issue-task-chart">
 			  				'.($task_issueInfo['idone']==1 ? '<span class="badge badge-light">'._DONE.'</span>' : '').'
+			  				'.($task_issueInfo['idone']==2 ? '<span class="badge badge-light">حل نمیشود</span>' : '').'
+			  				'.($task_issueInfo['idone']==3 ? '<span class="badge badge-light">در حال انجام</span>' : '').'
 			  				'.(isset($iproirity) ? '<span class="badge badge-info">'.$iproirity.'</span>' : '').'
 			  				'.(isset($icomplexity) && $task_issueInfo['icomplexity'] != 0 ? '<span class="badge badge-warning font-weight-light">'.$icomplexity.'</span>' : '').'
 			  			</li>
@@ -485,6 +500,22 @@ switch ($op) {
 				$idone_date 	= $issueInfo['idone_date'] == 0 ? '' : ($language=='farsi'	? G2JD($issueInfo['idone_date']) 
 																							: $issueInfo['idone_date']); 
 				$idone_version	= $issueInfo['idone_version'];
+				if ($idone == 0) {
+					$bg_status = 'secondary';
+					$btn_title = 'نامعلوم';
+				}
+				else if ($idone == 1) {
+					$bg_status = 'success';
+					$btn_title = 'تمام شده';
+				}
+				else if ($idone == 2) {
+					$bg_status = 'danger';
+					$btn_title = 'حل نمیشود';
+				}
+				else if ($idone == 3) {
+					$bg_status = 'warning';
+					$btn_title = 'در حال انجام';
+				}
 				switch ($issueInfo['iproirity']) {
 					case '0':
 						$iproirity = ""._EASY."";
@@ -722,6 +753,29 @@ switch ($op) {
 				  	  			</div>
   						  	  </div>
   							</div>
+  							<label for="status" class="w-auto">'._CONDITION.':</label>
+		  	  			  	<input type="hidden" name="status" id="status">
+  							<!-- Example single danger button -->
+  							<div class="float-left w-75 status">
+  							  <button type="button" class="btn btn-'.$bg_status.' btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="status-drop">
+  							    	'.$btn_title.'
+  							  </button>
+  							  <div class="dropdown-menu">
+  							    <a class="bg-secondary dropdown-item" href="#" onclick="selectStatus(0, \'نامعلوم\', \'secondary\')">
+  							    	<span class="status-select">نامعلوم</span>
+  							    </a>
+ 							    <a class="bg-success dropdown-item" href="#" onclick="selectStatus(1, \'تمام شده\', \'success\')">
+  							    	<span class="status-select">تمام شده</span>
+  							    </a>
+  							    <a class="bg-danger dropdown-item" href="#" onclick="selectStatus(2, \'حل نمیشود\', \'danger\')">
+  							    	<span class="status-select">حل نمیشود</span>
+  							    </a>
+  							    <a class="bg-warning dropdown-item" href="#" onclick="selectStatus(3, \'در حال انجام\', \'warning\')">
+  							    	<span class="status-select">در حال انجام</span>
+  							    </a>
+  							  </div>
+  							</div>
+  							<br>
   							<div class="form-group">
   							  <label for="iwho_fullname">'._NAME_OF_PROPOSER.':</label>
   							  <input type="text" class="form-control" id="iwho_fullname" name="iwho_fullname" value="'.$iwho_fullname.'">
@@ -739,7 +793,7 @@ switch ($op) {
   							      <input type="checkbox" id="iarchive" name="iarchive" '.($iarchive==1?'checked':'').'> '._ARCHIVE.'
   							    </label>
   							 </div>
-  							 <label for="idone">'._CONDITION.':</label>
+  							 <!-- <label for="idone">'._CONDITION.':</label>
   							 <div class="radio">
   							   <label>
   							     <input type="radio" name="idone" id="idone1" value="1" '.($idone==1?'checked':'').' onclick="checkDonBox()">
@@ -771,7 +825,7 @@ switch ($op) {
   								  <input type="text" class="form-control" id="idone_version" name="idone_version" style="direction:ltr;" value="'.$idone_version.'">
   								</div>
   							 	</div>
-  							 </div>
+  							 </div> -->
   						  </div>
   						</div>
   					</form>
@@ -793,18 +847,18 @@ switch ($op) {
 				             		'._DELETE.'
 				             	</a>';
 				  			}
-				  			if ($issueInfo['idone']==0) {
-								echo '
-								<a class="btn btn-success" href="javascript:doneIssue('.$issueInfo['iid'].', '.$tskid.')">
-									'._DONE.'
-								</a>';
-							}
-							else {
-								echo '
-								<a class="btn btn-default" href="javascript:startIssue('.$issueInfo['iid'].', '.$tskid.')">
-									'._START.'
-								</a>';
-							}
+				  	// 		if ($issueInfo['idone']==0) {
+							// 	echo '
+							// 	<a class="btn btn-success" href="javascript:doneIssue('.$issueInfo['iid'].', '.$tskid.')">
+							// 		'._DONE.'
+							// 	</a>';
+							// }
+							// else {
+							// 	echo '
+							// 	<a class="btn btn-default" href="javascript:startIssue('.$issueInfo['iid'].', '.$tskid.')">
+							// 		'._START.'
+							// 	</a>';
+							// }
 				  			echo'
   						</div>
   					</div>';

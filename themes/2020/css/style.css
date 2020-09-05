@@ -637,3 +637,15 @@ body {
     border-bottom-color: #EEEEEE;
     background-color: #FAFAFA;
   }
+
+
+/*status issue*/
+.status .dropdown-item {
+  text-align: center;
+  width: 92%;
+  margin: 10px;
+}
+.status-select {
+  padding: 0 20px;
+  color: #fff;
+}
