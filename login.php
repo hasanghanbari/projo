@@ -9,7 +9,7 @@ if (isset($_POST['login'])) {
 		$security_code= $_POST['security_code'];
 		if ($admin->Login($username,md5($pass))==1) {
 			if (($_SESSION['security_code'] == $security_code) && (!empty($_SESSION['security_code']))) {
-			setcookie("iproject",$username.':'.md5($pass),time()+860000);
+			setcookie("projo",$username.':'.md5($pass),time()+860000);
 			header("location: ./");
 			}
 			else{
@@ -23,7 +23,7 @@ if (isset($_POST['login'])) {
 	}
 	else{
 		if ($admin->Login($username,md5($pass))==1) {
-			setcookie("iproject",$username.':'.md5($pass),time()+860000);
+			setcookie("projo",$username.':'.md5($pass),time()+860000);
 			header("location: ./");
 		}
 		else{
@@ -57,7 +57,7 @@ echo '
   				</div>
   				';
 
-  				if (isset($_COOKIE['iproject'])) {
+  				if (isset($_COOKIE['projo'])) {
   					echo '
   					<span class="login100-form-title w-50">
   						'._YOU_HAVE_ALREADY_LOGGED_IN_WITH_YOUR_USERNAME.'

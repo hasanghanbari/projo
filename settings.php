@@ -19,8 +19,8 @@ if (isset($_GET['op'])) {
 				$language = $_POST['language'];
 				$direction = $_POST['dir'];
 				$theme = $_POST['theme'];
-				$adminInfo=$admin->GetAdminInfo($_COOKIE['iproject']);
-				$cookie_admin= explode(':', $_COOKIE['iproject']);
+				$adminInfo=$admin->GetAdminInfo($_COOKIE['projo']);
+				$cookie_admin= explode(':', $_COOKIE['projo']);
 				if($admin->AdminPermission($cookie_admin[0],"asuper_admin"))
 				{
 					if($manage_settings->UpdateSettings($system_title,$language,$direction,$theme)!=1)
@@ -151,7 +151,7 @@ if (isset($_GET['op'])) {
 		case 'profile':
 		echo '
 			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
-		$cookie_admin= explode(':', $_COOKIE['iproject']);
+		$cookie_admin= explode(':', $_COOKIE['projo']);
 		$ausername = $cookie_admin[0];
 		$adminInfo = $admin->GetAdminInfo($ausername);
 		$aid = $adminInfo[0]['aid'];
@@ -165,8 +165,8 @@ if (isset($_GET['op'])) {
 		$apic2 = $adminInfo[0]['apic'];
 		$acomments = $adminInfo[0]['acomments'];
 		if (isset($_POST['edit'])) {
-			$adminInfo=$admin->GetAdminInfo($_COOKIE['iproject']);
-			$cookie_admin= explode(':', $_COOKIE['iproject']);
+			$adminInfo=$admin->GetAdminInfo($_COOKIE['projo']);
+			$cookie_admin= explode(':', $_COOKIE['projo']);
 			$afname = $_POST['afname'];
 			$alname = $_POST['alname'];
 			$agender = $_POST['agender'];

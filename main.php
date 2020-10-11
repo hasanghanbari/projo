@@ -1,7 +1,7 @@
 <?php 
 require 'config.php';
 session_start();
-if (!isset($_COOKIE['iproject']) && !preg_match("/login.php/i", $_SERVER['REQUEST_URI'])) {
+if (!isset($_COOKIE['projo']) && !preg_match("/login.php/i", $_SERVER['REQUEST_URI'])) {
 	header('location: login.php');
 }
 if (isset($_SESSION['user_last_ip'])===false) {
@@ -30,12 +30,12 @@ require_once 'include/functions.php';
 require_once 'include/class.settings.php';
 require_once 'include/class.comment.php';
 $admin= new ManageAdmins();
-if (isset($_COOKIE['iproject'])) {
-	$cookie_admin= explode(':', $_COOKIE['iproject']);
+if (isset($_COOKIE['projo'])) {
+	$cookie_admin= explode(':', $_COOKIE['projo']);
 	if ($admin->Login($cookie_admin[0],$cookie_admin[1])!=1) {
 		header('location: logout.php');
 	}
-	$cookie_admin= explode(':', $_COOKIE['iproject']);
+	$cookie_admin= explode(':', $_COOKIE['projo']);
 	$permissions = $admin->GetAdminInfo($cookie_admin[0]);
 }
 $settings_class = new ManageSettings();

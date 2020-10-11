@@ -4,7 +4,7 @@
 
   <body>
 <div id="wrapper">
-<?php if (isset($_COOKIE['iproject'])) {
+<?php if (isset($_COOKIE['projo'])) {
 echo'
 <div class="nav-side-menu">
     <a href="./" style="color: #fff;"><div class="brand">'.$system_title.'</div></a>

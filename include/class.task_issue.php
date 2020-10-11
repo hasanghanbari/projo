@@ -47,6 +47,26 @@ class ManageTasks_issues{
 		return $counts;
 	}
 
+	function UpdateTask($tskid, $iid)
+	{
+		global $prefix;
+		global $dev;
+		$query = $this->link->prepare("UPDATE `tasks_issues` SET tskid=? WHERE iid=?");
+		$values = array($tskid, $iid);
+		$query->execute($values);
+		$counts = $query->rowcount();
+		// $dev = 1;
+		if ($dev==1) {
+			echo '<pre dir="ltr">';
+			print_r($query->errorInfo());
+			echo '</pre>';
+			echo '<pre dir="ltr">';
+			print_r($query->debugDumpParams());
+			echo '</pre>';
+		}
+		return $counts;
+	}
+
 	function GetList($q=NULL, $order="ORDER BY tiid DESC",$limit=NULL)
 	{
 		global $prefix;

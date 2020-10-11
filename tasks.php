@@ -423,7 +423,6 @@ $admins_tasks = new ManageAdmins_Tasks();
 							<input autofocus="" type="text" value="'.$q.'" class="form-control input-sm" id="q" name="q" placeholder="'._SEARCH_TEXT.'">
 						</div>
 						<select name="filter" class="form-control input-sm">
-							<option '.($filter=="tskcode"?'selected':'').' value="tskcode">'._CODE.'</option>
 							<option '.($filter=="tsktitle"?'selected':'').' value="tsktitle">'._TITLE.'</option>
 							<option '.($filter=="tskdesc"?'selected':'').' value="tskdesc">'._DESC.'</option>
 							<option '.($filter=="tskdate"?'selected':'').' value="tskdate">'._INSERT_DATE.'</option>
@@ -678,21 +677,20 @@ $admins_tasks = new ManageAdmins_Tasks();
 				  </div>
 				  <div class="col-md-7">
 					<form action="" method="post" class="form-inline form_search form-row">
-						<div class="form-group">
-							<input autofocus="" type="text" value="'.$q.'" class="form-control btn-proj" id="q" name="q" placeholder="'._SEARCH_TEXT.'">
-						</div>
-						<select name="filter" class="form-control btn-proj">
-							<option '.($filter=="tskcode"?'selected':'').' value="tskcode">'._CODE.'</option>
+						<input autofocus="" type="text" value="'.$q.'" class="form-control btn-proj col-md col-4" id="q" name="q" placeholder="'._SEARCH_TEXT.'">
+						<!-- <div class="form-group m-0">
+						</div> -->
+						<select name="filter" class="form-control btn-proj col-md col-4">
 							<option '.($filter=="tsktitle"?'selected':'').' value="tsktitle">'._TITLE.'</option>
 							<option '.($filter=="tskdesc"?'selected':'').' value="tskdesc">'._DESC.'</option>
 							<option '.($filter=="tskdate"?'selected':'').' value="tskdate">'._INSERT_DATE.'</option>
 							<option onclick="alert(\'  '._DONE.': 1 / '._UNDONE.' : 0\')" '.($filter=="tskdone"?'selected':'').' value="tskdone">'._DONE_TASKS.'</option>
 							<option '.($filter=="tskdone_date"?'selected':'').' value="tskdone_date">'._COMPLETION_DATE.'</option>
 						</select>';
-						if ($num_of_pages>0) {
+						if ($num_of_pages>1) {
 							echo '
-							<p class="text-white m-1">'._PAGE_NUMBER.': </p>
-							<select name="page" class="form-control input-sm btn-proj">';
+							<p class="text-white m-1 col-md col">'._PAGE_NUMBER.': </p>
+							<select name="page" class="form-control input-sm btn-proj col-md col-2">';
 							for ($i=0; $i <= $num_of_pages; $i++) { 
 								echo'
 								<option value="'.$i.'"'.($i==$page?'selected':'').'>'.($i+1).'</option>
@@ -702,8 +700,8 @@ $admins_tasks = new ManageAdmins_Tasks();
 							</select>';
 						}
 						echo'
-					<p class="text-white m-1">'._NUMBER_OF_PER_PAGE.':</p>
-					<select class="form-control btn-proj" id="page_limit" name="page_limit">
+					<p class="text-white m-1 col-md col-4">'._NUMBER_OF_PER_PAGE.':</p>
+					<select class="form-control btn-proj col-md col-2" id="page_limit" name="page_limit">
 						<option '.($page_limit=="5"?'selected':'').' value="5">5</option>
 						<option '.($page_limit=="10"?'selected':'').' value="10">10</option>
 						<option '.($page_limit=="20"?'selected':'').' value="20">20</option>

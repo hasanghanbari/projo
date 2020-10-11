@@ -1,5 +1,5 @@
 <?php 
-setcookie("iproject"," ",time()-860000);
+setcookie("projo"," ",time()-860000);
 header('location: ./');
 
  ?>

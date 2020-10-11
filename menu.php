@@ -4,7 +4,7 @@
 
   <body>
 <div id="wrapper">
-<?php if (isset($_COOKIE['iproject'])) {
+<?php if (isset($_COOKIE['projo'])) {
 echo'
   <nav class="navbar navbar-expand-lg fixed-top navbar-light p-0" style="background-color: #0003;">
     <a class="logo-menu" href="./">

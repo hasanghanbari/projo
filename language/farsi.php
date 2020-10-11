@@ -9,6 +9,8 @@ define("_YES","بله");
 define("_NO","خیر");
 define("_ADD","افزودن");
 define("_CANCEL","کنسل");
+define("_MOVE","انتقال");
+define("_TO","به");
 define("_LIST","لیست");
 define("_CHART","فهرست");
 define("_ARCHIVE","آرشیو");

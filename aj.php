@@ -245,7 +245,7 @@ switch ($op) {
 	  $tskId = $_POST['tskid'];
 
 	  $query='WHERE iarchive=0';
-	  $order = "ORDER BY idone ASC, idate DESC";
+	  $order = "ORDER BY idate DESC";
 	  $task_issuelist = $task_issue->Getlist($query,$order);
 	  	foreach ($task_issuelist as $task_issueInfo) {
 	  		switch ($task_issueInfo['iproirity']) {
@@ -477,305 +477,347 @@ switch ($op) {
 		$projectlist 		= $project->GetList();
 		$issue_typeslist 	= $issue_types->GetList();
 		$issueInfo 			= $issue->GetInfo("iid",$iid);
-			if ($iid == $issueInfo['iid']) {
-				$tyid 			= $issueInfo['tyid']; 
-				$prjid 			= $issueInfo['prjid']; 
-				$iversion 		= $issueInfo['iversion']; 
-				$icode 			= $issueInfo['icode']; 
-				$ititle 		= $issueInfo['ititle']; 
-				$idesc 			= $issueInfo['idesc'];
-				$ineeded_time 	= $issueInfo['ineeded_time']; 
-				$ifile1 		= $issueInfo['ifile1']; 
-				$ifile12 		= $issueInfo['ifile1']; 
-				$ifile2 		= $issueInfo['ifile2']; 
-				$ifile22 		= $issueInfo['ifile2']; 
-				$ifile3 		= $issueInfo['ifile3']; 
-				$ifile32 		= $issueInfo['ifile3']; 
-				$iarchive 		= $issueInfo['iarchive']; 
-				$idate 			= $issueInfo['idate']; 
-				$iwho_fullname 	= $issueInfo['iwho_fullname']; 
-				$iwho_email 	= $issueInfo['iwho_email']; 
-				$iwho_tel 		= $issueInfo['iwho_tel']; 
-				$idone 			= $issueInfo['idone']; 
-				$idone_date 	= $issueInfo['idone_date'] == 0 ? '' : ($language=='farsi'	? G2JD($issueInfo['idone_date']) 
-																							: $issueInfo['idone_date']); 
-				$idone_version	= $issueInfo['idone_version'];
-				if ($idone == 0) {
-					$bg_status = 'secondary';
-					$btn_title = 'نامعلوم';
-				}
-				else if ($idone == 1) {
-					$bg_status = 'success';
-					$btn_title = 'تمام شده';
-				}
-				else if ($idone == 2) {
-					$bg_status = 'danger';
-					$btn_title = 'حل نمیشود';
-				}
-				else if ($idone == 3) {
-					$bg_status = 'warning';
-					$btn_title = 'در حال انجام';
-				}
-				switch ($issueInfo['iproirity']) {
-					case '0':
-						$iproirity = ""._EASY."";
-						break;
-					case '1':
-						$iproirity = ""._NORMAL."";
-						break;
-					case '2':
-						$iproirity = ""._HARD."";
-						break;
-					case '3':
-						$iproirity = ""._VERY." "._HARD."";
-						break;
-					default:
-						$iproirity = "";	
-				}
-				switch ($issueInfo['icomplexity']) {
-					case '0':
-						$icomplexity = "None";
-						break;
-					case '1':
-						$icomplexity = "!";
-						break;
-					case '2':
-						$icomplexity = "!!";
-						break;
-					case '3':
-						$icomplexity = "!!!";
-						break;
-					case '4':
-						$icomplexity = "!!!!";
-						break;
-					case '5':
-						$icomplexity = "!!!!!";
-						break;
-					default:
-						$icomplexity = "None";
-				}
-				$adminlist = $admin->GetAdminInfoById($issueInfo['aid']);
-		      echo'
-		      
-		       <div class="modal-header">
-		       	<div class="row w-100">
-		       		<div id="show-resault-done-issue" class="col-12"></div>
-		       		<div class="col-6">
-						<h5>
-				    		<a href="#" role="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">
-				    			<i class="fas fa-times"></i>
-				    		</a>
-							'._EDIT.' '._ISSUE.'
-						</h5>
-					</div>
-					<div class="col-6">		
-			    		<div class="float-left">
-			    			<span>
-			    				'._PROIRITY.': '.$iproirity.' | 
-			    			</span>
-			    			<span>
-			    				'._COMPLEXITY.': '.$icomplexity.' |
-			    			</span>
-			    			<span>
-		  						'._INSERTED_BY.': '. $adminlist['ausername'].'
-			    			</span>
-			    		</div>
-					</div>
-		       	</div>
-		      </div>
-		      <div class="modal-body">';
-  				if ($permissions[0]['allow_add_issues']==1 || $permissions[0]['allow_edit_issues']==1) {	
-  				echo'
-  					<form id="edit_issue" method="post" enctype="multipart/form-data">
-  						<div class="row">
-  						  <div class="col-md-8">
-							  <div class="form-group">
-							    <label for="ititle">'._TITLE.'<span class="required">*</span>:</label>
-							    <input type="text" class="form-control" id="ititle" name="ititle" value="'.$ititle.'">
+		if ($iid == $issueInfo['iid']) {
+			$tyid 			= $issueInfo['tyid']; 
+			$prjid 			= $issueInfo['prjid']; 
+			$iversion 		= $issueInfo['iversion']; 
+			$icode 			= $issueInfo['icode']; 
+			$ititle 		= $issueInfo['ititle']; 
+			$idesc 			= $issueInfo['idesc'];
+			$ineeded_time 	= $issueInfo['ineeded_time']; 
+			$ifile1 		= $issueInfo['ifile1']; 
+			$ifile12 		= $issueInfo['ifile1']; 
+			$ifile2 		= $issueInfo['ifile2']; 
+			$ifile22 		= $issueInfo['ifile2']; 
+			$ifile3 		= $issueInfo['ifile3']; 
+			$ifile32 		= $issueInfo['ifile3']; 
+			$iarchive 		= $issueInfo['iarchive']; 
+			$idate 			= $issueInfo['idate']; 
+			$iwho_fullname 	= $issueInfo['iwho_fullname']; 
+			$iwho_email 	= $issueInfo['iwho_email']; 
+			$iwho_tel 		= $issueInfo['iwho_tel']; 
+			$idone 			= $issueInfo['idone']; 
+			$idone_date 	= $issueInfo['idone_date'] == 0 ? '' : ($language=='farsi'	? G2JD($issueInfo['idone_date']) 
+																						: $issueInfo['idone_date']); 
+			$idone_version	= $issueInfo['idone_version'];
+			if ($idone == 0) {
+				$bg_status = 'secondary';
+				$btn_title = 'نامعلوم';
+			}
+			else if ($idone == 1) {
+				$bg_status = 'success';
+				$btn_title = 'تمام شده';
+			}
+			else if ($idone == 2) {
+				$bg_status = 'danger';
+				$btn_title = 'حل نمیشود';
+			}
+			else if ($idone == 3) {
+				$bg_status = 'warning';
+				$btn_title = 'در حال انجام';
+			}
+			switch ($issueInfo['iproirity']) {
+				case '0':
+					$iproirity = ""._EASY."";
+					break;
+				case '1':
+					$iproirity = ""._NORMAL."";
+					break;
+				case '2':
+					$iproirity = ""._HARD."";
+					break;
+				case '3':
+					$iproirity = ""._VERY." "._HARD."";
+					break;
+				default:
+					$iproirity = "";	
+			}
+			switch ($issueInfo['icomplexity']) {
+				case '0':
+					$icomplexity = "None";
+					break;
+				case '1':
+					$icomplexity = "!";
+					break;
+				case '2':
+					$icomplexity = "!!";
+					break;
+				case '3':
+					$icomplexity = "!!!";
+					break;
+				case '4':
+					$icomplexity = "!!!!";
+					break;
+				case '5':
+					$icomplexity = "!!!!!";
+					break;
+				default:
+					$icomplexity = "None";
+			}
+			$adminlist = $admin->GetAdminInfoById($issueInfo['aid']);
+	      echo'
+	      	<script type="text/javascript">
+	      		$(document).ready(function() {
+	      		    $(".editor").richText();
+	      		});
+	      	</script>
+	       <div class="modal-header">
+	       	<div class="row w-100">
+	       		<div id="show-resault-done-issue" class="col-12"></div>
+	       		<div class="col-6">
+					<h5>
+			    		<a href="#" role="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">
+			    			<i class="fas fa-times"></i>
+			    		</a>
+						'._EDIT.' '._ISSUE.'
+					</h5>
+				</div>
+				<div class="col-6">		
+		    		<div class="float-left">
+		    			<span>
+		    				'._PROIRITY.': '.$iproirity.' | 
+		    			</span>
+		    			<span>
+		    				'._COMPLEXITY.': '.$icomplexity.' |
+		    			</span>
+		    			<span>
+	  						'._INSERTED_BY.': '. $adminlist['ausername'].'
+		    			</span>
+		    		</div>
+				</div>
+	       	</div>
+	      </div>
+	      <div class="modal-body">';
+				if ($permissions[0]['allow_add_issues']==1 || $permissions[0]['allow_edit_issues']==1) {	
+				echo'
+					<form id="edit_issue" method="post" enctype="multipart/form-data">
+						<div class="row">
+						  <div class="col-md-8">
+						  <div class="form-group">
+						    <label for="ititle">'._TITLE.'<span class="required">*</span>:</label>
+						    <input type="text" class="form-control" id="ititle" name="ititle" value="'.$ititle.'">
+						  </div>
+							  <div class="row">
+								  <div class="col-md-6">
+									  <div class="form-group">
+									    <label for="iproirity">'._PROIRITY.':</label>
+									    <select class="form-control" name="iproirity" id="iproirity">
+									      <option value="0" '.($issueInfo['iproirity']==0?'selected':'').'>'._EASY.'</option>
+									      <option value="1" '.($issueInfo['iproirity']==1?'selected':'').'>'._NORMAL.'</option>
+									      <option value="2" '.($issueInfo['iproirity']==2?'selected':'').'>'._HARD.'</option>
+									      <option value="3" '.($issueInfo['iproirity']==3?'selected':'').'>'._VERY.' '._HARD.'</option>
+									    </select>
+									  </div>
+								  </div>
+								  <div class="col-md-6">
+									  <div class="form-group">
+									    <label for="icomplexity">'._COMPLEXITY.':</label>
+									    <select class="form-control" name="icomplexity" id="icomplexity">
+									      <option value="0" '.($issueInfo['icomplexity']==0?'selected':'').'>None</option>
+									      <option value="1" '.($issueInfo['icomplexity']==1?'selected':'').'>!</option>
+									      <option value="2" '.($issueInfo['icomplexity']==2?'selected':'').'>!!</option>
+									      <option value="3" '.($issueInfo['icomplexity']==3?'selected':'').'>!!!</option>
+									      <option value="4" '.($issueInfo['icomplexity']==4?'selected':'').'>!!!!</option>
+									      <option value="5" '.($issueInfo['icomplexity']==5?'selected':'').'>!!!!!</option>
+									    </select>
+									  </div>
+								  </div>
 							  </div>
-  							  <div class="row">
-  								  <div class="col-md-6">
-  									  <div class="form-group">
-  									    <label for="iproirity">'._PROIRITY.':</label>
-  									    <select class="form-control" name="iproirity" id="iproirity">
-  									      <option value="0" '.($issueInfo['iproirity']==0?'selected':'').'>'._EASY.'</option>
-  									      <option value="1" '.($issueInfo['iproirity']==1?'selected':'').'>'._NORMAL.'</option>
-  									      <option value="2" '.($issueInfo['iproirity']==2?'selected':'').'>'._HARD.'</option>
-  									      <option value="3" '.($issueInfo['iproirity']==3?'selected':'').'>'._VERY.' '._HARD.'</option>
-  									    </select>
-  									  </div>
-  								  </div>
-  								  <div class="col-md-6">
-  									  <div class="form-group">
-  									    <label for="icomplexity">'._COMPLEXITY.':</label>
-  									    <select class="form-control" name="icomplexity" id="icomplexity">
-  									      <option value="0" '.($issueInfo['icomplexity']==0?'selected':'').'>None</option>
-  									      <option value="1" '.($issueInfo['icomplexity']==1?'selected':'').'>!</option>
-  									      <option value="2" '.($issueInfo['icomplexity']==2?'selected':'').'>!!</option>
-  									      <option value="3" '.($issueInfo['icomplexity']==3?'selected':'').'>!!!</option>
-  									      <option value="4" '.($issueInfo['icomplexity']==4?'selected':'').'>!!!!</option>
-  									      <option value="5" '.($issueInfo['icomplexity']==5?'selected':'').'>!!!!!</option>
-  									    </select>
-  									  </div>
-  								  </div>
-  							  </div>
-  						    <div class="row">
-  						  	  <div class="col-md-6">
-  								  <div class="form-group">
-  								    <label for="ineeded_time">'._NEEDED_TIME.':</label>
-  								    <input type="text" class="form-control" id="ineeded_time" name="ineeded_time" value="'.$ineeded_time.'" placeholder="'._NEEDED_TIME_EXAMPLE.'">
-  								  </div>
-  							  </div>
-  						  	  <div class="col-md-6">
-  							      <div class="form-group">
-  					  	    	<label for="tyid">'._TYPE.' '._ISSUE.':</label><br>
-  						  	  	  <select class="form-control" id="tyid" name="tyid">';
-  						  	        foreach ($issue_typeslist as $issue_typesInfo) {
-  						  	         echo'<option value="'.$issue_typesInfo['tyid'].'" '.($issue_typesInfo['tyid']==$tyid?'selected':'').'>'.$issue_typesInfo['tytitle'].'</option>
-  						  	        ';
-  						  	   		}
-  						  	       echo'
-  						  	  	  </select>
-  						  	    </div>
-  							  </div>
-  							</div>
-  					  	    <div class="row">
-  							  <div class="col-md-6">
-  								   <div class="form-group">
-  								    <label for="prjid">'._FOR.' '._PROJECT.':</label>
-  								    <select class="form-control" name="prjid"'.(isset($_GET['tskid'])?'disabled':'').'>';
-  								    if ($permissions[0]['asuper_admin']==1) {
-  								    	$projectlist= $project->GetList();
-  								    }
-  								    else{
-  								    	$aid= $permissions[0]['aid'];
-  								    	$query = "WHERE aids=$aid";
-  								    	$projectlist = $admins_tasks->GetListPrjAdmin($query);
-  								    }
-  								    $prj_list = [];
-  								    foreach ($projectlist as $projectInfo) {
-  								    	if (!in_array($projectInfo['prjid'], $prj_list)) {
-  								    		echo'
-  								    		<option value="'.$projectInfo['prjid'].'" '.($projectInfo['prjid']==$prjid?'selected':'').'>'.$projectInfo['prjtitle'].'</option>
-  								    		';
-  								    		array_push($prj_list, $projectInfo['prjid']);
-  										}
-  								    }
+						    <div class="row">
+						  	  <div class="col-md-6">
+								  <div class="form-group">
+								    <label for="ineeded_time">'._NEEDED_TIME.':</label>
+								    <input type="text" class="form-control" id="ineeded_time" name="ineeded_time" value="'.$ineeded_time.'" placeholder="'._NEEDED_TIME_EXAMPLE.'">
+								  </div>
+							  </div>
+						  	  <div class="col-md-6">
+							      <div class="form-group">
+					  	    	<label for="tyid">'._TYPE.' '._ISSUE.':</label><br>
+						  	  	  <select class="form-control" id="tyid" name="tyid">';
+						  	        foreach ($issue_typeslist as $issue_typesInfo) {
+						  	         echo'<option value="'.$issue_typesInfo['tyid'].'" '.($issue_typesInfo['tyid']==$tyid?'selected':'').'>'.$issue_typesInfo['tytitle'].'</option>
+						  	        ';
+						  	   		}
+						  	       echo'
+						  	  	  </select>
+						  	    </div>
+							  </div>
+							</div>
+					  	    <div class="row">
+							  <div class="col-md-6">
+								   <div class="form-group">
+								    <label for="prjid">'._MOVE.' '._TO.' '._PROJECT.':</label>
+								    <select class="form-control" id="prjid" name="prjid"'.(isset($_GET['tskid'])?'disabled':'').'>';
+								    if ($permissions[0]['asuper_admin']==1) {
+								    	$projectlist= $project->GetList();
+								    }
+								    else{
+								    	$aid= $permissions[0]['aid'];
+								    	$query = "WHERE aids=$aid";
+								    	$projectlist = $admins_tasks->GetListPrjAdmin($query);
+								    }
+								    $prj_list = [];
+								    foreach ($projectlist as $projectInfo) {
+								    	if (!in_array($projectInfo['prjid'], $prj_list)) {
+								    		echo'
+								    		<option value="'.$projectInfo['prjid'].'" '.($projectInfo['prjid']==$prjid?'selected':'').'>'.$projectInfo['prjtitle'].'</option>
+								    		';
+								    		array_push($prj_list, $projectInfo['prjid']);
+										}
+								    }
 
-  								    echo'
-  								    </select>
-  								  </div>
-  					  	      </div>
-  							  <div class="col-md-6">
-  							    <div class="form-group">
-  							      <label for="iversion">'._PROJECT_VERSION.':</label>
-  							      <input type="text" class="form-control" id="iversion" name="iversion" value="'.$iversion.'">
-  							    </div>
-  					  	      </div>
-  							</div>
-  							<div class="form-group">
-  							  <label for="idesc">'._DESC.':</label>
-  							  <textarea class="form-control editor" rows="3" id="idesc" name="idesc">'.$idesc.'</textarea>
-  							</div>
-  						  </div>
-  						  <div class="col-md-4">
-  						  	<div class="row">
-  							  <div class="col">
-  								  <div class="form-group">
-  								    ';
-  	    								if(file_exists('file_issue/file1/'.$file_prefix.$ifile1.''))
-  	    								{
-  	    									echo '
-  	    									<a href="file_issue/file1/'.$file_prefix.$ifile1.'" download="file1-'.$file_prefix.$ifile1.'">
-  	    										'._DOWNLOAD.' '._FILE1.'
-  	    									</a>
-  	    									<br>
-  	    									<input type="checkbox" name="delpic1" value="1" id="delpic1"><label for="delpic1"> '._DELETE_FILE.'1</label>
-  	    									';
-  	    								}
-  		    							else{
-  		    								echo'
-  								    			<label for="ifile1" class="btn btn-light">'._FILE1.'</label>
-  							    				<input type="file" style="opacity: 0" id="ifile1" name="ifile1">
-  		    								';
-  		    							}
-  								echo '
-  									<br>
-  								    <input type="hidden" name="ifile1_temp" id="ifile1_temp" value="'.$ifile12.'">
-  								  </div>
-  						  	  </div>
-  							  <div class="col">
-  								  <div class="form-group">
-  								    ';
-    								if(file_exists('file_issue/file2/'.$file_prefix.$ifile2.''))
-    								{
-    									echo '
-    									<a href="file_issue/file2/'.$file_prefix.$ifile2.'" download="file2-'.$file_prefix.$ifile2.'">
-    										'._DOWNLOAD.' '._FILE2.'
-    									</a>
-    									<br>
-    									<input type="checkbox" name="delpic2" value="1" id="delpic2"><label for="delpic2"> '._DELETE_FILE.'2</label>
-    									';
-    								}
-	    							else{
-	    								echo'
-  								    		<label for="ifile2" class="btn btn-light">'._FILE2.'</label>
-							    			<input type="file" style="opacity: 0" id="ifile2" name="ifile2">
-										';
-									}
-  									echo '
-  									<br>
-  								    <input type="hidden" name="ifile2_temp" id="ifile2_temp" value="'.$ifile22.'">
-  								  </div>
-  						  	  </div>
-  						  	  <div class="col">
-				  	  			<div class="form-group">
-				  	  		    ';
-				  	  				if(file_exists('file_issue/file3/'.$file_prefix.$ifile3.''))
-				  	  				{
-				  	  					echo '
-				  	  					<a href="file_issue/file3/'.$file_prefix.$ifile3.'" download="file3'.$file_prefix.$ifile3.'">
-				  	  						'._DOWNLOAD.' '._FILE3.'
-				  	  					</a>
-				  	  					<br>
-				  	  					<input type="checkbox" name="delpic3" value="1" id="delpic3"><label for="delpic3"> '._DELETE_FILE.'3</label>
-				  	  					';
-				  	  				}
-				  	  				else{
-				  	  					echo'
-				  	  			  			<label for="ifile3" class="btn btn-light">'._FILE3.'</label>
-				  	  	    	  			<input type="file" style="opacity: 0" id="ifile3" name="ifile3">
-				  	  					';
-				  	  				}
-				  	  			echo '
-				  	  			  <br>
-				  	  			  <input type="hidden" name="ifile3_temp" id="ifile3_temp" value="'.$ifile32.'">
-				  	  			</div>
-  						  	  </div>
-  							</div>
+								    echo'
+								    </select>
+								  </div>
+					  	      </div>
+							  <div class="col-md-6">
+							  	<script type="text/javascript">
+							  		$( "#prjid" ).change(function() {
+							  		  showTask($("#prjid").val());
+							  		});
+							  		showTask('.$prjid.');
+							  		function showTask(prjid) {
+							  			$("#task_move").html(\'<img src="img/wait.gif">\');
+							  			const tskid = "'.$tskid.'";
+							  			$.ajax({
+							  			  url: "aj.php",
+							  			  type: "POST",
+							  			  data: {op:"get_task_for_move", prjid: prjid, tskid: tskid},
+							  			  success: function(data,status) {
+							  			    console.log(data);
+							  			    $("#task_move").html(data);
+							  			  },
+							  			  error: function() {$("#task_move").html("problem in ajax")}
+							  			}); 
+							  		}
+							  	</script>
+							    <div class="form-group" id="task_move">
+							      <!-- <label for="iversion">'._PROJECT_VERSION.':</label> -->
+							      <!-- <input type="text" class="form-control" id="iversion" name="iversion" value="'.$iversion.'"> -->
+							    </div>
+					  	      </div>
+							</div>
+							<div class="form-group">
+							  <label for="idesc">'._DESC.':</label>
+							  <textarea class="form-control editor" rows="3" id="idesc" name="idesc">'.$idesc.'</textarea>
+							</div>
+						  </div>
+						  <div class="col-md-4">
+						  	<label for="idesc">پیوست‌ها:</label>
+						  	<div class="row">
+							  <div class="col">
+								  <div class="form-group">
+								    ';
+	    								if(file_exists('file_issue/file1/'.$file_prefix.$ifile1.''))
+	    								{
+	    									echo '
+	    									<a href="file_issue/file1/'.$file_prefix.$ifile1.'" download="file1-'.$file_prefix.$ifile1.'">
+	    										'._DOWNLOAD.' '._FILE1.'
+	    									</a>
+	    									<br>
+	    									<input type="checkbox" name="delpic1" value="1" id="delpic1"><label for="delpic1"> '._DELETE_FILE.'1</label>
+	    									';
+	    								}
+		    							else{
+		    								echo'
+								    			<label for="ifile1" class="btn btn-light">'._FILE1.'</label>
+							    				<input type="file" class="h-0" style="opacity: 0" id="ifile1" name="ifile1">
+		    								';
+		    							}
+								echo '
+									<br>
+								    <input type="hidden" name="ifile1_temp" id="ifile1_temp" value="'.$ifile12.'">
+								  </div>
+						  	  </div>
+							  <div class="col">
+								  <div class="form-group">
+								    ';
+								if(file_exists('file_issue/file2/'.$file_prefix.$ifile2.''))
+								{
+									echo '
+									<a href="file_issue/file2/'.$file_prefix.$ifile2.'" download="file2-'.$file_prefix.$ifile2.'">
+										'._DOWNLOAD.' '._FILE2.'
+									</a>
+									<br>
+									<input type="checkbox" name="delpic2" value="1" id="delpic2"><label for="delpic2"> '._DELETE_FILE.'2</label>
+									';
+								}
+    							else{
+    								echo'
+								    		<label for="ifile2" class="btn btn-light">'._FILE2.'</label>
+						    			<input type="file" class="h-0" style="opacity: 0" id="ifile2" name="ifile2">
+									';
+								}
+									echo '
+									<br>
+								    <input type="hidden" name="ifile2_temp" id="ifile2_temp" value="'.$ifile22.'">
+								  </div>
+						  	  </div>
+						  	  <div class="col">
+			  	  			<div class="form-group">
+			  	  		    ';
+			  	  				if(file_exists('file_issue/file3/'.$file_prefix.$ifile3.''))
+			  	  				{
+			  	  					echo '
+			  	  					<a href="file_issue/file3/'.$file_prefix.$ifile3.'" download="file3'.$file_prefix.$ifile3.'">
+			  	  						'._DOWNLOAD.' '._FILE3.'
+			  	  					</a>
+			  	  					<br>
+			  	  					<input type="checkbox" name="delpic3" value="1" id="delpic3"><label for="delpic3"> '._DELETE_FILE.'3</label>
+			  	  					';
+			  	  				}
+			  	  				else{
+			  	  					echo'
+			  	  			  			<label for="ifile3" class="btn btn-light">'._FILE3.'</label>
+			  	  	    	  			<input type="file" class="h-0" style="opacity: 0" id="ifile3" name="ifile3">
+			  	  					';
+			  	  				}
+			  	  			echo '
+			  	  			  <br>
+			  	  			  <input type="hidden" name="ifile3_temp" id="ifile3_temp" value="'.$ifile32.'">
+			  	  			</div>
+						  	  </div>
+							</div>
+							<div class="mb-4">
   							<label for="status" class="w-auto">'._CONDITION.':</label>
-		  	  			  	<input type="hidden" name="status" id="status">
+		  	  			  	<input type="hidden" name="status" id="status" value="'.$idone.'">
   							<!-- Example single danger button -->
   							<div class="float-left w-75 status">
   							  <button type="button" class="btn btn-'.$bg_status.' btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="status-drop">
   							    	'.$btn_title.'
   							  </button>
   							  <div class="dropdown-menu">
-  							    <a class="bg-secondary dropdown-item" href="#" onclick="selectStatus(0, \'نامعلوم\', \'secondary\')">
+  							    <a class="bg-secondary dropdown-item" href="javascript: " onclick="selectStatus(0, \'نامعلوم\', \'secondary\')">
   							    	<span class="status-select">نامعلوم</span>
   							    </a>
- 							    <a class="bg-success dropdown-item" href="#" onclick="selectStatus(1, \'تمام شده\', \'success\')">
+ 							    <a class="bg-success dropdown-item" href="javascript: " onclick="selectStatus(1, \'تمام شده\', \'success\')">
   							    	<span class="status-select">تمام شده</span>
   							    </a>
-  							    <a class="bg-danger dropdown-item" href="#" onclick="selectStatus(2, \'حل نمیشود\', \'danger\')">
+  							    <a class="bg-danger dropdown-item" href="javascript: " onclick="selectStatus(2, \'حل نمیشود\', \'danger\')">
   							    	<span class="status-select">حل نمیشود</span>
   							    </a>
-  							    <a class="bg-warning dropdown-item" href="#" onclick="selectStatus(3, \'در حال انجام\', \'warning\')">
+  							    <a class="bg-warning dropdown-item" href="javascript: " onclick="selectStatus(3, \'در حال انجام\', \'warning\')">
   							    	<span class="status-select">در حال انجام</span>
   							    </a>
   							  </div>
   							</div>
-  							<br>
+							</div>
+							<div class="checkbox">
+							    <label>
+							      <input type="checkbox" id="iarchive" name="iarchive" '.($iarchive==1?'checked':'').'> '._ARCHIVE.'
+							    </label>
+							 </div>
+							<div class="checkbox">
+							    <label>
+							      <input 	type="checkbox" 
+							      			id="has_how" 
+							      			name="has_how" 
+							      			onclick="hasHow()"
+							      			'.($iwho_fullname == '' && $iwho_email == '' && $iwho_tel == '' ? '' : 'checked') .'>
+							      گزارش دهنده دارد
+							    </label>
+							</div>
+							<div id="how_form" style="display: '.($iwho_fullname == '' && $iwho_email == '' && $iwho_tel == '' ? 'none' : 'block') .'">
   							<div class="form-group">
   							  <label for="iwho_fullname">'._NAME_OF_PROPOSER.':</label>
   							  <input type="text" class="form-control" id="iwho_fullname" name="iwho_fullname" value="'.$iwho_fullname.'">
@@ -788,89 +830,104 @@ switch ($op) {
   							  <label for="iwho_tel">'._PHONE_NUMBER_OF_PROPOSER.':</label>
   							  <input type="text" class="form-control" id="iwho_tel" name="iwho_tel" style="direction:ltr;" value="'.$iwho_tel.'">
   							</div>
-  							<div class="checkbox">
-  							    <label>
-  							      <input type="checkbox" id="iarchive" name="iarchive" '.($iarchive==1?'checked':'').'> '._ARCHIVE.'
-  							    </label>
-  							 </div>
-  							 <!-- <label for="idone">'._CONDITION.':</label>
-  							 <div class="radio">
-  							   <label>
-  							     <input type="radio" name="idone" id="idone1" value="1" '.($idone==1?'checked':'').' onclick="checkDonBox()">
-  							     '._DONE.'
-  							   </label>
-  							   <label>
-  							     <input type="radio" name="idone" id="idone2" value="0"'.($idone==0?'checked':'').' onclick="checkDonBox()">
-  							     '._UNDONE.'
-  							   </label>
-  							 </div>
-  							 <div class="row" id="done_issue_box" style="display: '.($idone==1?'block':'none').'">
-  							 	<div class="col-md-6">
-  								 <div class="form-group">
-  								  <label for="idone_date">'._COMPLETION_DATE_ISSUE.':</label>
-  								  <input type="'.($language=='farsi'?'text':'date').'" class="form-control" id="idone_date" name="idone_date" style="direction:ltr;" value="'.($idone_date==0?'':$idone_date).'">';
-  								  if ($language=='farsi') {
-  								  	echo'
-  									  <script type="text/javascript">
-  								        kamaDatepicker(\'idone_date\', { buttonsColor: "red",markToday: "true", highlightSelectedDay: "true" , gotoToday: "true", nextButtonIcon: "img/timeir_next.png", previousButtonIcon: "img/timeir_prev.png"});
-  									  </script>
-  								  	';
-  								  }
-  								  echo'
-  								 </div>
-  							 	</div>
-  							 	<div class="col-md-6">
-  								 <div class="form-group">
-  								  <label for="idone_version">'._DONE_VERSION.':</label>
-  								  <input type="text" class="form-control" id="idone_version" name="idone_version" style="direction:ltr;" value="'.$idone_version.'">
-  								</div>
-  							 	</div>
-  							 </div> -->
-  						  </div>
   						</div>
-  					</form>
-  					<div id="resault-edit_issue"></div>
-  					<div class="row">
-  						<div class="col-6">';
-  							if ($permissions[0]['allow_edit_task']==1) {
-  								echo'
-  								<button class="btn btn-warning" onclick="editIssueForm('.$iid.', '.$tskid.')">ویرایش</button>
-  								';
-  							}
-  							echo'
-  						</div>
-  						<div class="col-6" style="text-align: left">
-				           	<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
-				  			if ($permissions[0]['allow_delete_issues']==1) {
-				  				echo'
-				             	<a onclick="return Sure();" class="btn btn-danger ml-1" href="javascript:deleteIssue('.$issueInfo['iid'].', '.$tskid.')">
-				             		'._DELETE.'
-				             	</a>';
-				  			}
-				  	// 		if ($issueInfo['idone']==0) {
-							// 	echo '
-							// 	<a class="btn btn-success" href="javascript:doneIssue('.$issueInfo['iid'].', '.$tskid.')">
-							// 		'._DONE.'
-							// 	</a>';
-							// }
-							// else {
-							// 	echo '
-							// 	<a class="btn btn-default" href="javascript:startIssue('.$issueInfo['iid'].', '.$tskid.')">
-							// 		'._START.'
-							// 	</a>';
-							// }
-				  			echo'
-  						</div>
-  					</div>';
-  				}
-  				else{
-  					Failure(_ACCESS_DENIED);
-  				}
-  				echo'
-		      </div>
-		    </div>
-				';
+							 <!-- <label for="idone">'._CONDITION.':</label>
+							 <div class="radio">
+							   <label>
+							     <input type="radio" name="idone" id="idone1" value="1" '.($idone==1?'checked':'').' onclick="checkDonBox()">
+							     '._DONE.'
+							   </label>
+							   <label>
+							     <input type="radio" name="idone" id="idone2" value="0"'.($idone==0?'checked':'').' onclick="checkDonBox()">
+							     '._UNDONE.'
+							   </label>
+							 </div>
+							 <div class="row" id="done_issue_box" style="display: '.($idone==1?'block':'none').'">
+							 	<div class="col-md-6">
+								 <div class="form-group">
+								  <label for="idone_date">'._COMPLETION_DATE_ISSUE.':</label>
+								  <input type="'.($language=='farsi'?'text':'date').'" class="form-control" id="idone_date" name="idone_date" style="direction:ltr;" value="'.($idone_date==0?'':$idone_date).'">';
+								  if ($language=='farsi') {
+								  	echo'
+									  <script type="text/javascript">
+								        kamaDatepicker(\'idone_date\', { buttonsColor: "red",markToday: "true", highlightSelectedDay: "true" , gotoToday: "true", nextButtonIcon: "img/timeir_next.png", previousButtonIcon: "img/timeir_prev.png"});
+									  </script>
+								  	';
+								  }
+								  echo'
+								 </div>
+							 	</div>
+							 	<div class="col-md-6">
+								 <div class="form-group">
+								  <label for="idone_version">'._DONE_VERSION.':</label>
+								  <input type="text" class="form-control" id="idone_version" name="idone_version" style="direction:ltr;" value="'.$idone_version.'">
+								</div>
+							 	</div>
+							 </div> -->
+						  </div>
+						</div>
+					</form>
+					<div id="resault-edit_issue"></div>
+					<div class="row">
+						<div class="col-6">';
+							if ($permissions[0]['allow_edit_task']==1) {
+								echo'
+								<button class="btn btn-warning" onclick="editIssueForm('.$iid.', '.$tskid.')">ویرایش</button>
+								';
+							}
+							echo'
+						</div>
+						<div class="col-6" style="text-align: left">
+			           	<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
+			  			if ($permissions[0]['allow_delete_issues']==1) {
+			  				echo'
+			             	<a onclick="return Sure();" class="btn btn-danger ml-1" href="javascript:deleteIssue('.$issueInfo['iid'].', '.$tskid.')">
+			             		'._DELETE.'
+			             	</a>';
+			  			}
+			  	// 		if ($issueInfo['idone']==0) {
+						// 	echo '
+						// 	<a class="btn btn-success" href="javascript:doneIssue('.$issueInfo['iid'].', '.$tskid.')">
+						// 		'._DONE.'
+						// 	</a>';
+						// }
+						// else {
+						// 	echo '
+						// 	<a class="btn btn-default" href="javascript:startIssue('.$issueInfo['iid'].', '.$tskid.')">
+						// 		'._START.'
+						// 	</a>';
+						// }
+			  			echo'
+						</div>
+					</div>';
+				}
+				else{
+					Failure(_ACCESS_DENIED);
+				}
+				echo'
+	      </div>
+	    </div>
+			';
 		}
+		break;
+	case 'get_task_for_move':
+		$prjid = $_POST['prjid'];
+		$tskid = $_POST['tskid'];
+
+		$query = "WHERE prjid=$prjid";
+		$task_list = $task->Getlist($query);
+		echo '
+			<label for="task-move">'._TASK.':</label>
+	      	<select class="form-control" name="task_move" id="task_move">
+	      	';
+	      	foreach ($task_list as $key => $value) {
+	      		echo'
+	      		<option value="'.$value['tskid'].'" '.($value['tskid'] == $tskid ? 'selected' : '').'>'.$value['tsktitle'].'</option>
+	      		';
+	      	}
+	      	echo'
+	      	</select>
+		';
 		break;
 	case 'edit_issue_form':
 		$iid			= $_POST['iid'];
@@ -1068,11 +1125,13 @@ switch ($op) {
 		$iarchive		= $_POST['iarchive'];
 		$idone			= $_POST['idone'];
 		$idone_version	= $_POST['idone_version'];
-		$idone_date = ($_POST['idone_date'] ==0 ? date('Y-m-d') 
+		$task_move		= $_POST['task_move'];
+		$idone_date 	= ($_POST['idone_date'] ==0 ? date('Y-m-d') 
 												: ($language=='farsi' ? J2GD($_POST['idone_date']) : $_POST['idone_date'])); 
 			
 			if ($permissions[0]['allow_edit_issues']==1) {
 				if($issue->UpdateFast($iid, $tyid, $prjid, $iversion, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version)==1){
+					$task_issue->UpdateTask($task_move, $iid);
 					Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
 				}
 				else{
@@ -1164,7 +1223,7 @@ switch ($op) {
 					    <input type="text" class="form-control" id="tsktitle" name="tsktitle" value="'.$tsktitle.'">
 					  </div>
 					  <div class="form-group">
-					    <label for="tsktitle">'._FOR.' '._PROJECT.'<span class="required">*</span>:</label>
+					    <label for="tsktitle">'._MOVE.' '._TO.' '._PROJECT.'<span class="required">*</span>:</label>
 					    <input type="hidden" value="'.(isset($_GET['tskid'])?$_GET['tskid']:'').'" id="tskid">
 					    <select class="form-control" name="prjid" id="prjid" onclick ="loadVQs()" onkeyup="loadVQs()">
 					    	';

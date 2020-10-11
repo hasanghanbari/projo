@@ -95,7 +95,7 @@ echo'
 						  <th>'._FOR.' '._PROJECT.'</th>
 						</tr>
 					';
-					$cookie_admin= explode(':', $_COOKIE['iproject']);
+					$cookie_admin= explode(':', $_COOKIE['projo']);
 					$aid = $permissions[0]['aid'];
 					if ($aid==1) {
 						$query = "WHERE tskdone=0";

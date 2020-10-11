@@ -28,6 +28,7 @@ function AddIssueBox(tskid) {
     $("#addIssueButton"+tskid).hide();
     $("#addIssueText"+tskid).show();
     $("#issueText"+tskid).val("");
+    $("#issueText"+tskid).focus();
     $("#confirmIssueButton"+tskid).attr("disabled", false);
     $("#showWait"+tskid).hide();
     $("#showBtnText"+tskid).show();
@@ -263,6 +264,15 @@ $("form#project").submit(function(e) {
     });
 });
 
+function hasHow() {
+  if ($("#has_how").is(":checked") == true) {
+    $("#how_form").show()
+  }
+  else {
+    $("#how_form").hide();
+  }
+}
+
 function editIssueForm(iid, tskid) {
     $("#resault-edit_issue").html('<img src="img/wait.gif">');
 
@@ -292,8 +302,9 @@ function editIssueForm(iid, tskid) {
     fd.append('iwho_tel'      , $("#iwho_tel").val());
     fd.append('iarchive'      , $("#iarchive:checked").length);
     fd.append('idone_date'    , $("#idone_date").val());
-    fd.append('idone_version' , $("#idone_version").val());
+    fd.append('idone_version' , 0);
     fd.append('idone'         , $("#status").val());
+    fd.append('task_move'     , $("#task_move").find(":selected").val());
     // fd.append('idone'         , $("input[name='idone']:checked").val());
 
 
@@ -325,7 +336,6 @@ function checkDonBox() {
 
 function editTaskForm(tskid, aid) {
     $("#resault-edit_task").html('<img src="img/wait.gif">');
-    console.log($("input[name='tskdone']:checked").val());
     $.ajax({
       url: "aj.php",
       type: "POST",

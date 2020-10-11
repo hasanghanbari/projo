@@ -8,6 +8,10 @@ body, html {
   background-attachment: fixed;
 }
 
+.h-0 {
+  height: 0;
+}
+
 #popover2 {
   position: absolute;
 }

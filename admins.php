@@ -21,8 +21,8 @@ switch ($op) {
 	$aactive = 1;
 	$agender = $asuper_admin = 0;
 		if (isset($_POST['add'])) {
-			$adminInfo=$admin->GetAdminInfo($_COOKIE['iproject']);
-			$cookie_admin= explode(':', $_COOKIE['iproject']);
+			$adminInfo=$admin->GetAdminInfo($_COOKIE['projo']);
+			$cookie_admin= explode(':', $_COOKIE['projo']);
 			if($admin->AdminPermission($cookie_admin[0],"asuper_admin"))
 			{
 				//--Upload Image
@@ -111,8 +111,8 @@ switch ($op) {
 		elseif (isset($_GET['aid'])) {
 			$aid= $_GET['aid'];
 			if (isset($_POST['edit'])) {
-				$adminInfo=$admin->GetAdminInfo($_COOKIE['iproject']);
-				$cookie_admin= explode(':', $_COOKIE['iproject']);
+				$adminInfo=$admin->GetAdminInfo($_COOKIE['projo']);
+				$cookie_admin= explode(':', $_COOKIE['projo']);
 				if($admin->AdminPermission($cookie_admin[0],"asuper_admin"))
 				{
 					//image admin
@@ -736,8 +736,8 @@ switch ($op) {
 		break;
 		case 'delete':
 			if (isset($_GET['aid'])) {
-				$adminInfo=$admin->GetAdminInfo($_COOKIE['iproject']);
-				$cookie_admin= explode(':', $_COOKIE['iproject']);
+				$adminInfo=$admin->GetAdminInfo($_COOKIE['projo']);
+				$cookie_admin= explode(':', $_COOKIE['projo']);
 				if($admin->AdminPermission($cookie_admin[0],"asuper_admin"))
 				{
 					if ($adminInfo['aid'] !=1) {
