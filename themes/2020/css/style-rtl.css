@@ -17,6 +17,7 @@ body {
 .richText .richText-editor {
     border-right: #FFFFFF solid 2px;
     border-left: none;
+    font-family: Samim
 }
 
 .richText .richText-editor:focus {

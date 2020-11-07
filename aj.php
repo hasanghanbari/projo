@@ -300,6 +300,12 @@ switch ($op) {
 	  			$bg_issue = 'text-white bg-danger';
 	  		}
 	  		else if ($task_issueInfo['idone'] == 3) {
+	  			$bg_issue = 'text-white bg-info';
+	  		}
+	  		else if ($task_issueInfo['idone'] == 4) {
+	  			$bg_issue = 'text-white bg-primary';
+	  		}
+	  		else if ($task_issueInfo['idone'] == 5) {
 	  			$bg_issue = 'text-white bg-warning';
 	  		}
 	  		if ($tskId == $task_issueInfo['tskid']) {
@@ -320,6 +326,8 @@ switch ($op) {
 			  				'.($task_issueInfo['idone']==1 ? '<span class="badge badge-light">'._DONE.'</span>' : '').'
 			  				'.($task_issueInfo['idone']==2 ? '<span class="badge badge-light">حل نمیشود</span>' : '').'
 			  				'.($task_issueInfo['idone']==3 ? '<span class="badge badge-light">در حال انجام</span>' : '').'
+			  				'.($task_issueInfo['idone']==4 ? '<span class="badge badge-light">در حال تست</span>' : '').'
+			  				'.($task_issueInfo['idone']==5 ? '<span class="badge badge-danger">اضطراری</span>' : '').'
 			  				'.(isset($iproirity) ? '<span class="badge badge-info">'.$iproirity.'</span>' : '').'
 			  				'.(isset($icomplexity) && $task_issueInfo['icomplexity'] != 0 ? '<span class="badge badge-warning font-weight-light">'.$icomplexity.'</span>' : '').'
 			  			</li>
@@ -513,8 +521,16 @@ switch ($op) {
 				$btn_title = 'حل نمیشود';
 			}
 			else if ($idone == 3) {
-				$bg_status = 'warning';
+				$bg_status = 'info';
 				$btn_title = 'در حال انجام';
+			}
+			else if ($idone == 4) {
+				$bg_status = 'primary';
+				$btn_title = 'در حال تست';
+			}
+			else if ($idone == 5) {
+				$bg_status = 'warning';
+				$btn_title = 'اضطراری';
 			}
 			switch ($issueInfo['iproirity']) {
 				case '0':
@@ -703,6 +719,36 @@ switch ($op) {
 							</div>
 						  </div>
 						  <div class="col-md-4">
+						  	<div class="mb-4">
+  							<label for="status" class="w-auto">'._CONDITION.':</label>
+		  	  			  	<input type="hidden" name="status" id="status" value="'.$idone.'">
+  							<!-- Example single danger button -->
+  							<div class="float-left w-75 status">
+  							  <button type="button" class="btn btn-'.$bg_status.' btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="status-drop">
+  							    	'.$btn_title.'
+  							  </button>
+  							  <div class="dropdown-menu">
+  							    <a class="bg-secondary dropdown-item" href="javascript: " onclick="selectStatus(0, \'نامعلوم\', \'secondary\')">
+  							    	<span class="status-select">نامعلوم</span>
+  							    </a>
+ 							    <a class="bg-success dropdown-item" href="javascript: " onclick="selectStatus(1, \'تمام شده\', \'success\')">
+  							    	<span class="status-select">تمام شده</span>
+  							    </a>
+  							    <a class="bg-danger dropdown-item" href="javascript: " onclick="selectStatus(2, \'حل نمیشود\', \'danger\')">
+  							    	<span class="status-select">حل نمیشود</span>
+  							    </a>
+  							    <a class="bg-info dropdown-item" href="javascript: " onclick="selectStatus(3, \'در حال انجام\', \'info\')">
+  							    	<span class="status-select">در حال انجام</span>
+  							    </a>
+  							    <a class="bg-primary dropdown-item" href="javascript: " onclick="selectStatus(4, \'درحال تست\', \'primary\')">
+  							    	<span class="status-select">درحال تست</span>
+  							    </a>
+  							    <a class="bg-warning dropdown-item" href="javascript: " onclick="selectStatus(5, \'اضطراری\', \'warning\')">
+  							    	<span class="status-select">اضطراری</span>
+  							    </a>
+  							  </div>
+  							</div>
+							</div>
 						  	<label for="idesc">پیوست‌ها:</label>
 						  	<div class="row">
 							  <div class="col">
@@ -778,30 +824,7 @@ switch ($op) {
 			  	  			</div>
 						  	  </div>
 							</div>
-							<div class="mb-4">
-  							<label for="status" class="w-auto">'._CONDITION.':</label>
-		  	  			  	<input type="hidden" name="status" id="status" value="'.$idone.'">
-  							<!-- Example single danger button -->
-  							<div class="float-left w-75 status">
-  							  <button type="button" class="btn btn-'.$bg_status.' btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="status-drop">
-  							    	'.$btn_title.'
-  							  </button>
-  							  <div class="dropdown-menu">
-  							    <a class="bg-secondary dropdown-item" href="javascript: " onclick="selectStatus(0, \'نامعلوم\', \'secondary\')">
-  							    	<span class="status-select">نامعلوم</span>
-  							    </a>
- 							    <a class="bg-success dropdown-item" href="javascript: " onclick="selectStatus(1, \'تمام شده\', \'success\')">
-  							    	<span class="status-select">تمام شده</span>
-  							    </a>
-  							    <a class="bg-danger dropdown-item" href="javascript: " onclick="selectStatus(2, \'حل نمیشود\', \'danger\')">
-  							    	<span class="status-select">حل نمیشود</span>
-  							    </a>
-  							    <a class="bg-warning dropdown-item" href="javascript: " onclick="selectStatus(3, \'در حال انجام\', \'warning\')">
-  							    	<span class="status-select">در حال انجام</span>
-  							    </a>
-  							  </div>
-  							</div>
-							</div>
+							
 							<div class="checkbox">
 							    <label>
 							      <input type="checkbox" id="iarchive" name="iarchive" '.($iarchive==1?'checked':'').'> '._ARCHIVE.'
@@ -870,7 +893,7 @@ switch ($op) {
 					<div id="resault-edit_issue"></div>
 					<div class="row">
 						<div class="col-6">';
-							if ($permissions[0]['allow_edit_task']==1) {
+							if ($permissions[0]['allow_edit_issues']==1) {
 								echo'
 								<button class="btn btn-warning" onclick="editIssueForm('.$iid.', '.$tskid.')">ویرایش</button>
 								';
