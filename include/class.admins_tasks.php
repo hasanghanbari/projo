@@ -103,7 +103,21 @@ class ManageAdmins_Tasks{
 	{
 		global $prefix;
 		global $dev;
-		$query = $this->link->query("SELECT * FROM admins_tasks INNER JOIN tasks on tasks.tskid=admins_tasks.tskid $q $order $limit");
+		$query = $this->link->query("
+			SELECT 
+				t.tskid,
+				t.prjid,
+				t.aid,
+				t.tskcode,
+				t.tsktitle,
+				t.tskdesc,
+				t.tskdate,
+				t.tskdone,
+				t.tskdone_date
+			FROM admins_tasks as at
+			INNER JOIN tasks as t on t.tskid = at.tskid 
+			$q $order $limit
+		");
 		if ($dev==1) {
 			echo '<pre dir="ltr">';
 			print_r($query->errorInfo());
@@ -137,7 +151,32 @@ class ManageAdmins_Tasks{
 	{
 		global $prefix;
 		global $dev;
-		$query = $this->link->query("SELECT * FROM admins_tasks INNER JOIN tasks on admins_tasks.tskid=tasks.tskid INNER JOIN projects on projects.prjid=tasks.prjid $q");
+		$query = $this->link->query("
+			SELECT 
+				atid,
+				aids,
+				t.tskid,
+				t.prjid as prjid,
+				t.aid,
+				t.tskcode,
+				t.tsktitle,
+				t.tskdesc,
+				t.tskdate,
+				t.tskdone,
+				t.tskdone_date,
+				p.prjcode,
+				p.prjtitle,
+				p.prjdesc,
+				p.prjlogo,
+				p.bg_color,
+				p.prjcomments,
+				p.prjdate,
+				t.aid
+			FROM admins_tasks as at
+			INNER JOIN tasks 	as t on at.tskid = t.tskid 
+			INNER JOIN projects as p on p.prjid = t.prjid 
+			$q
+		");
 		if ($dev==1) {
 			echo '<pre dir="ltr">';
 			print_r($query->errorInfo());

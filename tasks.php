@@ -592,47 +592,6 @@ $admins_tasks = new ManageAdmins_Tasks();
 		echo '
 			<div class="col-sm-12 col-md-12" id="content">';
 			if ($permissions[0]['allow_list_task']==1) {
-				$query=$q=$filter=$order="";
-				$start=$page=0;
-				$aid = $permissions[0]['aid'];
-				if (isset($_POST['search'])) {
-					$page_limit = $_POST['page_limit'];
-					$page=(isset($_POST['page'])?$_POST['page']:0);
-					$start= $page*$page_limit;
-				}
-				if (isset($_GET['order'])) {
-					$order = $_GET['order'];
-					$order = "ORDER BY $order ".(isset($_GET['desc'])?'desc':'');
-				}
-				if ($aid==1) {
-					if (isset($_POST['search']) && $_POST['q']!=="") 
-					{
-						$q= $_POST['q'];
-						$filter= $_POST['filter'];
-						$query= "WHERE $filter LIKE '%$q%'";
-					}
-					else{
-						$query = "";
-						$order ="ORDER BY tskdone, tskdate ASC";
-					}
-					$tasklist = $task->GetList($query,$order,$limit="LIMIT $start,$page_limit");
-				}
-				else{
-					if (isset($_POST['search']) && $_POST['q']!=="") 
-					{
-						$q= $_POST['q'];
-						$filter= $_POST['filter'];
-						$query= "WHERE aids=$aid&&$filter LIKE '%$q%'";
-					}
-					else{
-						$query = "WHERE aids=$aid";
-						$order ="ORDER BY tskdone ASC, atid DESC";
-					}
-					$tasklist= $admins_tasks->GetList_task($query, $order,$limit="LIMIT $start,$page_limit");
-				}
-				$num_of_records=  $admins_tasks->RowCount($query);
-				$num_of_pages= intval($num_of_records/$page_limit);
-				$num_of_pages= ($num_of_records%$page_limit==0?$num_of_pages:$num_of_pages+1);
 				if (isset($_GET['prjid'])) {
 					$prjid 			= '&prjid='.$_GET['prjid'];
 					$prjid2 		= $_GET['prjid'];
@@ -662,6 +621,51 @@ $admins_tasks = new ManageAdmins_Tasks();
 					$project_title = '';
 					$project_logo = '';
 				}
+
+				$query=$q=$filter=$order="";
+				$start=$page=0;
+				$aid = $permissions[0]['aid'];
+				if (isset($_POST['search'])) {
+					$page_limit = $_POST['page_limit'];
+					$page=(isset($_POST['page'])?$_POST['page']:0);
+					$start= $page*$page_limit;
+				}
+				if (isset($_GET['order'])) {
+					$order = $_GET['order'];
+					$order = "ORDER BY $order ".(isset($_GET['desc'])?'desc':'');
+				}
+				if ($aid==1) {
+					if (isset($_POST['search']) && $_POST['q']!=="") 
+					{
+						$q= $_POST['q'];
+						$filter= $_POST['filter'];
+						$query= "WHERE prjid = $prjid2 AND $filter LIKE '%$q%'";
+					}
+					else{
+						$query = "WHERE prjid = $prjid2";
+						$order ="ORDER BY tskdone, tskdate ASC";
+					}
+					$tasklist = $task->GetList($query,$order,$limit="LIMIT $start,$page_limit");
+					$num_of_records=  $task->RowCount($query);
+				}
+				else{
+					if (isset($_POST['search']) && $_POST['q']!=="") 
+					{
+						$q= $_POST['q'];
+						$filter= $_POST['filter'];
+						$query= "WHERE t.prjid = $prjid2 AND aids=$aid && $filter LIKE '%$q%'";
+					}
+					else{
+						$query = "WHERE t.prjid = $prjid2 AND aids=$aid";
+						$order ="ORDER BY tskdone ASC, atid DESC";
+					}
+					$tasklist= $admins_tasks->GetList_task($query, $order,$limit="LIMIT $start,$page_limit");
+					$num_of_records=  $admins_tasks->RowCount($query);
+				}
+
+				$num_of_pages= intval($num_of_records/$page_limit);
+				$num_of_pages= ($num_of_records%$page_limit==0?$num_of_pages:$num_of_pages+1);
+
 
 				if(file_exists('img/project/'.$pic_prefix.$project_logo.''))
 					$prjlogo = 'img/project/'.$pic_prefix.$project_logo.'';
