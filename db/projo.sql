@@ -60,9 +60,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`aid`, `ausername`, `apass`, `aactive`, `aexpiration_date`, `asuper_admin`, `afname`, `alname`, `agender`, `atel`, `aemail`, `apic`, `acomments`, `allow_add_project`, `allow_edit_project`, `allow_list_project`, `allow_delete_project`, `allow_add_task`, `allow_edit_task`, `allow_list_task`, `allow_delete_task`, `allow_add_issues`, `allow_edit_issues`, `allow_list_issues`, `allow_delete_issues`) VALUES
-(1, 'hasan', '81dc9bdb52d04dc20036dbd8313ed055', 1, '2020-07-11 11:33:00', 1, 'حسن', 'قنبری', 0, '09101551518', '', '-7815956.jpg', 'grate', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-(2, 'mohsen', '81dc9bdb52d04dc20036dbd8313ed055', 1, '2020-07-27 10:25:28', 0, '', '', 0, '', '', '', '<div><br></div>', 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0),
-(3, 'test', '81dc9bdb52d04dc20036dbd8313ed055', 1, '2020-08-12 04:56:58', 0, 'حسین', 'محمدی', 0, '', '', '', '<div><br></div>', 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0);
+(1, 'admin', '81dc9bdb52d04dc20036dbd8313ed055', 1, '2020-07-11 11:33:00', 1, 'admin', 'admin2', 0, '09101551518', '', '-7815956.jpg', 'grate', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -142,10 +140,7 @@ CREATE TABLE `issues` (
 --
 
 INSERT INTO `issues` (`iid`, `prjid`, `tyid`, `aid`, `iversion`, `icode`, `ititle`, `idesc`, `iproirity`, `icomplexity`, `ineeded_time`, `ifile1`, `ifile2`, `ifile3`, `iarchive`, `idate`, `iwho_fullname`, `iwho_email`, `iwho_tel`, `idone`, `idone_date`, `idone_version`) VALUES
-(25, 6, 1, 1, '', NULL, 'یسرسیرسیرسیرس', '', '1', '3', '', '', '', '', 0, '2020-08-24 08:12:14', '', '', '', 0, '2020-08-26', 0),
-(26, 6, 1, 1, NULL, NULL, 'یرسیرسیرسیرسیرسیرسیرسیر', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2020-08-24 08:12:17', NULL, NULL, NULL, NULL, NULL, 0),
-(27, 6, 1, 1, NULL, NULL, 'سیرسیرسیرسیرسیر', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2020-08-24 08:12:21', NULL, NULL, NULL, NULL, NULL, 0),
-(33, 8, 1, 1, NULL, NULL, 'تست شد', NULL, '1', '0', NULL, NULL, NULL, NULL, 0, '2020-08-26 07:45:01', NULL, NULL, NULL, 1, '2020-08-26', 0);
+(25, 6, 1, 1, '', NULL, 'aaaaaa', '', '1', '3', '', '', '', '', 0, '2020-08-24 08:12:14', '', '', '', 0, '2020-08-26', 0);
 
 -- --------------------------------------------------------
 
