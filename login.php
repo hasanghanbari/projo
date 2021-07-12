@@ -60,9 +60,9 @@ echo '
   				if (isset($_COOKIE['projo'])) {
   					echo '
   					<span class="login100-form-title w-50">
-  						'._YOU_HAVE_ALREADY_LOGGED_IN_WITH_YOUR_USERNAME.'
+  						'.$_YOU_HAVE_ALREADY_LOGGED_IN_WITH_YOUR_USERNAME.'
               <a href="./" class="login100-form-btn mt-5">
-    						'._GO_TO.' '._HOME_PAGE.'
+    						'.$_GO_TO.' '.$_HOME_PAGE.'
     					</a>
   					</span>
             ';
@@ -71,11 +71,11 @@ echo '
   					echo'
   				<form method="post" class="login100-form validate-form form_login">
   					<span class="login100-form-title">
-  						'._HI_YOU_MUST_BE_LOGGED_IN_TO_USE_THE_SYSTEM.'
+  						'.$_HI_YOU_MUST_BE_LOGGED_IN_TO_USE_THE_SYSTEM.'
   					</span>
 
   					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-  						<input type="text" style="direction: ltr;" autofocus="" name="username" class="input100" placeholder="'._USERNAME.'" aria-describedby="basic-addon1">
+  						<input type="text" style="direction: ltr;" autofocus="" name="username" class="input100" placeholder="'.$_USERNAME.'" aria-describedby="basic-addon1">
   						<span class="focus-input100"></span>
   						<span class="symbol-input100">
   							<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -83,7 +83,7 @@ echo '
   					</div>
 
   					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-  						<input type="password" style="direction: ltr;" name="password" class="input100" placeholder="'._PASSWORD.'" aria-describedby="basic-addon1">
+  						<input type="password" style="direction: ltr;" name="password" class="input100" placeholder="'.$_PASSWORD.'" aria-describedby="basic-addon1">
   						<span class="focus-input100"></span>
   						<span class="symbol-input100">
   							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -93,7 +93,7 @@ echo '
 	                  if (isset($_SESSION['incorrect_password'])) {
 	                  echo'
 	                  <div class="form-group">
-	                  	<label for="uhome_zipcode">'._PLEASE_ENTER_THE_CODE_IN_THE_BOX.' <img src="include/captcha.php" alt=""></label>
+	                  	<label for="uhome_zipcode">'.$_PLEASE_ENTER_THE_CODE_IN_THE_BOX.' <img src="include/captcha.php" alt=""></label>
 	                  	<div class="controls">
 	                  		<input type="text" class="form-control" id="security_code" name="security_code" style="direction: ltr;">
 	                  	</div>
@@ -101,7 +101,7 @@ echo '
 	                  }
 	                  echo'
   					<div class="container-login100-form-btn">
-  						<input type="submit" name="login" value="'._LOGIN.'" class="login100-form-btn">
+  						<input type="submit" name="login" value="'.$_LOGIN.'" class="login100-form-btn">
   					</div>
 
   					<div class="text-center p-t-12">

@@ -29,18 +29,18 @@ switch ($op) {
 			
 			if(!in_array(substr(basename($_FILES['prjlogo']['name']),-3), $whitelist))
 			{
-				Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
+				Toast('error', $_ERROR, $_ADMIN_PIC_EXTENSION_ERROR);
 			}
 			else
 			{
 				$imageinfo = getimagesize($_FILES['prjlogo']['tmp_name']);
 				if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg' && $imageinfo['mime'] != 'image/png')
 				{
-					Toast('error', 'خطا', _ADMIN_PIC_CONTENT_ERROR);
+					Toast('error', $_ERROR, $_ADMIN_PIC_CONTENT_ERROR);
 				}
 				else
 				{
-					if($_FILES['prjlogo']['size']<(_IMAGE_SIZE*1024))
+					if($_FILES['prjlogo']['size']<($_IMAGE_SIZE*1024))
 					{
 						$uploaddir = 'img/project/';
 						$pic_name = $pic_prefix;
@@ -52,14 +52,14 @@ switch ($op) {
 						}
 						else
 						{
-							Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+							Toast('error', $_ERROR, $_ADMIN_PIC_UPLOAD_ERROR);
 							$prjlogo = "";
 						}
 					}
 					else
 					{
 						$prjlogo = $prjlogo2 = $_REQUEST['prjlogo_temp'];
-						Toast('error', 'خطا', _IMAGE_SIZE_ERROR);
+						Toast('error', $_ERROR, $_IMAGE_SIZE_ERROR);
 					}
 				}
 			}
@@ -77,14 +77,14 @@ switch ($op) {
 		$aid 			= $permissions[0]['aid'];
 		if ($permissions[0]['allow_edit_project']==1) {
 			if($project->UpdateMini($prjid, $prjtitle, $prjdesc, $prjlogo, $bg_color, $aid)==1){
-				Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
+				Toast('success', $_SUCCESS, $_RECORD_EDITED_SUCCESSFULLI);
 			}
 			else{
-				Toast('error', 'خطا', _EDITING_RECORD_FAILED.' ('._NOT_CHANGED_RECORD.')');
+				Toast('error', $_ERROR, $_EDITING_RECORD_FAILED.' ('.$_NOT_CHANGED_RECORD.')');
 			}
 		}
 		else{
-			Toast('error', 'خطا', _ACCESS_DENIED);
+			Toast('error', $_ERROR, $_ACCESS_DENIED);
 		}
 		break;
 	case 'add_project':
@@ -93,16 +93,16 @@ switch ($op) {
 			$whitelist = array("png", "jpg", "gif");
 			if(!in_array(substr(basename($_FILES['logo']['name']),-3), $whitelist))
 			{
-				Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
+				Toast('error', $_ERROR, $_ADMIN_PIC_EXTENSION_ERROR);
 			}
 			else
 			{
-				if($_FILES['logo']['size']<(_IMAGE_SIZE*1024))
+				if($_FILES['logo']['size']<($_IMAGE_SIZE*1024))
 				{
 					$imageinfo = getimagesize($_FILES['logo']['tmp_name']);
 					if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg' && $imageinfo['mime'] != 'image/png')
 					{
-						Toast('error', 'خطا', _ADMIN_PIC_CONTENT_ERROR);
+						Toast('error', $_ERROR, $_ADMIN_PIC_CONTENT_ERROR);
 					}
 					else
 					{
@@ -115,14 +115,14 @@ switch ($op) {
 						}
 						else
 						{
-							Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+							Toast('error', $_ERROR, $_ADMIN_PIC_UPLOAD_ERROR);
 							$logo = "";
 						}
 					}
 				}
 				else
 				{
-					Toast('error', 'خطا', _IMAGE_SIZE_ERROR);
+					Toast('error', $_ERROR, $_IMAGE_SIZE_ERROR);
 				}
 			}
 		}
@@ -134,7 +134,7 @@ switch ($op) {
 		$desc 		= '';
 		$aid 		= $permissions[0]['aid'];
 		if (empty($title)) {
-			Toast('error', 'خطا', _FILL_IN_REQUIRED );
+			Toast('error', $_ERROR, $_FILL_IN_REQUIRED );
 		} 
 		else 
 		{		
@@ -142,16 +142,16 @@ switch ($op) {
 				if ($project->AddMini($title, $desc, $logo, $bg_color, $aid)==1) {
 					$last_project = $project->LastId();
 					echo '
-					<script>addTask('.$last_project.', '.$aid.', "در حال توسعه")</script>
+					<script>addTask('.$last_project.', '.$aid.', \''. $_DEVELOPING .'\')</script>
 					';
-					Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
+					Toast('success', $_SUCCESS, $_RECORD_ADDED_SUCCESSFULLI);
 				}
 				else{
-					Toast('error', 'خطا', _ADDING_RECORD_FAILED);
+					Toast('error', $_ERROR, $_ADDING_RECORD_FAILED);
 				}
 			}
 			else{
-				Toast('error', 'خطا', _ACCESS_DENIED);
+				Toast('error', $_ERROR, $_ACCESS_DENIED);
 			}
 		}
 		break;
@@ -160,15 +160,15 @@ switch ($op) {
 			$prjid = $_POST['prjid'];
 			if ($project->Delete($prjid)) 
 			{
-				Toast('success', 'موفق', _RECORD_DELETED_SUCCESSFULLI);
+				Toast('success', $_SUCCESS, $_RECORD_DELETED_SUCCESSFULLI);
 			}
 			else
 			{
-				Toast('error', 'خطا',_DELETING_RECORD_FAILED);
+				Toast('error', $_ERROR,_DELETING_RECORD_FAILED);
 			}
 		}
 		else{
-			Toast('error', 'خطا',_ACCESS_DENIED);
+			Toast('error', $_ERROR,_ACCESS_DENIED);
 		}
 		break;
 	case 'list_project_menu':
@@ -215,7 +215,7 @@ switch ($op) {
 			if ($permissions[0]['asuper_admin'] != 1) {
 				$admins_tasks->Add($aid , $last_task);
 			}
-			Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
+			Toast('success', $_SUCCESS, $_RECORD_ADDED_SUCCESSFULLI);
 			echo '
 			<script type="text/javascript">
 				$(document).ready(function() {
@@ -230,15 +230,15 @@ switch ($op) {
 		if ($permissions[0]['allow_delete_task']==1) {
 			if ($task->Delete($tskid)) 
 			{
-				Toast('success', 'موفق', _RECORD_DELETED_SUCCESSFULLI);
+				Toast('success', $_SUCCESS, $_RECORD_DELETED_SUCCESSFULLI);
 			}
 			else
 			{
-				Toast('error', 'خطا', _DELETING_RECORD_FAILED);
+				Toast('error', $_ERROR, $_DELETING_RECORD_FAILED);
 			}
 		}
 		else{
-			Toast('error', 'خطا', _ACCESS_DENIED);
+			Toast('error', $_ERROR, $_ACCESS_DENIED);
 		}
 		break;
 	case 'issue_list':
@@ -250,16 +250,16 @@ switch ($op) {
 	  	foreach ($task_issuelist as $task_issueInfo) {
 	  		switch ($task_issueInfo['iproirity']) {
 	  			case '0':
-	  				$iproirity=""._EASY."";
+	  				$iproirity="".$_EASY."";
 	  				break;
 	  			case '1':
-	  				$iproirity=""._NORMAL."";
+	  				$iproirity="".$_NORMAL."";
 	  				break;
 	  			case '2':
-	  				$iproirity=""._HARD."";
+	  				$iproirity="".$_HARD."";
 	  				break;
 	  			case '3':
-	  				$iproirity=""._VERY." "._HARD."";
+	  				$iproirity="".$_VERY." ".$_HARD."";
 	  				break;
 				default:
 					$iproirity = "";	
@@ -323,11 +323,11 @@ switch ($op) {
 			  			'.(file_exists('file_issue/file3/'.$file_prefix.$ifile3.'')?'<span class="fas fa-paperclip" aria-hidden="true"></span>3':'').'
 			  			</li>
 			  			<li class="list-inline-item tag-issue-task-chart">
-			  				'.($task_issueInfo['idone']==1 ? '<span class="badge badge-light">'._DONE.'</span>' : '').'
-			  				'.($task_issueInfo['idone']==2 ? '<span class="badge badge-light">حل نمیشود</span>' : '').'
-			  				'.($task_issueInfo['idone']==3 ? '<span class="badge badge-light">در حال انجام</span>' : '').'
-			  				'.($task_issueInfo['idone']==4 ? '<span class="badge badge-light">در حال تست</span>' : '').'
-			  				'.($task_issueInfo['idone']==5 ? '<span class="badge badge-danger">اضطراری</span>' : '').'
+			  				'.($task_issueInfo['idone']==1 ? '<span class="badge badge-light">'.$_DONE.'</span>' : '').'
+			  				'.($task_issueInfo['idone']==2 ? '<span class="badge badge-light">'. $_CANNOT_BE_SOLVED .'</span>' : '').'
+			  				'.($task_issueInfo['idone']==3 ? '<span class="badge badge-light">'. $_DOING .'</span>' : '').'
+			  				'.($task_issueInfo['idone']==4 ? '<span class="badge badge-light">'. $_TESTING .'</span>' : '').'
+			  				'.($task_issueInfo['idone']==5 ? '<span class="badge badge-danger">'. $_EMERGENCY .'</span>' : '').'
 			  				'.(isset($iproirity) ? '<span class="badge badge-info">'.$iproirity.'</span>' : '').'
 			  				'.(isset($icomplexity) && $task_issueInfo['icomplexity'] != 0 ? '<span class="badge badge-warning font-weight-light">'.$icomplexity.'</span>' : '').'
 			  			</li>
@@ -351,7 +351,7 @@ switch ($op) {
 		$icomplexity 	= 0;
 
 		if (empty($ititle)) {
-			Toast('error', 'خطا', _FILL_IN_REQUIRED);
+			Toast('error', $_ERROR, $_FILL_IN_REQUIRED);
 		} 
 		else 
 		{
@@ -362,7 +362,7 @@ switch ($op) {
 					$iid = $issue->LastID();
 					$task_issue->Add($tskid,$iid);
 
-					Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
+					Toast('success', $_SUCCESS, $_RECORD_ADDED_SUCCESSFULLI);
 					// echo '
 					// <script type="text/javascript">
 					// 	IssueInfo('.$iid.', '.$tskid.');
@@ -371,11 +371,11 @@ switch ($op) {
 
 				}
 				else{
-					Toast('error', 'خطا', _ADDING_RECORD_FAILED);
+					Toast('error', $_ERROR, $_ADDING_RECORD_FAILED);
 				}
 			}
 			else{
-				Toast('error', 'خطا', _ACCESS_DENIED);
+				Toast('error', $_ERROR, $_ACCESS_DENIED);
 			}
 		}
 		break;
@@ -429,7 +429,7 @@ switch ($op) {
 		foreach ($admin_tasklist as $key => $admin_taskInfo) {
 			echo'<p>';
 					if ($admin_taskInfo['aid']!=1) {
-					echo'<a href="#" style="color:red;" onclick="delete_admin_task('.$admin_taskInfo['atid'].')" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">'._DELETE.'</a>
+					echo'<a href="#" style="color:red;" onclick="delete_admin_task('.$admin_taskInfo['atid'].')" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">'.$_DELETE.'</a>
 						&nbsp&nbsp'.$admin_taskInfo['ausername'].'';
 					}
 				echo'
@@ -459,19 +459,19 @@ switch ($op) {
 	case 'delete_admin_task':
 		$atid = $_POST['atid'];
 		if ($admins_tasks->delete($atid)==1) {
-			Success(_RECORD_DELETED_SUCCESSFULLI);
+			Success($_RECORD_DELETED_SUCCESSFULLI);
 		}
 		else{
-			Failure(_DELETING_RECORD_FAILED);
+			Failure($_DELETING_RECORD_FAILED);
 		}
 		break;
 	case 'delete_task_issue':
 		$tiid = $_POST['tiid'];
 		if ($task_issue->delete($tiid)==1) {
-			Success(_RECORD_DELETED_SUCCESSFULLI);
+			Success($_RECORD_DELETED_SUCCESSFULLI);
 		}
 		else{
-			Failure(_DELETING_RECORD_FAILED);
+			Failure($_DELETING_RECORD_FAILED);
 		}
 		break;
 	case 'issue_info':
@@ -510,40 +510,40 @@ switch ($op) {
 			$idone_version	= $issueInfo['idone_version'];
 			if ($idone == 0) {
 				$bg_status = 'secondary';
-				$btn_title = 'نامعلوم';
+				$btn_title = $_UNKNOWN;
 			}
 			else if ($idone == 1) {
 				$bg_status = 'success';
-				$btn_title = 'تمام شده';
+				$btn_title = $_FINISHED;
 			}
 			else if ($idone == 2) {
 				$bg_status = 'danger';
-				$btn_title = 'حل نمیشود';
+				$btn_title = $_CANNOT_BE_SOLVED;
 			}
 			else if ($idone == 3) {
 				$bg_status = 'info';
-				$btn_title = 'در حال انجام';
+				$btn_title = $_DOING;
 			}
 			else if ($idone == 4) {
 				$bg_status = 'primary';
-				$btn_title = 'در حال تست';
+				$btn_title = $_TESTING;
 			}
 			else if ($idone == 5) {
 				$bg_status = 'warning';
-				$btn_title = 'اضطراری';
+				$btn_title = $_EMERGENCY;
 			}
 			switch ($issueInfo['iproirity']) {
 				case '0':
-					$iproirity = ""._EASY."";
+					$iproirity = "".$_EASY."";
 					break;
 				case '1':
-					$iproirity = ""._NORMAL."";
+					$iproirity = "".$_NORMAL."";
 					break;
 				case '2':
-					$iproirity = ""._HARD."";
+					$iproirity = "".$_HARD."";
 					break;
 				case '3':
-					$iproirity = ""._VERY." "._HARD."";
+					$iproirity = "".$_VERY." ".$_HARD."";
 					break;
 				default:
 					$iproirity = "";	
@@ -585,19 +585,19 @@ switch ($op) {
 			    		<a href="#" role="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">
 			    			<i class="fas fa-times"></i>
 			    		</a>
-						'._EDIT.' '._ISSUE.'
+						'.$_EDIT.' '.$_ISSUE.'
 					</h5>
 				</div>
 				<div class="col-6">		
 		    		<div class="float-left">
 		    			<span>
-		    				'._PROIRITY.': '.$iproirity.' | 
+		    				'.$_PROIRITY.': '.$iproirity.' | 
 		    			</span>
 		    			<span>
-		    				'._COMPLEXITY.': '.$icomplexity.' |
+		    				'.$_COMPLEXITY.': '.$icomplexity.' |
 		    			</span>
 		    			<span>
-	  						'._INSERTED_BY.': '. $adminlist['ausername'].'
+	  						'.$_INSERTED_BY.': '. $adminlist['ausername'].'
 		    			</span>
 		    		</div>
 				</div>
@@ -610,24 +610,24 @@ switch ($op) {
 						<div class="row">
 						  <div class="col-md-8">
 						  <div class="form-group">
-						    <label for="ititle">'._TITLE.'<span class="required">*</span>:</label>
+						    <label for="ititle">'.$_TITLE.'<span class="required">*</span>:</label>
 						    <input type="text" class="form-control" id="ititle" name="ititle" value="'.$ititle.'">
 						  </div>
 							  <div class="row">
 								  <div class="col-md-6">
 									  <div class="form-group">
-									    <label for="iproirity">'._PROIRITY.':</label>
+									    <label for="iproirity">'.$_PROIRITY.':</label>
 									    <select class="form-control" name="iproirity" id="iproirity">
-									      <option value="0" '.($issueInfo['iproirity']==0?'selected':'').'>'._EASY.'</option>
-									      <option value="1" '.($issueInfo['iproirity']==1?'selected':'').'>'._NORMAL.'</option>
-									      <option value="2" '.($issueInfo['iproirity']==2?'selected':'').'>'._HARD.'</option>
-									      <option value="3" '.($issueInfo['iproirity']==3?'selected':'').'>'._VERY.' '._HARD.'</option>
+									      <option value="0" '.($issueInfo['iproirity']==0?'selected':'').'>'.$_EASY.'</option>
+									      <option value="1" '.($issueInfo['iproirity']==1?'selected':'').'>'.$_NORMAL.'</option>
+									      <option value="2" '.($issueInfo['iproirity']==2?'selected':'').'>'.$_HARD.'</option>
+									      <option value="3" '.($issueInfo['iproirity']==3?'selected':'').'>'.$_VERY.' '.$_HARD.'</option>
 									    </select>
 									  </div>
 								  </div>
 								  <div class="col-md-6">
 									  <div class="form-group">
-									    <label for="icomplexity">'._COMPLEXITY.':</label>
+									    <label for="icomplexity">'.$_COMPLEXITY.':</label>
 									    <select class="form-control" name="icomplexity" id="icomplexity">
 									      <option value="0" '.($issueInfo['icomplexity']==0?'selected':'').'>None</option>
 									      <option value="1" '.($issueInfo['icomplexity']==1?'selected':'').'>!</option>
@@ -642,13 +642,13 @@ switch ($op) {
 						    <div class="row">
 						  	  <div class="col-md-6">
 								  <div class="form-group">
-								    <label for="ineeded_time">'._NEEDED_TIME.':</label>
-								    <input type="text" class="form-control" id="ineeded_time" name="ineeded_time" value="'.$ineeded_time.'" placeholder="'._NEEDED_TIME_EXAMPLE.'">
+								    <label for="ineeded_time">'.$_NEEDED_TIME.':</label>
+								    <input type="text" class="form-control" id="ineeded_time" name="ineeded_time" value="'.$ineeded_time.'" placeholder="'.$_NEEDED_TIME_EXAMPLE.'">
 								  </div>
 							  </div>
 						  	  <div class="col-md-6">
 							      <div class="form-group">
-					  	    	<label for="tyid">'._TYPE.' '._ISSUE.':</label><br>
+					  	    	<label for="tyid">'.$_TYPE.' '.$_ISSUE.':</label><br>
 						  	  	  <select class="form-control" id="tyid" name="tyid">';
 						  	        foreach ($issue_typeslist as $issue_typesInfo) {
 						  	         echo'<option value="'.$issue_typesInfo['tyid'].'" '.($issue_typesInfo['tyid']==$tyid?'selected':'').'>'.$issue_typesInfo['tytitle'].'</option>
@@ -662,7 +662,7 @@ switch ($op) {
 					  	    <div class="row">
 							  <div class="col-md-6">
 								   <div class="form-group">
-								    <label for="prjid">'._MOVE.' '._TO.' '._PROJECT.':</label>
+								    <label for="prjid">'.$_MOVE.' '.$_TO.' '.$_PROJECT.':</label>
 								    <select class="form-control" id="prjid" name="prjid"'.(isset($_GET['tskid'])?'disabled':'').'>';
 								    if ($permissions[0]['asuper_admin']==1) {
 								    	$projectlist= $project->GetList();
@@ -708,19 +708,19 @@ switch ($op) {
 							  		}
 							  	</script>
 							    <div class="form-group" id="task_move">
-							      <!-- <label for="iversion">'._PROJECT_VERSION.':</label> -->
+							      <!-- <label for="iversion">'.$_PROJECT_VERSION.':</label> -->
 							      <!-- <input type="text" class="form-control" id="iversion" name="iversion" value="'.$iversion.'"> -->
 							    </div>
 					  	      </div>
 							</div>
 							<div class="form-group">
-							  <label for="idesc">'._DESC.':</label>
+							  <label for="idesc">'.$_DESC.':</label>
 							  <textarea class="form-control editor" rows="3" id="idesc" name="idesc">'.$idesc.'</textarea>
 							</div>
 						  </div>
 						  <div class="col-md-4">
 						  	<div class="mb-4">
-  							<label for="status" class="w-auto">'._CONDITION.':</label>
+  							<label for="status" class="w-auto">'.$_CONDITION.':</label>
 		  	  			  	<input type="hidden" name="status" id="status" value="'.$idone.'">
   							<!-- Example single danger button -->
   							<div class="float-left w-75 status">
@@ -728,28 +728,28 @@ switch ($op) {
   							    	'.$btn_title.'
   							  </button>
   							  <div class="dropdown-menu">
-  							    <a class="bg-secondary dropdown-item" href="javascript: " onclick="selectStatus(0, \'نامعلوم\', \'secondary\')">
-  							    	<span class="status-select">نامعلوم</span>
+  							    <a class="bg-secondary dropdown-item" href="javascript: " onclick="selectStatus(0, \''. $_UNKNOWN .'\', \'secondary\')">
+  							    	<span class="status-select">'. $_UNKNOWN .'</span>
   							    </a>
- 							    <a class="bg-success dropdown-item" href="javascript: " onclick="selectStatus(1, \'تمام شده\', \'success\')">
-  							    	<span class="status-select">تمام شده</span>
+ 							    <a class="bg-success dropdown-item" href="javascript: " onclick="selectStatus(1, \''. $_FINISHED .'\', \'success\')">
+  							    	<span class="status-select">'. $_FINISHED .'</span>
   							    </a>
-  							    <a class="bg-danger dropdown-item" href="javascript: " onclick="selectStatus(2, \'حل نمیشود\', \'danger\')">
-  							    	<span class="status-select">حل نمیشود</span>
+  							    <a class="bg-danger dropdown-item" href="javascript: " onclick="selectStatus(2, \''. $_CANNOT_BE_SOLVED .'\', \'danger\')">
+  							    	<span class="status-select">'. $_CANNOT_BE_SOLVED .'</span>
   							    </a>
-  							    <a class="bg-info dropdown-item" href="javascript: " onclick="selectStatus(3, \'در حال انجام\', \'info\')">
-  							    	<span class="status-select">در حال انجام</span>
+  							    <a class="bg-info dropdown-item" href="javascript: " onclick="selectStatus(3, \''. $_DOING .'\', \'info\')">
+  							    	<span class="status-select">'. $_DOING .'</span>
   							    </a>
-  							    <a class="bg-primary dropdown-item" href="javascript: " onclick="selectStatus(4, \'درحال تست\', \'primary\')">
-  							    	<span class="status-select">درحال تست</span>
+  							    <a class="bg-primary dropdown-item" href="javascript: " onclick="selectStatus(4, \''. $_TESTING .'\', \'primary\')">
+  							    	<span class="status-select">'. $_TESTING .'</span>
   							    </a>
-  							    <a class="bg-warning dropdown-item" href="javascript: " onclick="selectStatus(5, \'اضطراری\', \'warning\')">
-  							    	<span class="status-select">اضطراری</span>
+  							    <a class="bg-warning dropdown-item" href="javascript: " onclick="selectStatus(5, \''. $_EMERGENCY .'\', \'warning\')">
+  							    	<span class="status-select">'. $_EMERGENCY .'</span>
   							    </a>
   							  </div>
   							</div>
 							</div>
-						  	<label for="idesc">پیوست‌ها:</label>
+						  	<label for="idesc">'. $_ATTACHMENTS .':</label>
 						  	<div class="row">
 							  <div class="col">
 								  <div class="form-group">
@@ -758,15 +758,15 @@ switch ($op) {
 	    								{
 	    									echo '
 	    									<a href="file_issue/file1/'.$file_prefix.$ifile1.'" download="file1-'.$file_prefix.$ifile1.'">
-	    										'._DOWNLOAD.' '._FILE1.'
+	    										'.$_DOWNLOAD.' '.$_FILE1.'
 	    									</a>
 	    									<br>
-	    									<input type="checkbox" name="delpic1" value="1" id="delpic1"><label for="delpic1"> '._DELETE_FILE.'1</label>
+	    									<input type="checkbox" name="delpic1" value="1" id="delpic1"><label for="delpic1"> '.$_DELETE_FILE.'1</label>
 	    									';
 	    								}
 		    							else{
 		    								echo'
-								    			<label for="ifile1" class="btn btn-light">'._FILE1.'</label>
+								    			<label for="ifile1" class="btn btn-light">'.$_FILE1.'</label>
 							    				<input type="file" class="h-0" style="opacity: 0" id="ifile1" name="ifile1">
 		    								';
 		    							}
@@ -782,15 +782,15 @@ switch ($op) {
 								{
 									echo '
 									<a href="file_issue/file2/'.$file_prefix.$ifile2.'" download="file2-'.$file_prefix.$ifile2.'">
-										'._DOWNLOAD.' '._FILE2.'
+										'.$_DOWNLOAD.' '.$_FILE2.'
 									</a>
 									<br>
-									<input type="checkbox" name="delpic2" value="1" id="delpic2"><label for="delpic2"> '._DELETE_FILE.'2</label>
+									<input type="checkbox" name="delpic2" value="1" id="delpic2"><label for="delpic2"> '.$_DELETE_FILE.'2</label>
 									';
 								}
     							else{
     								echo'
-								    		<label for="ifile2" class="btn btn-light">'._FILE2.'</label>
+								    		<label for="ifile2" class="btn btn-light">'.$_FILE2.'</label>
 						    			<input type="file" class="h-0" style="opacity: 0" id="ifile2" name="ifile2">
 									';
 								}
@@ -806,15 +806,15 @@ switch ($op) {
 			  	  				{
 			  	  					echo '
 			  	  					<a href="file_issue/file3/'.$file_prefix.$ifile3.'" download="file3'.$file_prefix.$ifile3.'">
-			  	  						'._DOWNLOAD.' '._FILE3.'
+			  	  						'.$_DOWNLOAD.' '.$_FILE3.'
 			  	  					</a>
 			  	  					<br>
-			  	  					<input type="checkbox" name="delpic3" value="1" id="delpic3"><label for="delpic3"> '._DELETE_FILE.'3</label>
+			  	  					<input type="checkbox" name="delpic3" value="1" id="delpic3"><label for="delpic3"> '.$_DELETE_FILE.'3</label>
 			  	  					';
 			  	  				}
 			  	  				else{
 			  	  					echo'
-			  	  			  			<label for="ifile3" class="btn btn-light">'._FILE3.'</label>
+			  	  			  			<label for="ifile3" class="btn btn-light">'.$_FILE3.'</label>
 			  	  	    	  			<input type="file" class="h-0" style="opacity: 0" id="ifile3" name="ifile3">
 			  	  					';
 			  	  				}
@@ -827,7 +827,7 @@ switch ($op) {
 							
 							<div class="checkbox">
 							    <label>
-							      <input type="checkbox" id="iarchive" name="iarchive" '.($iarchive==1?'checked':'').'> '._ARCHIVE.'
+							      <input type="checkbox" id="iarchive" name="iarchive" '.($iarchive==1?'checked':'').'> '.$_ARCHIVE.'
 							    </label>
 							 </div>
 							<div class="checkbox">
@@ -837,38 +837,38 @@ switch ($op) {
 							      			name="has_how" 
 							      			onclick="hasHow()"
 							      			'.($iwho_fullname == '' && $iwho_email == '' && $iwho_tel == '' ? '' : 'checked') .'>
-							      گزارش دهنده دارد
+							      '. $_HAS_REPORTER .'
 							    </label>
 							</div>
 							<div id="how_form" style="display: '.($iwho_fullname == '' && $iwho_email == '' && $iwho_tel == '' ? 'none' : 'block') .'">
   							<div class="form-group">
-  							  <label for="iwho_fullname">'._NAME_OF_PROPOSER.':</label>
+  							  <label for="iwho_fullname">'.$_NAME_OF_PROPOSER.':</label>
   							  <input type="text" class="form-control" id="iwho_fullname" name="iwho_fullname" value="'.$iwho_fullname.'">
   							</div>
   							<div class="form-group">
-  							  <label for="iwho_email">'._EMAIL_OF_PROPOSER.':</label>
+  							  <label for="iwho_email">'.$_EMAIL_OF_PROPOSER.':</label>
   							  <input type="text" class="form-control" id="iwho_email" name="iwho_email" style="direction:ltr;" value="'.$iwho_email.'">
   							</div>
   							<div class="form-group">
-  							  <label for="iwho_tel">'._PHONE_NUMBER_OF_PROPOSER.':</label>
+  							  <label for="iwho_tel">'.$_PHONE_NUMBER_OF_PROPOSER.':</label>
   							  <input type="text" class="form-control" id="iwho_tel" name="iwho_tel" style="direction:ltr;" value="'.$iwho_tel.'">
   							</div>
   						</div>
-							 <!-- <label for="idone">'._CONDITION.':</label>
+							 <!-- <label for="idone">'.$_CONDITION.':</label>
 							 <div class="radio">
 							   <label>
 							     <input type="radio" name="idone" id="idone1" value="1" '.($idone==1?'checked':'').' onclick="checkDonBox()">
-							     '._DONE.'
+							     '.$_DONE.'
 							   </label>
 							   <label>
 							     <input type="radio" name="idone" id="idone2" value="0"'.($idone==0?'checked':'').' onclick="checkDonBox()">
-							     '._UNDONE.'
+							     '.$_UNDONE.'
 							   </label>
 							 </div>
 							 <div class="row" id="done_issue_box" style="display: '.($idone==1?'block':'none').'">
 							 	<div class="col-md-6">
 								 <div class="form-group">
-								  <label for="idone_date">'._COMPLETION_DATE_ISSUE.':</label>
+								  <label for="idone_date">'.$_COMPLETION_DATE_ISSUE.':</label>
 								  <input type="'.($language=='farsi'?'text':'date').'" class="form-control" id="idone_date" name="idone_date" style="direction:ltr;" value="'.($idone_date==0?'':$idone_date).'">';
 								  if ($language=='farsi') {
 								  	echo'
@@ -882,7 +882,7 @@ switch ($op) {
 							 	</div>
 							 	<div class="col-md-6">
 								 <div class="form-group">
-								  <label for="idone_version">'._DONE_VERSION.':</label>
+								  <label for="idone_version">'.$_DONE_VERSION.':</label>
 								  <input type="text" class="form-control" id="idone_version" name="idone_version" style="direction:ltr;" value="'.$idone_version.'">
 								</div>
 							 	</div>
@@ -895,7 +895,7 @@ switch ($op) {
 						<div class="col-6">';
 							if ($permissions[0]['allow_edit_issues']==1) {
 								echo'
-								<button class="btn btn-warning" onclick="editIssueForm('.$iid.', '.$tskid.')">ویرایش</button>
+								<button class="btn btn-warning" onclick="editIssueForm('.$iid.', '.$tskid.')">'. $_EDIT .'</button>
 								';
 							}
 							echo'
@@ -905,19 +905,19 @@ switch ($op) {
 			  			if ($permissions[0]['allow_delete_issues']==1) {
 			  				echo'
 			             	<a onclick="return Sure();" class="btn btn-danger ml-1" href="javascript:deleteIssue('.$issueInfo['iid'].', '.$tskid.')">
-			             		'._DELETE.'
+			             		'.$_DELETE.'
 			             	</a>';
 			  			}
 			  	// 		if ($issueInfo['idone']==0) {
 						// 	echo '
 						// 	<a class="btn btn-success" href="javascript:doneIssue('.$issueInfo['iid'].', '.$tskid.')">
-						// 		'._DONE.'
+						// 		'.$_DONE.'
 						// 	</a>';
 						// }
 						// else {
 						// 	echo '
 						// 	<a class="btn btn-default" href="javascript:startIssue('.$issueInfo['iid'].', '.$tskid.')">
-						// 		'._START.'
+						// 		'.$_START.'
 						// 	</a>';
 						// }
 			  			echo'
@@ -925,7 +925,7 @@ switch ($op) {
 					</div>';
 				}
 				else{
-					Failure(_ACCESS_DENIED);
+					Failure($_ACCESS_DENIED);
 				}
 				echo'
 	      </div>
@@ -940,7 +940,7 @@ switch ($op) {
 		$query = "WHERE prjid=$prjid";
 		$task_list = $task->Getlist($query);
 		echo '
-			<label for="task-move">'._TASK.':</label>
+			<label for="task-move">'.$_TASK.':</label>
 	      	<select class="form-control" name="task_move" id="task_move">
 	      	';
 	      	foreach ($task_list as $key => $value) {
@@ -977,11 +977,11 @@ switch ($op) {
 			  $ext_error++;
 			}
 			if($ext_error==count($whitelist))
-			 	Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
+			 	Toast('error', $_ERROR, $_ADMIN_PIC_EXTENSION_ERROR);
 			else
 			{
-			 if($_FILES['ifile1']['size']>(_FILE_SIZE*1048576))
-			 	Toast('error', 'خطا', _FILE_SIZE_ERROR);
+			 if($_FILES['ifile1']['size']>($_FILE_SIZE*1048576))
+			 	Toast('error', $_ERROR, $_FILE_SIZE_ERROR);
 			 else
 			 {
 			  $uploaddir = 'file_issue/file1/';
@@ -995,7 +995,7 @@ switch ($op) {
 			  }
 			  else
 			  {
-			  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+			  	Toast('error', $_ERROR, $_ADMIN_PIC_UPLOAD_ERROR);
 			  	$ifile1 = "";
 			  }
 			 }
@@ -1037,11 +1037,11 @@ switch ($op) {
 			  $ext_error++;
 			}
 			if($ext_error==count($whitelist))
-				Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
+				Toast('error', $_ERROR, $_ADMIN_PIC_EXTENSION_ERROR);
 			else
 			{
-			 if($_FILES['ifile2']['size']>(_FILE_SIZE*1048576))
-				Toast('error', 'خطا', _FILE_SIZE_ERROR);
+			 if($_FILES['ifile2']['size']>($_FILE_SIZE*1048576))
+				Toast('error', $_ERROR, $_FILE_SIZE_ERROR);
 			 else
 			 {
 			  $uploaddir = 'file_issue/file2/';
@@ -1055,7 +1055,7 @@ switch ($op) {
 			  }
 			  else
 			  {
-			  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+			  	Toast('error', $_ERROR, $_ADMIN_PIC_UPLOAD_ERROR);
 			  	$ifile2 = "";
 			  }
 			 }
@@ -1097,11 +1097,11 @@ switch ($op) {
 			  $ext_error++;
 			}
 			if($ext_error==count($whitelist))
-			 	Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
+			 	Toast('error', $_ERROR, $_ADMIN_PIC_EXTENSION_ERROR);
 			else
 			{
-			 if($_FILES['ifile3']['size']>(_FILE_SIZE*1048576))
-			  	Toast('error', 'خطا', _FILE_SIZE_ERROR);
+			 if($_FILES['ifile3']['size']>($_FILE_SIZE*1048576))
+			  	Toast('error', $_ERROR, $_FILE_SIZE_ERROR);
 			 else
 			 {
 			  $uploaddir = 'file_issue/file3/';
@@ -1116,7 +1116,7 @@ switch ($op) {
 			  }
 			  else
 			  {
-			  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+			  	Toast('error', $_ERROR, $_ADMIN_PIC_UPLOAD_ERROR);
 			  	$ifile3 = "";
 			  }
 			 }
@@ -1155,14 +1155,14 @@ switch ($op) {
 			if ($permissions[0]['allow_edit_issues']==1) {
 				if($issue->UpdateFast($iid, $tyid, $prjid, $iversion, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version)==1){
 					$task_issue->UpdateTask($task_move, $iid);
-					Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
+					Toast('success', $_SUCCESS, $_RECORD_EDITED_SUCCESSFULLI);
 				}
 				else{
-					Toast('error', 'خطا', _EDITING_RECORD_FAILED.' ('._FILL_IN_REQUIRED.')');
+					Toast('error', $_ERROR, $_EDITING_RECORD_FAILED.' ('.$_FILL_IN_REQUIRED.')');
 				}
 			}
 			else{
-				Toast('error', 'خطا', _ACCESS_DENIED);
+				Toast('error', $_ERROR, $_ACCESS_DENIED);
 			}
 		break;
 	case 'done_issue':
@@ -1171,7 +1171,7 @@ switch ($op) {
 		$idone = "1";
 		$idone_date = date('Y-m-d');
 		if ($issue->UpdateDone($iid, $idone_date , $idone)==1) {
-			Toast('success', 'موفق', _RECORD_ENDED_SUCCESSFULLI);
+			Toast('success', $_SUCCESS, $_RECORD_ENDED_SUCCESSFULLI);
 			echo '
 				<script type="text/javascript">
 					IssueInfo('.$iid.', '.$tskid.');
@@ -1180,7 +1180,7 @@ switch ($op) {
 			';
 		}
 		else{
-			Toast('error', 'خطا', _ENDING_RECORD_FAILED);
+			Toast('error', $_ERROR, $_ENDING_RECORD_FAILED);
 		}
 		break;
 	case 'start_issue':
@@ -1189,7 +1189,7 @@ switch ($op) {
 		$idone = NULL;
 		$idone_date = 0;
 		if ($issue->UpdateDone($iid, $idone_date , $idone)==1) {
-			Toast('success', 'موفق', _RECORD_STARTED_SUCCESSFULLI);
+			Toast('success', $_SUCCESS, $_RECORD_STARTED_SUCCESSFULLI);
 			echo '
 				<script type="text/javascript">
 					IssueInfo('.$iid.', '.$tskid.');
@@ -1198,7 +1198,7 @@ switch ($op) {
 			';
 		}
 		else{
-			Toast('error', 'خطا', _STARTING_RECORD_FAILED);
+			Toast('error', $_ERROR, $_STARTING_RECORD_FAILED);
 		}
 		break;
 	case 'delete_issue':
@@ -1208,7 +1208,7 @@ switch ($op) {
 			$task_issue->Delete($iid);
 			if ($issue->Delete($iid)) 
 			{
-				Toast('success', 'موفق', _RECORD_DELETED_SUCCESSFULLI);
+				Toast('success', $_SUCCESS, $_RECORD_DELETED_SUCCESSFULLI);
 				echo '
 				<script type="text/javascript">
 					IssueInfo('.$iid.', '.$tskid.');
@@ -1218,11 +1218,11 @@ switch ($op) {
 			}
 			else
 			{
-				Toast('error', 'خطا', _DELETING_RECORD_FAILED);
+				Toast('error', $_ERROR, $_DELETING_RECORD_FAILED);
 			}
 		}
 		else{
-			Toast('error', 'خطا', _ACCESS_DENIED);
+			Toast('error', $_ERROR, $_ACCESS_DENIED);
 		}
 		break;
 
@@ -1236,17 +1236,17 @@ switch ($op) {
 		$tskdone_date 	= $taskInfo['tskdone_date'];
 		$prjid 			= $taskInfo['prjid'];
 		echo '
-		<h3>'._SHOW.' '._TASK.'</h3>
+		<h3>'.$_SHOW.' '.$_TASK.'</h3>
 		<div class="container-fload">
 			<form id="form_edit_task" method="post" enctype="multipart/form-data">
 				<div class="row">
 				  <div class="col-md-4">
 					  <div class="form-group">
-					    <label for="tsktitle">'._TITLE.'<span class="required">*</span>:</label>
+					    <label for="tsktitle">'.$_TITLE.'<span class="required">*</span>:</label>
 					    <input type="text" class="form-control" id="tsktitle" name="tsktitle" value="'.$tsktitle.'">
 					  </div>
 					  <div class="form-group">
-					    <label for="tsktitle">'._MOVE.' '._TO.' '._PROJECT.'<span class="required">*</span>:</label>
+					    <label for="tsktitle">'.$_MOVE.' '.$_TO.' '.$_PROJECT.'<span class="required">*</span>:</label>
 					    <input type="hidden" value="'.(isset($_GET['tskid'])?$_GET['tskid']:'').'" id="tskid">
 					    <select class="form-control" name="prjid" id="prjid" onclick ="loadVQs()" onkeyup="loadVQs()">
 					    	';
@@ -1272,28 +1272,28 @@ switch ($op) {
 				  </div>
 				  <div class="col-md-4">
 					<div class="form-group">
-						<label for="tskdesc">'._DESC.':</label>
+						<label for="tskdesc">'.$_DESC.':</label>
 						<textarea id="tskdesc" name="tskdesc" class="form-control editor" rows="3">'.$tskdesc.'</textarea>
 					</div>
 				    <div class="row">
 				      <div class="col-md-6">
 						<div class="form-group">
-				      	  <label for="tskdone">'._CONDITION.':</label>
+				      	  <label for="tskdone">'.$_CONDITION.':</label>
 				      	  <div class="radio">
 					      	  <label>
 					      	    <input type="radio" name="tskdone" id="tskdone1" value="1" '.($tskdone==1?'checked':'').'>
-					      	    '._DONE.'
+					      	    '.$_DONE.'
 					      	  </label>
 					      	  <label>
 					      	    <input type="radio" name="tskdone" id="tskdone2" value="0"'.($tskdone==0?'checked':'').'>
-					      	    '._UNDONE.'
+					      	    '.$_UNDONE.'
 					      	  </label>
 					      </div>
 				      	</div>
 					  </div>
 				      <div class="col-md-6">
 						  <div class="form-group">
-						    <label for="tskdone_date">'._COMPLETION_DATE.':</label>
+						    <label for="tskdone_date">'.$_COMPLETION_DATE.':</label>
 						    <input id="tskdone_date" type="'.($language=='farsi'?'text':'date').'" class="form-control input" name="tskdone_date" value="'.($tskdone_date==0?'':($language=='farsi'?G2JD($tskdone_date):$tskdone_date)).'">';
 						    if ($language == 'farsi') {
 						    	echo'
@@ -1317,7 +1317,7 @@ switch ($op) {
 		  	    			array_push($adminIdTask, $adminTaskInfo['aids']);
 		  	    		}
 	  	  	        	echo '
-					  	<label for="tskdesc">'._ADMINS.':</label>
+					  	<label for="tskdesc">'.$_ADMINS.':</label>
 					  	<select class="js-example-basic-multiple-user w-100" multiple="multiple" id="admins" name="admins">';
 				  			foreach ($adminlist as $adminInfo) {
 				  				if ($adminInfo['aid']!=1) {
@@ -1338,7 +1338,7 @@ switch ($op) {
 	  			<li class="left_list">';
 	  			if ($permissions[0]['allow_edit_task']==1) {
     				echo'
-    					<button class="btn btn-success" onclick="editTaskForm('.$tskid.', '.$permissions[0]['aid'].')">ویرایش</button>
+    					<button class="btn btn-success" onclick="editTaskForm('.$tskid.', '.$permissions[0]['aid'].')">'.$_EDIT.'</button>
     				';
     			}
 				echo'
@@ -1346,7 +1346,7 @@ switch ($op) {
 	  			if ($permissions[0]['allow_delete_task']==1) {
   				echo'
 	  			<li>
-	  				<a class="btn btn-link" onclick="return Sure();" style="color: red;" href="?op=delete&tskid='.$tskid.'">'._DELETE.'</a>
+	  				<a class="btn btn-link" onclick="return Sure();" style="color: red;" href="?op=delete&tskid='.$tskid.'">'.$_DELETE.'</a>
 	  			</li>';
 	  			}
 	  			echo'
@@ -1380,14 +1380,14 @@ switch ($op) {
 						$admins_tasks->Add($aid, $tskid);
 					}
 				}
-				Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
+				Toast('success', $_SUCCESS, $_RECORD_EDITED_SUCCESSFULLI);
 			}
 			else{
-				Toast('error', 'خطا', _EDITING_RECORD_FAILED.'('._NOT_CHANGED_RECORD.')');
+				Toast('error', $_ERROR, $_EDITING_RECORD_FAILED.'('.$_NOT_CHANGED_RECORD.')');
 			}					
 		}
 		else{
-			Toast('error', 'خطا', _ADMIN_YOU_DO_NOT_HAVE_NECCESSARY_PERMISSIONS);
+			Toast('error', $_ERROR, $_ADMIN_YOU_DO_NOT_HAVE_NECCESSARY_PERMISSIONS);
 		}
 
 		break;

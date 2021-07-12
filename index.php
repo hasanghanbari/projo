@@ -10,14 +10,14 @@ if (isset($_POST['add'])) {
 	$ctext = $_POST['ctext'];
 	$cdate = date("Y-m-d H:i:sa");
 	if (empty($ctext)) {
-		Toast('error', 'خطا', _FILL_IN_REQUIRED);
+		Toast('error', 'خطا', $_FILL_IN_REQUIRED);
 	}
 	else{
 		if ($comment->Add($ctext,$cdate)==1) {
-			Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
+			Toast('success', 'موفق', $_RECORD_ADDED_SUCCESSFULLI);
 		}
 		else{
-			Toast('error', 'خطا', _ADDING_RECORD_FAILED);
+			Toast('error', 'خطا', $_ADDING_RECORD_FAILED);
 		}
 	}
 }
@@ -28,7 +28,7 @@ echo'
 	}
 </style>
 <div class="col-sm-12 col-md-12 jumbotron" id="content">
-  <h2>'._DASHBOARD.'</h2>
+  <h2>'.$_DASHBOARD.'</h2>
   <div class="row">';
 	echo'
 	<div class="col-md-8">';
@@ -75,7 +75,7 @@ echo'
 				<a href="javascript: openAddProject()" class="text-decoration-none">
 				    <div class="card h-100">
 				      <div class="card-body" style="margin: 0 auto; color: #111">
-				        <p class="card-text" style="margin: 41% 0">افزودن پروژه جدید</p>
+				        <p class="card-text" style="margin: 41% 0">'. $_ADD_NEW_PROJECT .'</p>
 				      </div>
 				    </div>
 				</a>
@@ -86,13 +86,13 @@ echo'
 	  <div class="col-md-4">
 	  	<div class="card">
 	  		<div class="card-body">
-				<h4>'._MY_MISSIONS.' <a class="btn btn-default btn-xs" href="tasks.php?op=chart" role="button">'._LIST.'</a></h4>
+				<h4>'.$_MY_MISSIONS.' <a class="btn btn-default btn-xs" href="tasks.php?op=chart" role="button">'.$_LIST.'</a></h4>
 
 				<div class="table-responsive" style="height: 300px; overflow: auto;">
 					<table class="table table-hover">
 						<tr>
-						  <th>'._TITLE.'</th>
-						  <th>'._FOR.' '._PROJECT.'</th>
+						  <th>'.$_TITLE.'</th>
+						  <th>'.$_FOR.' '.$_PROJECT.'</th>
 						</tr>
 					';
 					$cookie_admin= explode(':', $_COOKIE['projo']);
@@ -143,10 +143,10 @@ echo'
 		  	<div class="card-body">
 		  		<form method="post">
 		  		  <div class="form-group">
-		  		    <p class="lead" for="ctext">'._WHAT_IS_IN_YOUR_MIND.'</p>
+		  		    <p class="lead" for="ctext">'.$_WHAT_IS_IN_YOUR_MIND.'</p>
 		  		    <textarea id="ctext" name="ctext" class="form-control" rows="3"></textarea>
 		  		  </div>';
-		  		  AddForm('add');
+		  		  AddForm('add', $_ADD);
 		  		 echo'
 		  		</form>
 		  		 <br>';
@@ -154,14 +154,14 @@ echo'
 				 $start=0;
 		  		 $commentlist= $comment->GetList($query, $order="ORDER BY cid DESC",$limit="LIMIT $start,$page_limit_index");
 		  		 echo'
-		  		 <p class="lead">'._ENTRIES.' <a class="btn btn-default btn-xs" href="comments.php?op=list" role="button">'._LIST.'</a></p>
+		  		 <p class="lead">'.$_ENTRIES.' <a class="btn btn-default btn-xs" href="comments.php?op=list" role="button">'.$_LIST.'</a></p>
 		  		 <ul class="list-group">';
 		  		 foreach ($commentlist as $commentInfo) {
 		  		 	echo'
 		  		   <li class="list-group-item">
 		  		   		<strong>'.$commentInfo['ctext'].'</strong>
 		  		   		<br>
-		  		   		<a onclick="return Sure();" href="comments.php?op=delete&cid='.$commentInfo['cid'].'" style="color: red;">'._DELETE.'</a>
+		  		   		<a onclick="return Sure();" href="comments.php?op=delete&cid='.$commentInfo['cid'].'" style="color: red;">'.$_DELETE.'</a>
 		  		   </li>
 		  		   ';
 		  		 }

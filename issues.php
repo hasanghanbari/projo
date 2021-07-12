@@ -18,7 +18,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
 			$tyid= $prjid= $iversion= $icode= $ititle= $idesc= $iproirity= $icomplexity= $ineeded_time= $ifile1= $ifile12= $ifile2= $ifile22= $ifile3= $ifile32= $iarchive= $iwho_fullname= $iwho_email= $iwho_tel= $idone= $idone_date= $idone_version ='';
 			$icode = $issue->LastID();
-			$legend = ''._ADD.' '._ISSUE.'';
+			$legend = ''.$_ADD.' '.$_ISSUE.'';
 			$projectlist= $project->GetList();
 			$issue_typeslist= $issue_types->GetList();
 			if (isset($_POST['add'])) {
@@ -47,13 +47,13 @@ $admins_tasks = new ManageAdmins_Tasks();
 						}
 						if($ext_error==count($whitelist))
 						 echo '<div class="alert alert-danger">
-						     '._ADMIN_PIC_EXTENSION_ERROR.'!
+						     '.$_ADMIN_PIC_EXTENSION_ERROR.'!
 						    </div>';
 						else
 						{
-						 if($_FILES['ifile1']['size']>(_FILE_SIZE*1048576))
+						 if($_FILES['ifile1']['size']>($_FILE_SIZE*1048576))
 						  echo '<div class="alert alert-danger">
-						     '._FILE_SIZE_ERROR.'!
+						     '.$_FILE_SIZE_ERROR.'!
 						    </div>';
 						 else
 						 {
@@ -68,7 +68,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						  }
 						  else
 						  {
-						  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+						  	Toast('error', 'خطا', $_ADMIN_PIC_UPLOAD_ERROR);
 						  	$ifile1 = "";
 						  }
 						 }
@@ -111,13 +111,13 @@ $admins_tasks = new ManageAdmins_Tasks();
 							}
 							if($ext_error==count($whitelist))
 							 echo '<div class="alert alert-danger">
-							     '._ADMIN_PIC_EXTENSION_ERROR.'!
+							     '.$_ADMIN_PIC_EXTENSION_ERROR.'!
 							    </div>';
 							else
 							{
-							 if($_FILES['ifile2']['size']>(_FILE_SIZE*1048576))
+							 if($_FILES['ifile2']['size']>($_FILE_SIZE*1048576))
 							  echo '<div class="alert alert-danger">
-							     '._FILE_SIZE_ERROR.'!
+							     '.$_FILE_SIZE_ERROR.'!
 							    </div>';
 							 else
 							 {
@@ -132,7 +132,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 							  }
 							  else
 							  {
-							  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+							  	Toast('error', 'خطا', $_ADMIN_PIC_UPLOAD_ERROR);
 							  	$ifile2 = "";
 							  }
 							 }
@@ -175,13 +175,13 @@ $admins_tasks = new ManageAdmins_Tasks();
 						}
 						if($ext_error==count($whitelist))
 						 echo '<div class="alert alert-danger">
-						     '._ADMIN_PIC_EXTENSION_ERROR.'!
+						     '.$_ADMIN_PIC_EXTENSION_ERROR.'!
 						    </div>';
 						else
 						{
-						 if($_FILES['ifile3']['size']>(_FILE_SIZE*1048576))
+						 if($_FILES['ifile3']['size']>($_FILE_SIZE*1048576))
 						  echo '<div class="alert alert-danger">
-						     '._FILE_SIZE_ERROR.'!
+						     '.$_FILE_SIZE_ERROR.'!
 						    </div>';
 						 else
 						 {
@@ -197,7 +197,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						  }
 						  else
 						  {
-						  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+						  	Toast('error', 'خطا', $_ADMIN_PIC_UPLOAD_ERROR);
 						  	$ifile3 = "";
 						  }
 						 }
@@ -234,13 +234,13 @@ $admins_tasks = new ManageAdmins_Tasks();
 				$idone_version =(isset($_POST['idone_version'])?$_POST['idone_version']:0); 
 				$aid = $permissions[0]['aid'];
 				if (empty($icode) || empty($ititle)) {
-					Toast('error', 'خطا', _FILL_IN_REQUIRED);
+					Toast('error', 'خطا', $_FILL_IN_REQUIRED);
 				} 
 				else 
 				{
 					if ($permissions[0]['allow_add_issues']==1) {
 						if (preg_match('/^[اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $icode)==1 || strpos($icode, " ")!==false) {
-					        Toast('error', 'خطا', _INVALID_CODE);
+					        Toast('error', 'خطا', $_INVALID_CODE);
 					    }
 					    else{
 							if ($issue->Add($tyid, $prjid, $iversion, $icode, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version, $aid)==1) {
@@ -249,16 +249,16 @@ $admins_tasks = new ManageAdmins_Tasks();
 									$tskid = $_GET['tskid'];
 									$task_issue->Add($tskid,$iid);
 								}
-								Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
+								Toast('success', 'موفق', $_RECORD_ADDED_SUCCESSFULLI);
 								$tyid= $prjid= $iversion= $icode= $ititle= $idesc= $iproirity= $icomplexity= $ineeded_time= $ifile1= $ifile2= $ifile3= $iarchive= $iwho_fullname= $iwho_email= $iwho_tel= $idone= $idone_date= $idone_version= $aid ='';
 							}
 							else{
-								Toast('error', 'خطا', _ADDING_RECORD_FAILED);
+								Toast('error', 'خطا', $_ADDING_RECORD_FAILED);
 							}
 						}
 					}
 					else{
-						Toast('error', 'خطا', _ACCESS_DENIED);
+						Toast('error', 'خطا', $_ACCESS_DENIED);
 					}
 				}
 			}
@@ -290,13 +290,13 @@ $admins_tasks = new ManageAdmins_Tasks();
 						}
 						if($ext_error==count($whitelist))
 						 echo '<div class="alert alert-danger">
-						     '._ADMIN_PIC_EXTENSION_ERROR.'!
+						     '.$_ADMIN_PIC_EXTENSION_ERROR.'!
 						    </div>';
 						else
 						{
-						 if($_FILES['ifile1']['size']>(_FILE_SIZE*1048576))
+						 if($_FILES['ifile1']['size']>($_FILE_SIZE*1048576))
 						  echo '<div class="alert alert-danger">
-						     '._FILE_SIZE_ERROR.'!
+						     '.$_FILE_SIZE_ERROR.'!
 						    </div>';
 						 else
 						 {
@@ -311,7 +311,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						  }
 						  else
 						  {
-						  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+						  	Toast('error', 'خطا', $_ADMIN_PIC_UPLOAD_ERROR);
 						  	$ifile1 = "";
 						  }
 						 }
@@ -354,13 +354,13 @@ $admins_tasks = new ManageAdmins_Tasks();
 							}
 							if($ext_error==count($whitelist))
 							 echo '<div class="alert alert-danger">
-							     '._ADMIN_PIC_EXTENSION_ERROR.'!
+							     '.$_ADMIN_PIC_EXTENSION_ERROR.'!
 							    </div>';
 							else
 							{
-							 if($_FILES['ifile2']['size']>(_FILE_SIZE*1048576))
+							 if($_FILES['ifile2']['size']>($_FILE_SIZE*1048576))
 							  echo '<div class="alert alert-danger">
-							     '._FILE_SIZE_ERROR.'!
+							     '.$_FILE_SIZE_ERROR.'!
 							    </div>';
 							 else
 							 {
@@ -375,7 +375,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 							  }
 							  else
 							  {
-							  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+							  	Toast('error', 'خطا', $_ADMIN_PIC_UPLOAD_ERROR);
 							  	$ifile2 = "";
 							  }
 							 }
@@ -418,13 +418,13 @@ $admins_tasks = new ManageAdmins_Tasks();
 						}
 						if($ext_error==count($whitelist))
 						 echo '<div class="alert alert-danger">
-						     '._ADMIN_PIC_EXTENSION_ERROR.'!
+						     '.$_ADMIN_PIC_EXTENSION_ERROR.'!
 						    </div>';
 						else
 						{
-						 if($_FILES['ifile3']['size']>(_FILE_SIZE*1048576))
+						 if($_FILES['ifile3']['size']>($_FILE_SIZE*1048576))
 						  echo '<div class="alert alert-danger">
-						     '._FILE_SIZE_ERROR.'!
+						     '.$_FILE_SIZE_ERROR.'!
 						    </div>';
 						 else
 						 {
@@ -440,7 +440,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						  }
 						  else
 						  {
-						  	Toast('error', 'خطا', _ADMIN_PIC_UPLOAD_ERROR);
+						  	Toast('error', 'خطا', $_ADMIN_PIC_UPLOAD_ERROR);
 						  	$ifile3 = "";
 						  }
 						 }
@@ -477,23 +477,23 @@ $admins_tasks = new ManageAdmins_Tasks();
 						$idone_version = $_POST['idone_version']; 
 						if ($permissions[0]['allow_edit_issues']==1) {
 							if (preg_match('/^[اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $icode)==1 || strpos($icode, " ")!==false) {
-						        Toast('error', 'خطا', _INVALID_CODE);
+						        Toast('error', 'خطا', $_INVALID_CODE);
 						    }
 						    else{
 								if($issue->Update($iid, $tyid, $prjid, $iversion, $icode, $ititle, $idesc, $iproirity, $icomplexity, $ineeded_time, $ifile1, $ifile2, $ifile3, $iarchive, $iwho_fullname, $iwho_email, $iwho_tel, $idone, $idone_date, $idone_version)==1){
-									Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
+									Toast('success', 'موفق', $_RECORD_EDITED_SUCCESSFULLI);
 								}
 								else{
-									Toast('error', 'خطا', _EDITING_RECORD_FAILED.' ('._FILL_IN_REQUIRED.')');
+									Toast('error', 'خطا', $_EDITING_RECORD_FAILED.' ('.$_FILL_IN_REQUIRED.')');
 								}
 							}
 						}
 						else{
-							Toast('error', 'خطا', _ACCESS_DENIED);
+							Toast('error', 'خطا', $_ACCESS_DENIED);
 						}
 				}
 				$issueInfo = $issue->GetInfo("iid",$iid);
-				$legend = ''._EDIT.' '._ISSUE.'&nbsp';
+				$legend = ''.$_EDIT.' '.$_ISSUE.'&nbsp';
 				$tyid = $issueInfo['tyid']; 
 				$prjid = $issueInfo['prjid']; 
 				$iversion = $issueInfo['iversion']; 
@@ -522,36 +522,36 @@ $admins_tasks = new ManageAdmins_Tasks();
 			echo'
 				<form method="post" enctype="multipart/form-data">
 					<p class="lead">'.$legend.'';
-					if ($permissions[0]['allow_add_issues']==1) {(isset($_GET['iid'])?AddLogo('?op=add'):'');}
-					if ($permissions[0]['allow_list_issues']==1) {ListLogo('?op=list');}
-					ChartLogo('?op=chart');
+					if ($permissions[0]['allow_add_issues']==1) {(isset($_GET['iid'])?AddLogo('?op=add', $_NEW):'');}
+					if ($permissions[0]['allow_list_issues']==1) {ListLogo('?op=list', $_LIST);}
+					ChartLogo('?op=chart', $_CHART);
 					echo'
 					</p>
 					<div class="row">
 					  <div class="col-md-4">
 						  <div class="form-group">
-						    <label for="icode">'._CODE.'<span class="required">*</span>:</label>
+						    <label for="icode">'.$_CODE.'<span class="required">*</span>:</label>
 						    <input autofocus="" type="text" class="form-control" id="icode" name="icode" style="direction:ltr;" value="'.$icode.'">
 						  </div>
 						  <div class="form-group">
-						    <label for="ititle">'._TITLE.'<span class="required">*</span>:</label>
+						    <label for="ititle">'.$_TITLE.'<span class="required">*</span>:</label>
 						    <input type="text" class="form-control" id="ititle" name="ititle" value="'.$ititle.'">
 						  </div>
 						  <div class="row">
 							  <div class="col-md-6">
 								  <div class="form-group">
-								    <label for="iproirity">'._PROIRITY.':</label>
+								    <label for="iproirity">'.$_PROIRITY.':</label>
 								    <select class="form-control" name="iproirity">
-								      <option value="0" '.($iproirity==0?'selected':'').'>'._EASY.'</option>
-								      <option value="1" '.($iproirity==1?'selected':'').'>'._NORMAL.'</option>
-								      <option value="2" '.($iproirity==2?'selected':'').'>'._HARD.'</option>
-								      <option value="3" '.($iproirity==3?'selected':'').'>'._VERY.' '._HARD.'</option>
+								      <option value="0" '.($iproirity==0?'selected':'').'>'.$_EASY.'</option>
+								      <option value="1" '.($iproirity==1?'selected':'').'>'.$_NORMAL.'</option>
+								      <option value="2" '.($iproirity==2?'selected':'').'>'.$_HARD.'</option>
+								      <option value="3" '.($iproirity==3?'selected':'').'>'.$_VERY.' '.$_HARD.'</option>
 								    </select>
 								  </div>
 							  </div>
 							  <div class="col-md-6">
 								  <div class="form-group">
-								    <label for="icomplexity">'._COMPLEXITY.':</label>
+								    <label for="icomplexity">'.$_COMPLEXITY.':</label>
 								    <select class="form-control" name="icomplexity">
 								      <option value="0" '.($icomplexity==0?'selected':'').'>None</option>
 								      <option value="1" '.($icomplexity==1?'selected':'').'>!</option>
@@ -566,13 +566,13 @@ $admins_tasks = new ManageAdmins_Tasks();
 					    <div class="row">
 					  	  <div class="col-md-6">
 							  <div class="form-group">
-							    <label for="ineeded_time">'._NEEDED_TIME.':</label>
-							    <input type="text" class="form-control" id="ineeded_time" name="ineeded_time" value="'.$ineeded_time.'" placeholder="'._NEEDED_TIME_EXAMPLE.'">
+							    <label for="ineeded_time">'.$_NEEDED_TIME.':</label>
+							    <input type="text" class="form-control" id="ineeded_time" name="ineeded_time" value="'.$ineeded_time.'" placeholder="'.$_NEEDED_TIME_EXAMPLE.'">
 							  </div>
 						  </div>
 					  	  <div class="col-md-6">
 						      <div class="form-group">
-				  	    	<label for="tyid">'._TYPE.' '._ISSUE.':</label><br>
+				  	    	<label for="tyid">'.$_TYPE.' '.$_ISSUE.':</label><br>
 					  	  	  <select class="form-control" id="tyid" name="tyid">';
 					  	        foreach ($issue_typeslist as $issue_typesInfo) {
 					  	         echo'<option value="'.$issue_typesInfo['tyid'].'" '.($issue_typesInfo['tyid']==$tyid?'selected':'').'>'.$issue_typesInfo['tytitle'].'</option>
@@ -586,7 +586,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 				  	    <div class="row">
 						  <div class="col-md-6">
 							   <div class="form-group">
-							    <label for="prjid">'._FOR.' '._PROJECT.':</label>
+							    <label for="prjid">'.$_FOR.' '.$_PROJECT.':</label>
 							    <select class="form-control" name="prjid"'.(isset($_GET['tskid'])?'disabled':'').'>';
 							    if ($permissions[0]['asuper_admin']==1) {
 							    	$projectlist= $project->GetList();
@@ -612,7 +612,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 				  	      </div>
 						  <div class="col-md-6">
 						    <div class="form-group">
-						      <label for="iversion">'._PROJECT_VERSION.':</label>
+						      <label for="iversion">'.$_PROJECT_VERSION.':</label>
 						      <input type="text" class="form-control" id="iversion" name="iversion" value="'.$iversion.'">
 						    </div>
 				  	      </div>
@@ -620,7 +620,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					  	<div class="row">
 						  <div class="col-md-6">
 							  <div class="form-group">
-							    <label for="ifile1">'._FILE1.':</label>
+							    <label for="ifile1">'.$_FILE1.':</label>
 							    ';	
     							if(isset($_REQUEST['iid']))
     							{
@@ -628,10 +628,10 @@ $admins_tasks = new ManageAdmins_Tasks();
     								{
     									echo '
     									&nbsp<a href="file_issue/file1/'.$file_prefix.$ifile1.'" download="file1-'.$file_prefix.$ifile1.'">
-    										'._DOWNLOAD.' '._FILE1.'
+    										'.$_DOWNLOAD.' '.$_FILE1.'
     									</a>
     									<br>
-    									<input type="checkbox" name="delpic1" value="yes" id="delpic1"><label for="delpic1"> '._DELETE_FILE.'1</label>
+    									<input type="checkbox" name="delpic1" value="yes" id="delpic1"><label for="delpic1"> '.$_DELETE_FILE.'1</label>
     									';
     								}
 	    							else{
@@ -652,7 +652,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					  	  </div>
 						  <div class="col-md-6">
 							  <div class="form-group">
-							    <label for="ifile2">'._FILE2.':</label>
+							    <label for="ifile2">'.$_FILE2.':</label>
 							    ';	
     							if(isset($_REQUEST['iid']))
     							{
@@ -660,10 +660,10 @@ $admins_tasks = new ManageAdmins_Tasks();
     								{
     									echo '
     									&nbsp<a href="file_issue/file2/'.$file_prefix.$ifile2.'" download="file2-'.$file_prefix.$ifile2.'">
-    										'._DOWNLOAD.' '._FILE2.'
+    										'.$_DOWNLOAD.' '.$_FILE2.'
     									</a>
     									<br>
-    									<input type="checkbox" name="delpic2" value="yes" id="delpic2"><label for="delpic2"> '._DELETE_FILE.'2</label>
+    									<input type="checkbox" name="delpic2" value="yes" id="delpic2"><label for="delpic2"> '.$_DELETE_FILE.'2</label>
     									';
     								}
 	    							else{
@@ -684,7 +684,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					  	  </div>
 						</div>
 						<div class="form-group">
-						  <label for="ifile3">'._FILE3.':</label>
+						  <label for="ifile3">'.$_FILE3.':</label>
 					    ';	
 						if(isset($_REQUEST['iid']))
 						{
@@ -692,10 +692,10 @@ $admins_tasks = new ManageAdmins_Tasks();
 							{
 								echo '
 								&nbsp<a href="file_issue/file3/'.$file_prefix.$ifile3.'" download="file3'.$file_prefix.$ifile3.'">
-									'._DOWNLOAD.' '._FILE3.'
+									'.$_DOWNLOAD.' '.$_FILE3.'
 								</a>
 								<br>
-								<input type="checkbox" name="delpic3" value="yes" id="delpic3"><label for="delpic3"> '._DELETE_FILE.'3</label>
+								<input type="checkbox" name="delpic3" value="yes" id="delpic3"><label for="delpic3"> '.$_DELETE_FILE.'3</label>
 								';
 							}
 							else{
@@ -716,39 +716,39 @@ $admins_tasks = new ManageAdmins_Tasks();
 					  </div>
 					  <div class="col-md-4">
 						<div class="form-group">
-						  <label for="iwho_fullname">'._NAME_OF_PROPOSER.':</label>
+						  <label for="iwho_fullname">'.$_NAME_OF_PROPOSER.':</label>
 						  <input type="text" class="form-control" id="iwho_fullname" name="iwho_fullname" value="'.$iwho_fullname.'">
 						</div>
 						<div class="form-group">
-						  <label for="iwho_email">'._EMAIL_OF_PROPOSER.':</label>
+						  <label for="iwho_email">'.$_EMAIL_OF_PROPOSER.':</label>
 						  <input type="text" class="form-control" id="iwho_email" name="iwho_email" style="direction:ltr;" value="'.$iwho_email.'">
 						</div>
 						<div class="form-group">
-						  <label for="iwho_tel">'._PHONE_NUMBER_OF_PROPOSER.':</label>
+						  <label for="iwho_tel">'.$_PHONE_NUMBER_OF_PROPOSER.':</label>
 						  <input type="text" class="form-control" id="iwho_tel" name="iwho_tel" style="direction:ltr;" value="'.$iwho_tel.'">
 						</div>';
 						if (isset($_GET['iid'])) {
 							echo'
 						<div class="checkbox">
 						    <label>
-						      <input type="checkbox" id="iarchive" name="iarchive" '.($iarchive==1?'checked':'').'> '._ARCHIVE.'
+						      <input type="checkbox" id="iarchive" name="iarchive" '.($iarchive==1?'checked':'').'> '.$_ARCHIVE.'
 						    </label>
 						 </div>
-						 <label for="idone">'._CONDITION.':</label>
+						 <label for="idone">'.$_CONDITION.':</label>
 						 <div class="radio">
 						   <label>
 						     <input type="radio" name="idone" id="idone1" value="1" '.($idone==1?'checked':'').'>
-						     '._DONE.'
+						     '.$_DONE.'
 						   </label>
 						   <label>
 						     <input type="radio" name="idone" id="idone2" value="0"'.($idone==0?'checked':'').'>
-						     '._UNDONE.'
+						     '.$_UNDONE.'
 						   </label>
 						 </div>
 						 <div class="row">
 						 	<div class="col-md-6">
 							 <div class="form-group">
-							  <label for="idone_date">'._COMPLETION_DATE_ISSUE.':</label>
+							  <label for="idone_date">'.$_COMPLETION_DATE_ISSUE.':</label>
 							  <input type="'.($language=='farsi'?'text':'date').'" class="form-control" id="idone_date" name="idone_date" style="direction:ltr;" value="'.($idone_date==0?'':$idone_date).'">';
 							  if ($language=='farsi') {
 							  	echo'
@@ -762,7 +762,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						 	</div>
 						 	<div class="col-md-6">
 							 <div class="form-group">
-							  <label for="idone_version">'._DONE_VERSION.':</label>
+							  <label for="idone_version">'.$_DONE_VERSION.':</label>
 							  <input type="text" class="form-control" id="idone_version" name="idone_version" style="direction:ltr;" value="'.$idone_version.'">
 							</div>
 						 	</div>
@@ -772,7 +772,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					  </div>
 					  <div class="col-md-4">
 					  	<div class="form-group">
-					  	  <label for="idesc">'._DESC.':</label>
+					  	  <label for="idesc">'.$_DESC.':</label>
 					  	  <textarea class="form-control editor" rows="3" id="idesc" name="idesc">'.$idesc.'</textarea>
 					  	</div>
 						';
@@ -780,13 +780,13 @@ $admins_tasks = new ManageAdmins_Tasks();
 								echo '
 								<ul class="list-inline">
 									<li class="left_list">';
-									UpdateForm('edit');
+									UpdateForm('edit', $_UPDATE);
 								echo'
 									</li>';
 						  			if ($permissions[0]['allow_delete_issues']==1) {
 						  				echo'
 									<li>
-										<a class="btn btn-link" onclick="return Sure();" style="color: red;" href="?op=delete&iid='.$iid.'">'._DELETE.'</a>
+										<a class="btn btn-link" onclick="return Sure();" style="color: red;" href="?op=delete&iid='.$iid.'">'.$_DELETE.'</a>
 									</li>';
 						  			}
 						  			echo'
@@ -795,7 +795,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 							}
 							else {
 								echo '<div style="text-align:left;">';
-									AddForm('add');
+									AddForm('add', $_ADD);
 								echo'</div>';			
 							}
 							echo'
@@ -805,7 +805,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 				</form>';
 			}
 			else{
-				Failure(_ACCESS_DENIED);
+				Failure($_ACCESS_DENIED);
 			}
 			echo'</div>';
 			break;
@@ -816,7 +816,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 				$archive= (isset($_GET['archive'])?'1':'0');
 				if (isset($_GET['tskid'])) {
 					$tasklistInfo = $task->GetTaskInfoById($_GET['tskid']);
-					$issue_title = _FOR.' '._TASK.' '.$tasklistInfo['tsktitle'];
+					$issue_title = $_FOR.' '.$_TASK.' '.$tasklistInfo['tsktitle'];
 					$tskid = '&&tskid='.$_GET['tskid'];
 					$tskid2 = '&tskid='.$_GET['tskid'];
 				}
@@ -867,11 +867,11 @@ $admins_tasks = new ManageAdmins_Tasks();
 					<div id="vqs"></div>
 					<div class="row">
 					  <div class="col-md-3">
-						<p class="lead"><a href="">'._ISSUES.'</a>';
+						<p class="lead"><a href="">'.$_ISSUES.'</a>';
 						if ($permissions[0]['allow_add_issues']==1) {
-							AddLogo('?op=add');
+							AddLogo('?op=add', $_NEW);
 						}
-						ChartLogo('?op=chart'.$tskid2.'');
+						ChartLogo('?op=chart'.$tskid2.'', $_CHART);
 						echo'
 						  <br><small><small>'.$issue_title.'</small></small>
 						</p>
@@ -879,23 +879,23 @@ $admins_tasks = new ManageAdmins_Tasks();
 					  <div class="col-md-9">
 						<form action="" method="post" class="form-inline form_search">
 							<div class="form-group">
-								<input autofocus="" type="text" value="'.$q.'" class="form-control input-sm" id="q" name="q" placeholder="'._SEARCH_TEXT.'">
+								<input autofocus="" type="text" value="'.$q.'" class="form-control input-sm" id="q" name="q" placeholder="'.$_SEARCH_TEXT.'">
 							</div>
 							<select name="filter" class="form-control input-sm">
-								<option '.($filter=="icode"?'selected':'').' value="icode">'._CODE.'</option>
-								<option '.($filter=="ititle"?'selected':'').' value="ititle">'._TITLE.'</option>
-								<option onclick="alert(\'  '._EASY.': 0 / '._NORMAL.': 1 / '._HARD.': 2 / '._VERY.' '._HARD.': 3\')" '.($filter=="iproirity"?'selected':'').' value="iproirity">'._PROIRITY.'</option>
-								<option onclick="alert(\'  None: 0 / ! : 1 / !! : 2 / !!! : 3 / !!!! : 4 / !!!!! : 5\')" '.($filter=="icomplexity"?'selected':'').' value="icomplexity">'._COMPLEXITY.'</option>
-								<option '.($filter=="iwho_fullname"?'selected':'').' value="iwho_fullname">'._NAME_OF_PROPOSER.'</option>
-								<option '.($filter=="iwho_email"?'selected':'').' value="iwho_email">'._EMAIL_OF_PROPOSER.'</option>
-								<option '.($filter=="iwho_tel"?'selected':'').' value="iwho_tel">'._PHONE_NUMBER_OF_PROPOSER.'</option>
-								<option onclick="alert(\' '._DONE.':1 | '._UNDONE.':0\')" '.($filter=="idone"?'selected':'').' value="idone">'._DONE.'</option>
-								<option '.($filter=="idone_version"?'selected':'').' value="idone_version">'._DONE_VERSION.'</option>
-								<option '.($filter=="prjid"?'selected':'').' value="prjid">'._FOR.' '._PROJECT.'</option>
-								<option '.($filter=="tyid"?'selected':'').' value="tyid">'._TYPE.' '._ISSUE.'</option>
+								<option '.($filter=="icode"?'selected':'').' value="icode">'.$_CODE.'</option>
+								<option '.($filter=="ititle"?'selected':'').' value="ititle">'.$_TITLE.'</option>
+								<option onclick="alert(\'  '.$_EASY.': 0 / '.$_NORMAL.': 1 / '.$_HARD.': 2 / '.$_VERY.' '.$_HARD.': 3\')" '.($filter=="iproirity"?'selected':'').' value="iproirity">'.$_PROIRITY.'</option>
+								<option onclick="alert(\'  None: 0 / ! : 1 / !! : 2 / !!! : 3 / !!!! : 4 / !!!!! : 5\')" '.($filter=="icomplexity"?'selected':'').' value="icomplexity">'.$_COMPLEXITY.'</option>
+								<option '.($filter=="iwho_fullname"?'selected':'').' value="iwho_fullname">'.$_NAME_OF_PROPOSER.'</option>
+								<option '.($filter=="iwho_email"?'selected':'').' value="iwho_email">'.$_EMAIL_OF_PROPOSER.'</option>
+								<option '.($filter=="iwho_tel"?'selected':'').' value="iwho_tel">'.$_PHONE_NUMBER_OF_PROPOSER.'</option>
+								<option onclick="alert(\' '.$_DONE.':1 | '.$_UNDONE.':0\')" '.($filter=="idone"?'selected':'').' value="idone">'.$_DONE.'</option>
+								<option '.($filter=="idone_version"?'selected':'').' value="idone_version">'.$_DONE_VERSION.'</option>
+								<option '.($filter=="prjid"?'selected':'').' value="prjid">'.$_FOR.' '.$_PROJECT.'</option>
+								<option '.($filter=="tyid"?'selected':'').' value="tyid">'.$_TYPE.' '.$_ISSUE.'</option>
 							</select>';
 							if ($num_of_pages>1) {
-								echo' '._PAGE_NUMBER.':<select name="page" class="form-control input-sm">';
+								echo' '.$_PAGE_NUMBER.':<select name="page" class="form-control input-sm">';
 								for ($i=0; $i < $num_of_pages; $i++) { 
 									if (isset($_REQUEST['start']) && $_REQUEST['start']==$i) {
 									echo'<option value="'.$i.'"'.($i==$page?'selected':'').'>'.($i+1).'</option>';
@@ -907,7 +907,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 								echo '</select>';
 							}
 							echo'
-						'._NUMBER_OF_PER_PAGE.':
+						'.$_NUMBER_OF_PER_PAGE.':
 						<select class="form-control input-sm" id="page_limit" name="page_limit">
 							<option '.($page_limit=="5"?'selected':'').' value="5">5</option>
 							<option '.($page_limit=="10"?'selected':'').' value="10">10</option>
@@ -915,7 +915,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 							<option '.($page_limit=="50"?'selected':'').' value="50">50</option>
 							<option '.($page_limit=="100"?'selected':'').' value="100">100</option>
 						</select>
-						 <button type="submit" name="search" class="btn btn-default btn-sm">'._SEARCH.'</button>
+						 <button type="submit" name="search" class="btn btn-default btn-sm">'.$_SEARCH.'</button>
 						</form><br>
 					  </div>
 					</div>
@@ -940,75 +940,75 @@ $admins_tasks = new ManageAdmins_Tasks();
 					<div class="table-responsive">
 						<table class="table table-striped table-bordered table-hover" id="my_elem">
 							<tr class="table_header info">
-								<th width="20px">'._TOOLS.'</th>
-								<th width="20px">'._PROJECT.'</th>
+								<th width="20px">'.$_TOOLS.'</th>
+								<th width="20px">'.$_PROJECT.'</th>
 								<th width="20px">
 									<a href="?op=list&order=icode'.(isset($_GET['desc'])?'':'&desc').'">
-										'._CODE.'<span class="fas fa-collapse'.($_GET['order']=='icode' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+										'.$_CODE.'<span class="fas fa-collapse'.($_GET['order']=='icode' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th>
-									<a href="?op=list&order=ititle'.(isset($_GET['desc'])?'':'&desc').'">'._TITLE.'<span class="fas fa-collapse'.($_GET['order']=='ititle' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=ititle'.(isset($_GET['desc'])?'':'&desc').'">'.$_TITLE.'<span class="fas fa-collapse'.($_GET['order']=='ititle' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="100px">
-									<a href="?op=list&order=idesc'.(isset($_GET['desc'])?'':'&desc').'">'._DESC.'<span class="fas fa-collapse'.($_GET['order']=='idesc' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=idesc'.(isset($_GET['desc'])?'':'&desc').'">'.$_DESC.'<span class="fas fa-collapse'.($_GET['order']=='idesc' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="200px">
-									<a href="?op=list&order=iproirity'.(isset($_GET['desc'])?'':'&desc').'">'._PROIRITY.'<span class="fas fa-collapse'.($_GET['order']=='iproirity' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=iproirity'.(isset($_GET['desc'])?'':'&desc').'">'.$_PROIRITY.'<span class="fas fa-collapse'.($_GET['order']=='iproirity' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="50px">
-									<a href="?op=list&order=icomplexity'.(isset($_GET['desc'])?'':'&desc').'">'._COMPLEXITY.'<span class="fas fa-collapse'.($_GET['order']=='icomplexity' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=icomplexity'.(isset($_GET['desc'])?'':'&desc').'">'.$_COMPLEXITY.'<span class="fas fa-collapse'.($_GET['order']=='icomplexity' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="20px">
-									<a href="?op=list&order=ineeded_time'.(isset($_GET['desc'])?'':'&desc').'">'._NEEDED_TIME.'
+									<a href="?op=list&order=ineeded_time'.(isset($_GET['desc'])?'':'&desc').'">'.$_NEEDED_TIME.'
 									</a></th>
 								<th width="20px">
-									<a href="?op=list&order=idate'.(isset($_GET['desc'])?'':'&desc').'">'._ADD_DATE.'
+									<a href="?op=list&order=idate'.(isset($_GET['desc'])?'':'&desc').'">'.$_ADD_DATE.'
 									</a></th>
 								<th width="200px">
-									<a href="?op=list&order=ifile1'.(isset($_GET['desc'])?'':'&desc').'">'._FILE1.'<span class="fas fa-collapse'.($_GET['order']=='ifile1' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=ifile1'.(isset($_GET['desc'])?'':'&desc').'">'.$_FILE1.'<span class="fas fa-collapse'.($_GET['order']=='ifile1' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="20px">
-									<a href="?op=list&order=ifile2'.(isset($_GET['desc'])?'':'&desc').'">'._FILE2.'<span class="fas fa-collapse'.($_GET['order']=='ifile2' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=ifile2'.(isset($_GET['desc'])?'':'&desc').'">'.$_FILE2.'<span class="fas fa-collapse'.($_GET['order']=='ifile2' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="50px">
-									<a href="?op=list&order=ifile3'.(isset($_GET['desc'])?'':'&desc').'">'._FILE3.'<span class="fas fa-collapse'.($_GET['order']=='ifile3' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=ifile3'.(isset($_GET['desc'])?'':'&desc').'">'.$_FILE3.'<span class="fas fa-collapse'.($_GET['order']=='ifile3' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="20px">
 									<a href="?op=list&order=iwho_fullname'.(isset($_GET['desc'])?'':'&desc').'">
-										'._NAME_OF_PROPOSER.'<span class="fas fa-collapse'.($_GET['order']=='iwho_fullname' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+										'.$_NAME_OF_PROPOSER.'<span class="fas fa-collapse'.($_GET['order']=='iwho_fullname' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="50px">
-									<a href="?op=list&order=iwho_email'.(isset($_GET['desc'])?'':'&desc').'">'._EMAIL_OF_PROPOSER.'<span class="fas fa-collapse'.($_GET['order']=='iwho_email' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=iwho_email'.(isset($_GET['desc'])?'':'&desc').'">'.$_EMAIL_OF_PROPOSER.'<span class="fas fa-collapse'.($_GET['order']=='iwho_email' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a></th>
 								<th width="50px">
 									<a href="?op=list&order=iwho_tel'.(isset($_GET['desc'])?'':'&desc').'">
-								'._PHONE_NUMBER_OF_PROPOSER.'<span class="fas fa-collapse'.($_GET['order']=='iwho_tel' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+								'.$_PHONE_NUMBER_OF_PROPOSER.'<span class="fas fa-collapse'.($_GET['order']=='iwho_tel' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 								<th>
-									<a href="?op=list&order=idone'.(isset($_GET['desc'])?'':'&desc').'">'._DONE.'<span class="fas fa-collapse'.($_GET['order']=='idone' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=idone'.(isset($_GET['desc'])?'':'&desc').'">'.$_DONE.'<span class="fas fa-collapse'.($_GET['order']=='idone' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 								<th>
-									<a href="?op=list&order=idone_date'.(isset($_GET['desc'])?'':'&desc').'">'._DONE_DATE.'<span class="fas fa-collapse'.($_GET['order']=='idone_date' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=idone_date'.(isset($_GET['desc'])?'':'&desc').'">'.$_DONE_DATE.'<span class="fas fa-collapse'.($_GET['order']=='idone_date' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 								<th>
 									<a href="?op=list&order=idone_version'.(isset($_GET['desc'])?'':'&desc').'">
-										'._DONE_VERSION.'<span class="fas fa-collapse'.($_GET['order']=='idone_version' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+										'.$_DONE_VERSION.'<span class="fas fa-collapse'.($_GET['order']=='idone_version' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 								<th>
 									<a href="?op=list&order=tyid'.(isset($_GET['desc'])?'':'&desc').'">
-										'._TYPE.' '._ISSUE.'<span class="fas fa-collapse'.($_GET['order']=='tyid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+										'.$_TYPE.' '.$_ISSUE.'<span class="fas fa-collapse'.($_GET['order']=='tyid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 								<th>
-									<a href="?op=list&order=prjid'.(isset($_GET['desc'])?'':'&desc').'">'._FOR.' '._PROJECT.'<span class="fas fa-collapse'.($_GET['order']=='prjid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=prjid'.(isset($_GET['desc'])?'':'&desc').'">'.$_FOR.' '.$_PROJECT.'<span class="fas fa-collapse'.($_GET['order']=='prjid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 								<th>
-									<a href="?op=list&order=aid'.(isset($_GET['desc'])?'':'&desc').'">'._INSERTED_BY.'<span class="fas fa-collapse'.($_GET['order']=='aid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
+									<a href="?op=list&order=aid'.(isset($_GET['desc'])?'':'&desc').'">'.$_INSERTED_BY.'<span class="fas fa-collapse'.($_GET['order']=='aid' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 									</a>
 								</th>
 							</tr>
@@ -1034,16 +1034,16 @@ $admins_tasks = new ManageAdmins_Tasks();
 						$iproirity=$icomplexity='';
 						switch ($issueInfo['iproirity']) {
 							case '0':
-								$iproirity=""._EASY."";
+								$iproirity="".$_EASY."";
 								break;
 							case '1':
-								$iproirity=""._NORMAL."";
+								$iproirity="".$_NORMAL."";
 								break;
 							case '2':
-								$iproirity=""._HARD."";
+								$iproirity="".$_HARD."";
 								break;
 							case '3':
-								$iproirity=""._VERY." "._HARD."";
+								$iproirity="".$_VERY." ".$_HARD."";
 								break;
 						}
 						switch ($issueInfo['icomplexity']) {
@@ -1080,22 +1080,22 @@ $admins_tasks = new ManageAdmins_Tasks();
 												<input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
 									          if ($permissions[0]['allow_edit_issues']==1) {
 									          		echo'
-													<a class="dropdown-item" href="?op=add&iid='.$issueInfo['iid'].'">'._EDIT.'</a>
+													<a class="dropdown-item" href="?op=add&iid='.$issueInfo['iid'].'">'.$_EDIT.'</a>
 													';
 												}
 									          if ($permissions[0]['allow_delete_issues']==1) {
 									          		echo'
-													<a class="dropdown-item" onclick="return Sure();" style="color: red;" href="?op=delete&iid='.$issueInfo['iid'].'">'._DELETE.'</a>
+													<a class="dropdown-item" onclick="return Sure();" style="color: red;" href="?op=delete&iid='.$issueInfo['iid'].'">'.$_DELETE.'</a>
 													';
 												}
 												if ($issueInfo['idone']==0) {
 													echo '
-													<a class="dropdown-item" href="javascript:doneIssue('.$issueInfo['iid'].')">'._DONE_ISSUE.'</a>
+													<a class="dropdown-item" href="javascript:doneIssue('.$issueInfo['iid'].')">'.$_DONE_ISSUE.'</a>
 													';
 												}
 												else {
 													echo '
-													<a class="dropdown-item" href="javascript:startIssue('.$issueInfo['iid'].')">'._START_ISSUE.'</a>
+													<a class="dropdown-item" href="javascript:startIssue('.$issueInfo['iid'].')">'.$_START_ISSUE.'</a>
 													';
 												}
 									          echo'
@@ -1179,8 +1179,8 @@ $admins_tasks = new ManageAdmins_Tasks();
 								<td>'.$issueInfo['iwho_fullname'].'</td>
 								<td>'.$issueInfo['iwho_email'].'</td>
 								<td>'.$issueInfo['iwho_tel'].'</td>
-								<td>'.($issueInfo['idone']==0?''._NO.'':''._YES.'').'</td>
-								<td style="text-align: left;">'.($issueInfo['idone_date']==0?''._UNDONE.'':($language=='farsi'?G2JD($issueInfo['idone_date']):$issueInfo['idone_date'])).'</td>
+								<td>'.($issueInfo['idone']==0?''.$_NO.'':''.$_YES.'').'</td>
+								<td style="text-align: left;">'.($issueInfo['idone_date']==0?''.$_UNDONE.'':($language=='farsi'?G2JD($issueInfo['idone_date']):$issueInfo['idone_date'])).'</td>
 								<td style="text-align: left;">'.$issueInfo['idone_version'].'</td>
 								<td>';
 								$issue_typeslist= $issue_types->GetList();
@@ -1209,7 +1209,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					';
 					}
 					else{
-						Failure(_ACCESS_DENIED);
+						Failure($_ACCESS_DENIED);
 					}
 				break;
 			case 'chart':
@@ -1219,7 +1219,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						$archive= (isset($_GET['archive'])?'1':'0');
 						if (isset($_GET['tskid'])) {
 							$tasklistInfo = $task->GetTaskInfoById($_GET['tskid']);
-							$issue_title = _FOR.' '._TASK.' '.$tasklistInfo['tsktitle'];
+							$issue_title = $_FOR.' '.$_TASK.' '.$tasklistInfo['tsktitle'];
 							$tskid = '&&tskid='.$_GET['tskid'];
 							$tskid2 = '&tskid='.$_GET['tskid'];
 						}
@@ -1259,12 +1259,12 @@ $admins_tasks = new ManageAdmins_Tasks();
 							<div class="row">
 							<div id="vqs"></div>
 							  <div class="col-md-3">
-								<p class="lead"><a href="">'._ISSUES.'</a>';
+								<p class="lead"><a href="">'.$_ISSUES.'</a>';
 								if ($permissions[0]['allow_add_issues']==1) {
-									AddLogo('?op=add');
+									AddLogo('?op=add', $_NEW);
 								}
 								if ($permissions[0]['allow_list_issues']==1) {
-									ListLogo('?op=list'.$tskid.'');
+									ListLogo('?op=list'.$tskid.'', $_LIST);
 								}
 									echo'
 									<br><small><small>'.$issue_title.'</small></small>
@@ -1273,23 +1273,23 @@ $admins_tasks = new ManageAdmins_Tasks();
 							  <div class="col-md-9">
 								<form action="" method="post" class="form-inline form_search">
 									<div class="form-group">
-										<input autofocus="" type="text" value="'.$q.'" class="form-control input-sm" id="q" name="q" placeholder="'._SEARCH_TEXT.'">
+										<input autofocus="" type="text" value="'.$q.'" class="form-control input-sm" id="q" name="q" placeholder="'.$_SEARCH_TEXT.'">
 									</div>
 									<select name="filter" class="form-control input-sm">
-										<option '.($filter=="icode"?'selected':'').' value="icode">'._CODE.'</option>
-										<option '.($filter=="ititle"?'selected':'').' value="ititle">'._TITLE.'</option>
-										<option onclick="alert(\'  '._EASY.': 0 / '._NORMAL.': 1 / '._HARD.': 2 / '._VERY.' '._HARD.': 3\')" '.($filter=="iproirity"?'selected':'').' value="iproirity">'._PROIRITY.'</option>
-										<option onclick="alert(\'  None: 0 / ! : 1 / !! : 2 / !!! : 3 / !!!! : 4 / !!!!! : 5\')" '.($filter=="icomplexity"?'selected':'').' value="icomplexity">'._COMPLEXITY.'</option>
-										<option '.($filter=="iwho_fullname"?'selected':'').' value="iwho_fullname">'._NAME_OF_PROPOSER.'</option>
-										<option '.($filter=="iwho_email"?'selected':'').' value="iwho_email">'._EMAIL_OF_PROPOSER.'</option>
-										<option '.($filter=="iwho_tel"?'selected':'').' value="iwho_tel">'._PHONE_NUMBER_OF_PROPOSER.'</option>
-										<option onclick="alert(\' '._DONE.':1 | '._UNDONE.':0\')" '.($filter=="idone"?'selected':'').' value="idone">'._DONE.'</option>
-										<option '.($filter=="idone_version"?'selected':'').' value="idone_version">'._DONE_VERSION.'</option>
-										<option '.($filter=="prjid"?'selected':'').' value="prjid">'._FOR.' '._PROJECT.'</option>
-										<option '.($filter=="tyid"?'selected':'').' value="tyid">'._TYPE.' '._ISSUE.'</option>
+										<option '.($filter=="icode"?'selected':'').' value="icode">'.$_CODE.'</option>
+										<option '.($filter=="ititle"?'selected':'').' value="ititle">'.$_TITLE.'</option>
+										<option onclick="alert(\'  '.$_EASY.': 0 / '.$_NORMAL.': 1 / '.$_HARD.': 2 / '.$_VERY.' '.$_HARD.': 3\')" '.($filter=="iproirity"?'selected':'').' value="iproirity">'.$_PROIRITY.'</option>
+										<option onclick="alert(\'  None: 0 / ! : 1 / !! : 2 / !!! : 3 / !!!! : 4 / !!!!! : 5\')" '.($filter=="icomplexity"?'selected':'').' value="icomplexity">'.$_COMPLEXITY.'</option>
+										<option '.($filter=="iwho_fullname"?'selected':'').' value="iwho_fullname">'.$_NAME_OF_PROPOSER.'</option>
+										<option '.($filter=="iwho_email"?'selected':'').' value="iwho_email">'.$_EMAIL_OF_PROPOSER.'</option>
+										<option '.($filter=="iwho_tel"?'selected':'').' value="iwho_tel">'.$_PHONE_NUMBER_OF_PROPOSER.'</option>
+										<option onclick="alert(\' '.$_DONE.':1 | '.$_UNDONE.':0\')" '.($filter=="idone"?'selected':'').' value="idone">'.$_DONE.'</option>
+										<option '.($filter=="idone_version"?'selected':'').' value="idone_version">'.$_DONE_VERSION.'</option>
+										<option '.($filter=="prjid"?'selected':'').' value="prjid">'.$_FOR.' '.$_PROJECT.'</option>
+										<option '.($filter=="tyid"?'selected':'').' value="tyid">'.$_TYPE.' '.$_ISSUE.'</option>
 									</select>';
 									if ($num_of_pages>1) {
-										echo' '._PAGE_NUMBER.':<select name="page" class="form-control input-sm">';
+										echo' '.$_PAGE_NUMBER.':<select name="page" class="form-control input-sm">';
 										for ($i=0; $i < $num_of_pages; $i++) { 
 											if (isset($_REQUEST['start']) && $_REQUEST['start']==$i) {
 											echo'<option value="'.$i.'"'.($i==$page?'selected':'').'>'.($i+1).'</option>';
@@ -1301,7 +1301,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 										echo '</select>';
 									}
 									echo'
-								'._NUMBER_OF_PER_PAGE.':
+								'.$_NUMBER_OF_PER_PAGE.':
 								<select class="form-control input-sm" id="page_limit" name="page_limit">
 									<option '.($page_limit=="5"?'selected':'').' value="5">5</option>
 									<option '.($page_limit=="10"?'selected':'').' value="10">10</option>
@@ -1309,7 +1309,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 									<option '.($page_limit=="50"?'selected':'').' value="50">50</option>
 									<option '.($page_limit=="100"?'selected':'').' value="100">100</option>
 								</select>
-								 <button type="submit" name="search" class="btn btn-default btn-sm">'._SEARCH.'</button>
+								 <button type="submit" name="search" class="btn btn-default btn-sm">'.$_SEARCH.'</button>
 								</form><br>
 							  </div>
 							</div>
@@ -1345,16 +1345,16 @@ $admins_tasks = new ManageAdmins_Tasks();
 							$iproirity=$icomplexity='';
 							switch ($issueInfo['iproirity']) {
 								case '0':
-									$iproirity=""._EASY."";
+									$iproirity="".$_EASY."";
 									break;
 								case '1':
-									$iproirity=""._NORMAL."";
+									$iproirity="".$_NORMAL."";
 									break;
 								case '2':
-									$iproirity=""._HARD."";
+									$iproirity="".$_HARD."";
 									break;
 								case '3':
-									$iproirity=""._VERY." "._HARD."";
+									$iproirity="".$_VERY." ".$_HARD."";
 									break;
 							}
 							switch ($issueInfo['icomplexity']) {
@@ -1387,8 +1387,8 @@ $admins_tasks = new ManageAdmins_Tasks();
 	    				    	        <strong>'.$issueInfo['ititle'].'</strong>
     				    	        </li>
 					    			<li>
-									  | <label>'._PROIRITY.'</label>: '.$iproirity.' |
-									  <label>'._COMPLEXITY.'</label>: '.$icomplexity.'&nbsp&nbsp
+									  | <label>'.$_PROIRITY.'</label>: '.$iproirity.' |
+									  <label>'.$_COMPLEXITY.'</label>: '.$icomplexity.'&nbsp&nbsp
 					    	        </li>
 						        </ul>
 							  </div>
@@ -1450,23 +1450,23 @@ $admins_tasks = new ManageAdmins_Tasks();
 						  	      <div class="row">
 					  				  <div class="col-md-4">
 					  					  <div class="form-group">
-					  					    <label for="icode">'._CODE.':</label>&nbsp
+					  					    <label for="icode">'.$_CODE.':</label>&nbsp
 					  					    '.$icode.'
 					  					  </div>
 					  					  <div class="form-group">
-					  					    <label for="ititle">'._TITLE.':</label>&nbsp
+					  					    <label for="ititle">'.$_TITLE.':</label>&nbsp
 					  					    '.$ititle.'
 					  					  </div>
 					  					  <div class="form-group">
-					  					    <label for="idesc">'._DESC.': </label>&nbsp
+					  					    <label for="idesc">'.$_DESC.': </label>&nbsp
 					  					    '.$idesc.'
 					  					  </div>
 					  					  <div class="form-group">
-					  					    <label for="ineeded_time">'._NEEDED_TIME.':</label>&nbsp
+					  					    <label for="ineeded_time">'.$_NEEDED_TIME.':</label>&nbsp
 					  					    '.$ineeded_time.'
 					  					  </div>
 				  				  	    <div class="form-group">
-				  				  	    	<label for="tyid">'._TYPE.' '._ISSUE.':</label>&nbsp';
+				  				  	    	<label for="tyid">'.$_TYPE.' '.$_ISSUE.':</label>&nbsp';
 				  				  	      foreach ($issue_typeslist as $issue_typesInfo) {
 				  				  	      	if ($issue_typesInfo['tyid']==$tyid) {
 				  				  	         echo $issue_typesInfo['tytitle'];
@@ -1481,9 +1481,9 @@ $admins_tasks = new ManageAdmins_Tasks();
 											if(file_exists('file_issue/file1/'.$file_prefix.$issueInfo['ifile1'].''))
 											{
 												echo'
-					  					    	<label for="ifile1">'._FILE1.':</label>&nbsp';
+					  					    	<label for="ifile1">'.$_FILE1.':</label>&nbsp';
 												$ifile1 = 'file_issue/file1/'.$file_prefix.$issueInfo['ifile1'].'';
-												echo '<a href="'.$ifile1.'" download="'.$file_prefix.$issueInfo['ifile1'].'">'._DOWNLOAD.' '._FILE1.'</a>';
+												echo '<a href="'.$ifile1.'" download="'.$file_prefix.$issueInfo['ifile1'].'">'.$_DOWNLOAD.' '.$_FILE1.'</a>';
 											}
 											echo '
 											
@@ -1494,9 +1494,9 @@ $admins_tasks = new ManageAdmins_Tasks();
 				    						if(file_exists('file_issue/file2/'.$file_prefix.$issueInfo['ifile2'].''))
 				    						{
 				    							echo'
-					  					    	<label for="ifile2">'._FILE2.':</label>&nbsp';
+					  					    	<label for="ifile2">'.$_FILE2.':</label>&nbsp';
 				    							$ifile2 = 'file_issue/file2/'.$file_prefix.$issueInfo['ifile2'].'';
-				    							echo '<a href="'.$ifile2.'" download="'.$file_prefix.$issueInfo['ifile2'].'">'._DOWNLOAD.' '._FILE2.'</a>';
+				    							echo '<a href="'.$ifile2.'" download="'.$file_prefix.$issueInfo['ifile2'].'">'.$_DOWNLOAD.' '.$_FILE2.'</a>';
 				    						}
 				    						echo '
 					  					    <input type="hidden" name="ifile2_temp" value="'.$ifile22.'">
@@ -1506,15 +1506,15 @@ $admins_tasks = new ManageAdmins_Tasks();
 				    						if(file_exists('file_issue/file3/'.$file_prefix.$issueInfo['ifile3'].''))
 				    						{
 				    							echo'
-					  					    	<label for="ifile3">'._FILE3.':</label>&nbsp';
+					  					    	<label for="ifile3">'.$_FILE3.':</label>&nbsp';
 				    							$ifile3 = 'file_issue/file3/'.$file_prefix.$issueInfo['ifile3'].'';
-				    							echo '<a href="'.$ifile3.'" download="'.$file_prefix.$issueInfo['ifile3'].'">'._DOWNLOAD.' '._FILE3.'</a>';
+				    							echo '<a href="'.$ifile3.'" download="'.$file_prefix.$issueInfo['ifile3'].'">'.$_DOWNLOAD.' '.$_FILE3.'</a>';
 				    						}
 				    						echo '
 					  					    <input type="hidden" name="ifile3_temp" value="'.$ifile32.'">
 					  					  </div>
 					  					  <div class="form-group">
-					  					    <label for="prjid">'._FOR.' '._PROJECT.':</label>&nbsp';
+					  					    <label for="prjid">'.$_FOR.' '.$_PROJECT.':</label>&nbsp';
 					  					    $projectlist = $project->getlist();
 					  					    foreach ($projectlist as $projectInfo) {
 					  					    	if ($projectInfo['prjid']==$prjid) {
@@ -1531,37 +1531,37 @@ $admins_tasks = new ManageAdmins_Tasks();
 					  					    echo'
 					  					  </div>
 					  				  <div class="form-group">
-					  				    <label for="iversion">'._PRIJECT_VERSION.':</label>&nbsp
+					  				    <label for="iversion">'.$_PRIJECT_VERSION.':</label>&nbsp
 					  				    '.$iversion.'
 					  				  </div>
 					  				  </div>
 					  				  <div class="col-md-4">
 					  				  	<div class="form-group">
-					  				  	  <label for="iwho_fullname">'._NAME_OF_PROPOSER.':</label>&nbsp
+					  				  	  <label for="iwho_fullname">'.$_NAME_OF_PROPOSER.':</label>&nbsp
 					  				  	  '.$iwho_fullname.'
 					  				  	</div>
 					  				  	<div class="form-group">
-					  				  	  <label for="iwho_email">'._EMAIL_OF_PROPOSER.':</label>&nbsp
+					  				  	  <label for="iwho_email">'.$_EMAIL_OF_PROPOSER.':</label>&nbsp
 					  				  	  '.$iwho_email.'
 					  				  	</div>
 					  				  	<div class="form-group">
-					  				  	  <label for="iwho_tel">'._PHONE_NUMBER_OF_PROPOSER.':</label>&nbsp
+					  				  	  <label for="iwho_tel">'.$_PHONE_NUMBER_OF_PROPOSER.':</label>&nbsp
 					  				  	  '.$iwho_tel.'
 					  				  	</div>
 					  				  	<div class="form-group">
-					  				  	  	<label for="idone">'._CONDITION.':</label>&nbsp
-					  				  	      '.($idone==1?''._DONE.'':''._UNDONE.'').'
+					  				  	  	<label for="idone">'.$_CONDITION.':</label>&nbsp
+					  				  	      '.($idone==1?''.$_DONE.'':''.$_UNDONE.'').'
 					  				  	 </div>
 					  				  	 <div class="form-group">
-					  				  	  <label for="idone_date">'._COMPLETION_DATE_ISSUE.':</label>&nbsp
+					  				  	  <label for="idone_date">'.$_COMPLETION_DATE_ISSUE.':</label>&nbsp
 					  				  	 '.($idone_date==0?'':G2JD($idone_date)).'
 					  				  	 </div>
 					  				  	 <div class="form-group">
-					  				  	  <label for="idone_version">'._PROJECT_VERSION.':</label>&nbsp
+					  				  	  <label for="idone_version">'.$_PROJECT_VERSION.':</label>&nbsp
 					  				  	  '.$idone_version.'
 					  				  	</div>
 					  				  	<div>
-					  				  		<label for="idone_version">'._INSERTED_BY.':</label>&nbsp
+					  				  		<label for="idone_version">'.$_INSERTED_BY.':</label>&nbsp
 					  				  	';
 	  									$adminlist=$admin->GetAdminInfoById($issueInfo['aid']);
 	  									echo'
@@ -1574,17 +1574,17 @@ $admins_tasks = new ManageAdmins_Tasks();
 				    	           <input type="hidden" value="'.$issueInfo['iid'].'" id="iid">';
 					  			if ($permissions[0]['allow_edit_issues']==1) {
 					  				echo'
-				    	             <a class="btn btn-light btn-sm" href="issues.php?op=add&iid='.$issueInfo['iid'].'">'._EDIT.'</a>';
+				    	             <a class="btn btn-light btn-sm" href="issues.php?op=add&iid='.$issueInfo['iid'].'">'.$_EDIT.'</a>';
 					  			}
 					  			if ($permissions[0]['allow_delete_issues']==1) {
 					  				echo'
-				    	             <a class="btn btn-danger btn-sm" onk="return Sure();" href="issues.php?op=delete&iid='.$issueInfo['iid'].'">'._DELETE.'</a>&nbsp';
+				    	             <a class="btn btn-danger btn-sm" onk="return Sure();" href="issues.php?op=delete&iid='.$issueInfo['iid'].'">'.$_DELETE.'</a>&nbsp';
 					  			}
 					  			if ($issueInfo['idone']==0) {
-									echo '<a class="btn btn-success btn-sm" href="javascript:doneIssue('.$issueInfo['iid'].')">'._DONE_ISSUE.'</a>';
+									echo '<a class="btn btn-success btn-sm" href="javascript:doneIssue('.$issueInfo['iid'].')">'.$_DONE_ISSUE.'</a>';
 								}
 								else {
-									echo '<a class="btn btn-primary btn-sm" href="javascript:startIssue('.$issueInfo['iid'].')">'._START_ISSUE.'</a>';
+									echo '<a class="btn btn-primary btn-sm" href="javascript:startIssue('.$issueInfo['iid'].')">'.$_START_ISSUE.'</a>';
 								}
 					  			echo'
 								</div>
@@ -1597,7 +1597,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 						</div>';
 					}
 					else{
-						Failure(_ACCESS_DENIED);
+						Failure($_ACCESS_DENIED);
 					}
 					echo'</div>';
 				break;
@@ -1609,18 +1609,18 @@ $admins_tasks = new ManageAdmins_Tasks();
 						$task_issue->Delete($_GET['iid']);
 						if ($issue->Delete($_GET['iid'])) 
 						{
-							Success(_RECORD_DELETED_SUCCESSFULLI);
+							Success($_RECORD_DELETED_SUCCESSFULLI);
 						}
 						else
 						{
-							Failure(_DELETING_RECORD_FAILED);
+							Failure($_DELETING_RECORD_FAILED);
 						}
 					}
 					else{
-						Failure(_ACCESS_DENIED);
+						Failure($_ACCESS_DENIED);
 					}
 					echo '
-					<a href="?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'._BACK_TO_LIST.'"></a>
+					<a href="?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'.$_BACK_TO_LIST.'"></a>
 					</div>
 					';
 				}

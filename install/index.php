@@ -268,7 +268,7 @@ echo
 												";	
 												$issue5_text = "";	
 												$issue6_text = "
-													<p dir="ltr">Read our blog:<a href=\"%20http:/projo.ir/\" target=\"_blank\" rel=\"noopener\"> http://projo.ir/</a><br><br>Like us on Instagram: <a href=\"https://www.instagram.com/projo\" target=\"_blank\" rel=\"noopener\">https://www.instagram.com/projo</a><br><br>Follow us on Twitter: <a href=\"http://twitter.com/projo\" target=\"_blank\" rel=\"noopener\">http://twitter.com/projo</a></p>
+													<p dir=\"ltr\">Read our blog:<a href=\"%20http:/projo.ir/\" target=\"_blank\" rel=\"noopener\"> http://projo.ir/</a><br><br>Like us on Instagram: <a href=\"https://www.instagram.com/projo\" target=\"_blank\" rel=\"noopener\">https://www.instagram.com/projo</a><br><br>Follow us on Twitter: <a href=\"http://twitter.com/projo\" target=\"_blank\" rel=\"noopener\">http://twitter.com/projo</a></p>
 												";	
 											}
 											$dbh->exec("

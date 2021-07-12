@@ -22,20 +22,20 @@ switch ($_GET['op']) {
 			$tytitle = $_POST['tytitle']; 
 			$tycomments = $_POST['tycomments']; 
 			if (empty($tycode) || empty($tytitle)) {
-				Toast('error', 'خطا', _FILL_IN_REQUIRED);
+				Toast('error', 'خطا', $_FILL_IN_REQUIRED);
 			} 
 			else
 			{
 				if (preg_match('/^[اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $tycode)==1 || strpos($tycode, " ")!==false) {
-			        Toast('error', 'خطا', _INVALID_CODE);
+			        Toast('error', 'خطا', $_INVALID_CODE);
 			    }
 			    else{	
 					if ($issue_types->Add($tycode, $tytitle, $tycomments)==1) {
-						Toast('success', 'موفق', _RECORD_ADDED_SUCCESSFULLI);
+						Toast('success', 'موفق', $_RECORD_ADDED_SUCCESSFULLI);
 						$tycode= $tytitle= $tycomments='';
 					}
 					else{
-						Toast('error', 'خطا', _ADDING_RECORD_FAILED);
+						Toast('error', 'خطا', $_ADDING_RECORD_FAILED);
 					}
 				}
 			}
@@ -49,14 +49,14 @@ switch ($_GET['op']) {
 					$tytitle = $_POST['tytitle']; 
 					$tycomments = $_POST['tycomments'];
 					if (preg_match('/^[اآبپتثئجچحخدذرزژسشصضطظعغفقکگلمنوهی\s]+$/', $tycode)==1 || strpos($tycode, " ")!==false) {
-				        Toast('error', 'خطا', _INVALID_CODE);
+				        Toast('error', 'خطا', $_INVALID_CODE);
 				    }
 				    else{	
 						if($issue_types->Update($tyid, $tycode, $tytitle, $tycomments)==1){
-							Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
+							Toast('success', 'موفق', $_RECORD_EDITED_SUCCESSFULLI);
 						}
 						else{
-							Toast('error', 'خطا', _EDITING_RECORD_FAILED.' ('._NOT_CHANGED_RECORD.')');
+							Toast('error', 'خطا', $_EDITING_RECORD_FAILED.' ('.$_NOT_CHANGED_RECORD.')');
 						}
 					}
 				// }
@@ -72,21 +72,21 @@ switch ($_GET['op']) {
 		echo '
 		<div class="col-sm-12 col-md-12 jumbotron" id="content">
 			<form method="post" enctype="multipart/form-data">
-				<legend>'._ADD.' '._TYPE.' '._ISSUE.' &nbsp&nbsp<a class="btn btn-default" href="?op=list" role="button">'._LIST.'</a></legend>
+				<legend>'.$_ADD.' '.$_TYPE.' '.$_ISSUE.' &nbsp&nbsp<a class="btn btn-default" href="?op=list" role="button">'.$_LIST.'</a></legend>
 				<div class="row">
 				  <div class="col-md-4">
 					  <div class="form-group">
-					    <label for="tycode">'._CODE.'<span class="required">*</span>:</label>
+					    <label for="tycode">'.$_CODE.'<span class="required">*</span>:</label>
 					    <input type="text" class="form-control" id="tycode" name="tycode" style="direction:ltr;" value="'.$tycode.'">
 					  </div>
 					  <div class="form-group">
-					    <label for="tytitle">'._TITLE.'<span class="required">*</span>:</label>
+					    <label for="tytitle">'.$_TITLE.'<span class="required">*</span>:</label>
 					    <input type="text" class="form-control" id="tytitle" name="tytitle" value="'.$tytitle.'">
 					  </div>
 				  </div>
 				  <div class="col-md-8">
 					  <div class="form-group">
-					    <label for="tycomments">'._DESC.':</label>
+					    <label for="tycomments">'.$_DESC.':</label>
 					    <textarea class="form-control editor" rows="3" id="tycomments" name="tycomments">'.$tycomments.'</textarea>
 					  </div>';
 						if (isset($_GET['tyid'])) {
@@ -94,18 +94,18 @@ switch ($_GET['op']) {
 							<ul class="list-inline">
 								<li class="left_list">
 					  				';
-								UpdateForm('edit');
+								UpdateForm('edit', $_UPDATE);
 							echo'
 								</li>
 								<li>
-									<a onclick="return Sure();" style="color: #a00;" href="?op=delete&tyid='.$tyid.'">'._DELETE.'</a>
+									<a onclick="return Sure();" style="color: #a00;" href="?op=delete&tyid='.$tyid.'">'.$_DELETE.'</a>
 								</li>
 							</ul>
 							';
 						}
 						else {
 							echo '<div style="text-align:left;">';
-								AddForm('add');
+								AddForm('add', $_ADD);
 							echo'</div>';			
 						}
 						echo'
@@ -143,19 +143,19 @@ switch ($_GET['op']) {
 	        // if ($permissions[0]['allow_list_link']!=0) {
 				echo '
 				<div class="col-sm-12 col-md-12 jumbotron" id="content">
-					  <p class="lead"><a href="">'._TYPE.' '._ISSUE.'</a> &nbsp&nbsp';
+					  <p class="lead"><a href="">'.$_TYPE.' '.$_ISSUE.'</a> &nbsp&nbsp';
 				// if ($permissions[0]['allow_add_link']==1) {
 				echo'
-				<a class="btn btn-default" href="?op=add" role="button">'._ADD.'</a>';
+				<a class="btn btn-default" href="?op=add" role="button">'.$_ADD.'</a>';
 				// }
 				echo'</p>
 				<div class="table-responsive">
 					<table class="table table-bordered table-hover table-striped">
 						<tr class="table_header info">
-							<th width="20px">'._TOOLS.'</th>
-							<th width="20px"><a href="?op=list&order=tycode'.(isset($_GET['desc'])?'':'&desc').'">'._CODE.'<span class="fas fa-collapse'.($_GET['order']=='tycode' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span></a></th>
-							<th width="100px"><a href="?op=list&order=tytitle'.(isset($_GET['desc'])?'':'&desc').'">'._TITLE.'<span class="fas fa-collapse'.($_GET['order']=='tytitle' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span></a></th>
-							<th width="300px"><a href="?op=list&order=tycomments'.(isset($_GET['desc'])?'':'&desc').'">'._DESC.'<span class="fas fa-collapse'.($_GET['order']=='tycomments' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span></a></th>
+							<th width="20px">'.$_TOOLS.'</th>
+							<th width="20px"><a href="?op=list&order=tycode'.(isset($_GET['desc'])?'':'&desc').'">'.$_CODE.'<span class="fas fa-collapse'.($_GET['order']=='tycode' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span></a></th>
+							<th width="100px"><a href="?op=list&order=tytitle'.(isset($_GET['desc'])?'':'&desc').'">'.$_TITLE.'<span class="fas fa-collapse'.($_GET['order']=='tytitle' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span></a></th>
+							<th width="300px"><a href="?op=list&order=tycomments'.(isset($_GET['desc'])?'':'&desc').'">'.$_DESC.'<span class="fas fa-collapse'.($_GET['order']=='tycomments' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span></a></th>
 						</tr>
 				';
 				foreach ($typelist as $typeInfo) {
@@ -171,11 +171,11 @@ switch ($_GET['op']) {
 									<ul class="dropdown-menu">';
 							          // if ($permissions[0]['allow_edit_link']==1) {
 							          echo'
-										<li><a href="?op=add&tyid='.$typeInfo['tyid'].'">'._EDIT.'</a></li>';
+										<li><a href="?op=add&tyid='.$typeInfo['tyid'].'">'.$_EDIT.'</a></li>';
 										// }
 							   //        if ($permissions[0]['allow_delete_link']==1) {
 							          echo'
-										<li><a onclick="return Sure();" style="color: red;" href="?op=delete&tyid='.$typeInfo['tyid'].'">'._DELETE.'</a></li>';
+										<li><a onclick="return Sure();" style="color: red;" href="?op=delete&tyid='.$typeInfo['tyid'].'">'.$_DELETE.'</a></li>';
 										// }
 							          echo'
 									</ul>
@@ -205,18 +205,18 @@ switch ($_GET['op']) {
 				// if ($permissions[0]['allow_delete_link']==1) {
 					if ($issue_types->Delete($_GET['tyid'])) 
 					{
-						Toast('success', 'موفق', _RECORD_DELETED_SUCCESSFULLI);
+						Toast('success', 'موفق', $_RECORD_DELETED_SUCCESSFULLI);
 					}
 					else
 					{
-						Toast('error', 'خطا', _DELETING_RECORD_FAILED);
+						Toast('error', 'خطا', $_DELETING_RECORD_FAILED);
 					}
 				// }
 				// else{
 				// 	$error='شما دسترسی لازم برای این بخش ندارید';
 				// }
 				echo '
-				<a href="?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'._BACK_TO_LIST.'"></a>
+				<a href="?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'.$_BACK_TO_LIST.'"></a>
 				</div>
 				';
 			}

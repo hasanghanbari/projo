@@ -44,19 +44,19 @@ $admins_tasks = new ManageAdmins_Tasks();
 				echo'
 					<div class="row">
 					  <div class="col-md-3">
-						<p class="lead"><a href="">'._COMMENTS.'</a></p>
+						<p class="lead"><a href="">'.$_COMMENTS.'</a></p>
 					  </div>
 					  <div class="col-md-9">
 						<form action="" method="post" class="form-inline form_search">
 							<div class="form-group">
-								<input autofocus="" type="text" value="'.$q.'" class="form-control" id="q" name="q" placeholder="'._SEARCH_TEXT.'">
+								<input autofocus="" type="text" value="'.$q.'" class="form-control" id="q" name="q" placeholder="'.$_SEARCH_TEXT.'">
 							</div>
 							<select name="filter" class="form-control">
-								<option '.($filter=="ctext"?'selected':'').' value="ctext">'._TITLE.'</option>
-								<option '.($filter=="cdate"?'selected':'').' value="cdate">'._ADD_DATE.'</option>
+								<option '.($filter=="ctext"?'selected':'').' value="ctext">'.$_TITLE.'</option>
+								<option '.($filter=="cdate"?'selected':'').' value="cdate">'.$_ADD_DATE.'</option>
 							</select>';
 							if ($num_of_pages>1) {
-								echo' '._PAGE_NUMBER.':<select name="page" class="form-control">';
+								echo' '.$_PAGE_NUMBER.':<select name="page" class="form-control">';
 								for ($i=0; $i < $num_of_pages; $i++) { 
 									if (isset($_REQUEST['start']) && $_REQUEST['start']==$i) {
 									echo'<option value="'.$i.'"'.($i==$page?'selected':'').'>'.($i+1).'</option>';
@@ -68,7 +68,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 								echo '</select>';
 							}
 							echo'
-						'._NUMBER_OF_PER_PAGE.':
+						'.$_NUMBER_OF_PER_PAGE.':
 						<select class="form-control" id="page_limit" name="page_limit">
 							<option '.($page_limit=="5"?'selected':'').' value="5">5</option>
 							<option '.($page_limit=="10"?'selected':'').' value="10">10</option>
@@ -76,16 +76,16 @@ $admins_tasks = new ManageAdmins_Tasks();
 							<option '.($page_limit=="50"?'selected':'').' value="50">50</option>
 							<option '.($page_limit=="100"?'selected':'').' value="100">100</option>
 						</select>
-						 <button type="submit" name="search" class="btn btn-default">'._SEARCH.'</button>
+						 <button type="submit" name="search" class="btn btn-default">'.$_SEARCH.'</button>
 						</form><br>
 					  </div>
 					</div>
 					<div class="table-responsive">
 						<table class="table table-bordered table-hover">
 						  <tr class="table_header">
-						    <th class="active" width="150px">'._TOOLS.'</th>
-						    <th class="active" width="400px">'._TITLE.'</th>
-						    <th class="active" width="100px">'._INSERT_DATE.'</th>
+						    <th class="active" width="150px">'.$_TOOLS.'</th>
+						    <th class="active" width="400px">'.$_TITLE.'</th>
+						    <th class="active" width="100px">'.$_INSERT_DATE.'</th>
 						  </tr>';
 						  foreach ($commentlist as $commentInfo) {
 						  	echo'
@@ -93,10 +93,10 @@ $admins_tasks = new ManageAdmins_Tasks();
 						    <td class="active">
 								<div class="dropdown">
 								  <button id="dLabel" type="button" class="btn btn-default btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								    <span class="fas fa-menu-hamburger"></span> '._TOOLS.'
+								    <span class="fas fa-menu-hamburger"></span> '.$_TOOLS.'
 								  </button>
 								  <ul class="dropdown-menu" aria-labelledby="dLabel">
-								    <li><a onclick="return Sure();" style="color: red;" href="?op=delete&cid='.$commentInfo['cid'].'">'._DELETE.'</a></li>
+								    <li><a onclick="return Sure();" style="color: red;" href="?op=delete&cid='.$commentInfo['cid'].'">'.$_DELETE.'</a></li>
 								  </ul>
 								</div>
 						    </td>
@@ -110,7 +110,7 @@ $admins_tasks = new ManageAdmins_Tasks();
 					  </div>';
 				}
 				else{
-					Failure(_ACCESS_DENIED);
+					Failure($_ACCESS_DENIED);
 				}
 				echo'
 				</div>
@@ -123,18 +123,18 @@ $admins_tasks = new ManageAdmins_Tasks();
 				if ($permissions[0]['asuper_admin']==1) {
 					if ($comment->Delete($_GET['cid'])) 
 					{
-						Success(_RECORD_DELETED_SUCCESSFULLI);
+						Success($_RECORD_DELETED_SUCCESSFULLI);
 					}
 					else
 					{
-						Failure(_DELETING_RECORD_FAILED);
+						Failure($_DELETING_RECORD_FAILED);
 					}
 				}
 				else{
-					Failure(_ACCESS_DENIED);
+					Failure($_ACCESS_DENIED);
 				}
 				echo '
-				<a href="?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'._BACK_TO_LIST.'"></a>
+				<a href="?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'.$_BACK_TO_LIST.'"></a>
 				</div>
 				';
 			}

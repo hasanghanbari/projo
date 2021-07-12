@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo _ABOUT_PROJA_SYSTEM_NAME2 ?></title>
+    <title><?php echo $_ABOUT_PROJA_SYSTEM_NAME2 ?></title>
 
     <link rel="stylesheet" type="text/css" href="vendor/Persian-Jalali/style/kamadatepicker.min.css" >
     <link rel="stylesheet" href="vendor/fontawesome-pro-5.12.0-web/css/all.min.css" />
@@ -26,7 +26,7 @@
 
     <script>
     function Sure() {
-      if (confirm(" <?php echo _ARE_YOU_SURE_DELETE ?> "))
+      if (confirm(" <?php echo $_ARE_YOU_SURE_DELETE ?> "))
         return true;
       else
         return false;
@@ -59,8 +59,8 @@
        echo' 
         #main{
           clear: both;
-          margin-right: -270px;
-          margin-left: 230px;
+          margin-right: 0;
+          margin-left: 0;
         }
         @media (max-width: 767px) {
           #main{
@@ -68,6 +68,12 @@
             margin-right: -15px;
             margin-left: -15px;
           }
+        }
+        .project-menu-drop .dropdown-item {
+            text-align: left;
+        }
+        .navbar-nav .dropdown-menu {
+            text-align: left;
         }
       ';
       }

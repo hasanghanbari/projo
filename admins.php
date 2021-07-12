@@ -1,6 +1,6 @@
 <?php
 require_once 'main.php';
-$title=' - '._ADMINS.' ';
+$title=' - '.$_ADMINS.' ';
 require_once 'header.php';
 require_once 'menu.php';
 $admin = new ManageAdmins();
@@ -31,16 +31,16 @@ switch ($op) {
 					$whitelist = array("png", "jpg", "gif");
 					if(!in_array(substr(basename($_FILES['apic']['name']),-3), $whitelist))
 					{
-						Toast('error', 'خطا',  _ADMIN_PIC_EXTENSION_ERROR);
+						Toast('error', 'خطا', $_ADMIN_PIC_EXTENSION_ERROR);
 					}
 					else
 					{
-						if($_FILES['apic']['size']<(_IMAGE_SIZE*1024))
+						if($_FILES['apic']['size']<($_IMAGE_SIZE*1024))
 						{
 							$imageinfo = getimagesize($_FILES['apic']['tmp_name']);
 							if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg' && $imageinfo['mime'] != 'image/png')
 							{
-								Toast('error', 'خطا',  _ADMIN_PIC_CONTENT_ERROR);
+								Toast('error', 'خطا', $_ADMIN_PIC_CONTENT_ERROR);
 							}
 							else
 							{
@@ -53,14 +53,14 @@ switch ($op) {
 								}
 								else
 								{
-									Toast('error', 'خطا',  _ADMIN_PIC_UPLOAD_ERROR);
+									Toast('error', 'خطا', $_ADMIN_PIC_UPLOAD_ERROR);
 									$apic = "";
 								}
 							}
 						}
 						else
 						{
-							Toast('error', 'خطا',  _IMAGE_SIZE_ERROR);
+							Toast('error', 'خطا', $_IMAGE_SIZE_ERROR);
 						}
 					}
 				}
@@ -89,7 +89,7 @@ switch ($op) {
 				$allow_delete_task = (isset($_POST['allow_delete_task'])?1:0);
 				$allow_delete_issues = (isset($_POST['allow_delete_issues'])?1:0);
 				if (empty($ausername) || empty($apass)) {
-					Toast('error', 'خطا',  _FILL_IN_REQUIRED);
+					Toast('error', 'خطا', $_FILL_IN_REQUIRED);
 				} 
 				else 
 				{		
@@ -100,12 +100,12 @@ switch ($op) {
 						$agender = $asuper_admin = 0;
 					}
 					else{
-						Toast('error', 'خطا',  _ADDING_RECORD_FAILED);
+						Toast('error', 'خطا', $_ADDING_RECORD_FAILED);
 					}
 				}
 			}
 			else{
-					Toast('error', 'خطا',  _ACCESS_DENIED);
+					Toast('error', 'خطا', $_ACCESS_DENIED);
 			}
 		}
 		elseif (isset($_GET['aid'])) {
@@ -133,18 +133,18 @@ switch ($op) {
 						
 						if(!in_array(substr(basename($_FILES['apic']['name']),-3), $whitelist))
 						{
-							Toast('error', 'خطا',  _ADMIN_PIC_EXTENSION_ERROR);
+							Toast('error', 'خطا', $_ADMIN_PIC_EXTENSION_ERROR);
 						}
 						else
 						{
 							$imageinfo = getimagesize($_FILES['apic']['tmp_name']);
 							if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg' && $imageinfo['mime'] != 'image/png')
 							{
-								Toast('error', 'خطا',  _ADMIN_PIC_CONTENT_ERROR);
+								Toast('error', 'خطا', $_ADMIN_PIC_CONTENT_ERROR);
 							}
 							else
 							{
-								if($_FILES['apic']['size']<(_IMAGE_SIZE*1024))
+								if($_FILES['apic']['size']<($_IMAGE_SIZE*1024))
 								{
 									$uploaddir = 'img/admins/';
 									$pic_name = $pic_prefix;
@@ -156,13 +156,13 @@ switch ($op) {
 									}
 									else
 									{
-										Failure(_ADMIN_PIC_UPLOAD_ERROR); 
+										Failure($_ADMIN_PIC_UPLOAD_ERROR); 
 										$apic = "";
 									}
 								}
 								else
 								{
-									Toast('error', 'خطا',  _IMAGE_SIZE_ERROR);
+									Toast('error', 'خطا', $_IMAGE_SIZE_ERROR);
 									$apic = $apic2 = $_REQUEST['apic_temp'];
 								}
 							}
@@ -199,11 +199,11 @@ switch ($op) {
 						Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
 					}
 					else{
-						Toast('error', 'خطا', _EDITING_RECORD_FAILED.' ('._NOT_CHANGED_RECORD.')');
+						Toast('error', 'خطا', _EDITING_RECORD_FAILED.' ('.$_NOT_CHANGED_RECORD.')');
 					}
 				}
 				else{
-						Toast('error', 'خطا',  _ACCESS_DENIED);
+						Toast('error', 'خطا', $_ACCESS_DENIED);
 				}
 			}
 			$adminInfo = $admin->GetAdminInfoById($aid);
@@ -241,14 +241,14 @@ switch ($op) {
 		echo'
 		<form method="post" enctype="multipart/form-data">';
 			if (isset($_GET['aid'])) {
-				echo '<p class="lead">'._EDIT.' '._ADMIN.'';
-				AddLogo('?op=add');
-				ListLogo('?op=list');
+				echo '<p class="lead">'.$_EDIT.' '.$_ADMIN.'';
+				AddLogo('?op=add', $_NEW);
+				ListLogo('?op=list', $_LIST);
 				echo '</p>';
 			}
 			else {
-				echo '<p class="lead">'._ADD.' '._ADMIN.'';
-				ListLogo('?op=list');
+				echo '<p class="lead">'.$_ADD.' '.$_ADMIN.'';
+				ListLogo('?op=list', $_LIST);
 				echo '</p>';			
 			}
 			echo'
@@ -259,61 +259,61 @@ switch ($op) {
 			  	<div class="card card-default">
 			  	  <div class="card-body">
 					<div class="form-group">
-						<label for="ausername">'._USERNAME.'<span class="required">*</span>: </label><br>
+						<label for="ausername">'.$_USERNAME.'<span class="required">*</span>: </label><br>
 						<input autofocus="" type="text" class="form-control" id="ausername" name="ausername" value="'.$ausername.'" style="direction: ltr;">
 					</div>';
 					if (!isset($_GET['aid'])) {
 						echo'
 						<div class="form-group">
-							<label for="apass">'._PASSWORD.'<span class="required">*</span>: </label><br>
+							<label for="apass">'.$_PASSWORD.'<span class="required">*</span>: </label><br>
 							<input type="password" class="form-control" id="apass" name="apass" value="'.$apass.'" style="direction: ltr;">
 						</div>';
 					}
 					if ($aidInfo!=1) {
 					echo'
 					<div class="form-group">
-						<label for="aactive">'._CONDITION.': </label><br>
+						<label for="aactive">'.$_CONDITION.': </label><br>
 						<label class="radio-inline">
-							<input type="radio" name="aactive" id="aactive0" value="0" '.($aactive==0?'checked':'').'> '._INACTIVE.'
+							<input type="radio" name="aactive" id="aactive0" value="0" '.($aactive==0?'checked':'').'> '.$_INACTIVE.'
 						</label>
 						<label class="radio-inline">
-							<input type="radio" name="aactive" id="aactive1" value="1" '.($aactive==1?'checked':'').'> '._ACTIVE.'
+							<input type="radio" name="aactive" id="aactive1" value="1" '.($aactive==1?'checked':'').'> '.$_ACTIVE.'
 						</label>
 					</div>
 					<div class="form-group">
-						<label for="asuper_admin">'._GENERAL_MANAGER.'؟ </label><br>
+						<label for="asuper_admin">'.$_GENERAL_MANAGER.'؟ </label><br>
 						<label class="radio-inline">
-							<input type="radio" name="asuper_admin" id="asuper_admin0" value="0" '.($asuper_admin==0?'checked':'').'> '._NO.'
+							<input type="radio" name="asuper_admin" id="asuper_admin0" value="0" '.($asuper_admin==0?'checked':'').'> '.$_NO.'
 						</label>
 						<label class="radio-inline">
-							<input type="radio" name="asuper_admin" id="asuper_admin1" value="1" '.($asuper_admin==1?'checked':'').'> '._YES.'
+							<input type="radio" name="asuper_admin" id="asuper_admin1" value="1" '.($asuper_admin==1?'checked':'').'> '.$_YES.'
 						</label>
 					</div>';
 					}
 					echo'
 					<div class="form-group">
-						<label for="afname">'._NAME.': </label><br>
+						<label for="afname">'.$_NAME.': </label><br>
 						<input type="text" class="form-control" id="afname" name="afname" value="'.$afname.'">
 					</div>
 					<div class="form-group">
-						<label for="alname">'._FAMILI.': </label><br>
+						<label for="alname">'.$_FAMILI.': </label><br>
 						<input type="text" class="form-control" id="alname" name="alname" value="'.$alname.'">
 					</div>
 					<div class="form-group">
-						<label for="agender">'._GENDER.': </label><br>
+						<label for="agender">'.$_GENDER.': </label><br>
 						<label class="radio-inline">
-						<input type="radio" name="agender" id="agender0" value="0" '.($agender==0?'checked':'').'> '._MAN.'
+						<input type="radio" name="agender" id="agender0" value="0" '.($agender==0?'checked':'').'> '.$_MAN.'
 						</label>
 						<label class="radio-inline">
-						<input type="radio" name="agender" id="agender1" value="1" '.($agender==1?'checked':'').'> '._WOMAN.'
+						<input type="radio" name="agender" id="agender1" value="1" '.($agender==1?'checked':'').'> '.$_WOMAN.'
 						</label>
 					</div>
 					<div class="form-group">
-						<label for="atel">'._PHONE_NUMBER.': </label><br>
+						<label for="atel">'.$_PHONE_NUMBER.': </label><br>
 						<input type="tel" class="form-control" id="atel" name="atel" value="'.$atel.'" style="direction: ltr;">
 					</div>
 					<div class="form-group">
-						<label for="aemail">'._EMAIL.': </label><br>
+						<label for="aemail">'.$_EMAIL.': </label><br>
 						<input type="email" class="form-control" id="aemail" name="aemail" value="'.$aemail.'" style="direction: ltr;">
 					</div>
 			  	  </div>
@@ -324,53 +324,53 @@ switch ($op) {
 					<div class="card-body">';
 					if ($aidInfo!=1) {
 						echo'
-						<label>'._ACCESS_LEVEL.': </label>
+						<label>'.$_ACCESS_LEVEL.': </label>
 						<label class="checkbox-inline">
-							<input type="checkbox" onclick="checkAll(this)">'._SELECT_ALL.'
+							<input type="checkbox" onclick="checkAll(this)">'.$_SELECT_ALL.'
 						</label><br><br>
-						<span class="label label-info">'._PROJECT.'</span><br>
+						<span class="label label-info">'.$_PROJECT.'</span><br>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="allow_add_project" value="1" '.($allow_add_project==1?'checked':'').'> '._ADD.' '._PROJECT.'
+							<input type="checkbox" name="allow_add_project" value="1" '.($allow_add_project==1?'checked':'').'> '.$_ADD.' '.$_PROJECT.'
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="allow_edit_project" value="1" '.($allow_edit_project==1?'checked':'').'> '._EDIT.' '._PROJECT.'
+							<input type="checkbox" name="allow_edit_project" value="1" '.($allow_edit_project==1?'checked':'').'> '.$_EDIT.' '.$_PROJECT.'
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="allow_list_project" value="1" '.($allow_list_project==1?'checked':'').'> '._LIST.' '._PROJECT.'
+							<input type="checkbox" name="allow_list_project" value="1" '.($allow_list_project==1?'checked':'').'> '.$_LIST.' '.$_PROJECT.'
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="allow_delete_project" value="1" '.($allow_delete_project==1?'checked':'').'> '._DELETE.' '._PROJECT.'
+							<input type="checkbox" name="allow_delete_project" value="1" '.($allow_delete_project==1?'checked':'').'> '.$_DELETE.' '.$_PROJECT.'
 						</label><br><br>
-						<span class="label label-info">'._TASK.'</span><br>
+						<span class="label label-info">'.$_TASK.'</span><br>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="allow_add_task" value="1" '.($allow_add_task==1?'checked':'').'> '._ADD.' '._TASK.'
+							<input type="checkbox" name="allow_add_task" value="1" '.($allow_add_task==1?'checked':'').'> '.$_ADD.' '.$_TASK.'
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="allow_list_task" value="1" '.($allow_list_task==1?'checked':'').'> '._LIST.' '._TASK.'
+							<input type="checkbox" name="allow_list_task" value="1" '.($allow_list_task==1?'checked':'').'> '.$_LIST.' '.$_TASK.'
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="allow_edit_task" value="1" '.($allow_edit_task==1?'checked':'').'> '._EDIT.' '._TASK.'
+							<input type="checkbox" name="allow_edit_task" value="1" '.($allow_edit_task==1?'checked':'').'> '.$_EDIT.' '.$_TASK.'
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="allow_delete_task" value="1" '.($allow_delete_task==1?'checked':'').'> '._DELETE.' '._TASK.'
+							<input type="checkbox" name="allow_delete_task" value="1" '.($allow_delete_task==1?'checked':'').'> '.$_DELETE.' '.$_TASK.'
 						</label><br><br>
-						<span class="label label-info">'._ISSUE.'</span><br>
+						<span class="label label-info">'.$_ISSUE.'</span><br>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="allow_add_issues" value="1" '.($allow_add_issues==1?'checked':'').'> '._ADD.' '._ISSUE.'
+							<input type="checkbox" name="allow_add_issues" value="1" '.($allow_add_issues==1?'checked':'').'> '.$_ADD.' '.$_ISSUE.'
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="allow_edit_issues" value="1" '.($allow_edit_issues==1?'checked':'').'> '._EDIT.' '._ISSUE.'
+							<input type="checkbox" name="allow_edit_issues" value="1" '.($allow_edit_issues==1?'checked':'').'> '.$_EDIT.' '.$_ISSUE.'
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="allow_list_issues" value="1" '.($allow_list_issues==1?'checked':'').'> '._LIST.' '._ISSUE.'
+							<input type="checkbox" name="allow_list_issues" value="1" '.($allow_list_issues==1?'checked':'').'> '.$_LIST.' '.$_ISSUE.'
 						</label>
 						<label class="checkbox-inline">
-							<input type="checkbox" name="allow_delete_issues" value="1" '.($allow_delete_issues==1?'checked':'').'> '._DELETE.' '._ISSUE.'
+							<input type="checkbox" name="allow_delete_issues" value="1" '.($allow_delete_issues==1?'checked':'').'> '.$_DELETE.' '.$_ISSUE.'
 						</label><br><br>';
 					}
 						echo'
 						<div class="form-group">
-							<label for="apic">'._AVATAR.':</label>';	
+							<label for="apic">'.$_AVATAR.':</label>';	
 							if(isset($_REQUEST['aid']))
 							{
 								if(file_exists('img/admins/'.$pic_prefix.$apic.''))
@@ -379,7 +379,7 @@ switch ($op) {
 									<br>
 									<img src="img/admins/'.$pic_prefix.$apic.'" style="height:100px;">
 									<br>
-									<input type="checkbox" name="delpic" value="yes" id="delpic"><label for="delpic"> '._DELETE_IMAGE.'</label>
+									<input type="checkbox" name="delpic" value="yes" id="delpic"><label for="delpic"> '.$_DELETE_IMAGE.'</label>
 									';
 								}
 								else
@@ -390,7 +390,7 @@ switch ($op) {
 							echo '
 							<input type="file" id="apic" name="apic" value="'.$apic.'" style="direction: ltr;">
 						</div>
-						<label for="acomments">'._COMMENTS.': </label><br>
+						<label for="acomments">'.$_COMMENTS.': </label><br>
 						<textarea name="acomments" class="form-control editor" rows="3">'.$acomments.'</textarea><br>
 						<input type="hidden" name="apic_temp" value="'.$apic2.'">
 					</div>
@@ -400,12 +400,12 @@ switch ($op) {
 				echo '
 				<ul class="list-inline">
 					<li class="left_list">
-						'.UpdateForm('edit').'
+						'.UpdateForm('edit', $_UPDATE).'
 					</li>';
 					if ($aid != 1) {
 						echo'
 						<li>
-							<a class="btn btn-link" onclick="return Sure();" style="color: red;" href="?op=delete&aid='.$aid.'">'._DELETE.'</a>
+							<a class="btn btn-link" onclick="return Sure();" style="color: red;" href="?op=delete&aid='.$aid.'">'.$_DELETE.'</a>
 						</li>';
 					}
 				echo'
@@ -414,7 +414,7 @@ switch ($op) {
 			}
 			else {
 				echo '<div style="text-align:left;">';
-				AddForm('add');
+				AddForm('add', $_ADD);
 				echo'</div>';			
 			}
 			echo'
@@ -425,11 +425,11 @@ switch ($op) {
 		</form>';
 			}
 			else{
-				Failure(_ACCESS_DENIED);
+				Failure($_ACCESS_DENIED);
 			}
 	}
 	else{
-		Failure(_ACCESS_DENIED);
+		Failure($_ACCESS_DENIED);
 	}
 	echo'</div>';
 		break;
@@ -471,26 +471,26 @@ switch ($op) {
 			<div class="row">
 			  <div class="col-md-3">
 				<p class="lead">مدیران ';
-				AddLogo('?op=add');
+				AddLogo('?op=add', $_NEW);
 				echo'</p>
 			  </div>
 			  <div class="col-md-9">
 				<form action="" method="post" class="form-inline">
 					<div class="form-group">
-						<input autofocus="" type="text" value="'.$q.'" class="form-control" id="q" name="q" placeholder="'._SEARCH_TEXT.'">
+						<input autofocus="" type="text" value="'.$q.'" class="form-control" id="q" name="q" placeholder="'.$_SEARCH_TEXT.'">
 					</div>
 					<select name="filter" class="form-control">
-						<option '.($filter=="ausername"?'selected':'').' value="ausername">'._USERNAME.'</option>
-						<option onclick="alert(\'  '._ACTIVE.': 1 / '._INACTIVE.' : 0\')" '.($filter=="aactive"?'selected':'').' value="aactive">'._CONDITION.'؟</option>
-						<option onclick="alert(\'  '._GENERAL_MANAGER.': 1 / '._ADMIN.' : 0\')" '.($filter=="asuper_admin"?'selected':'').' value="asuper_admin">'._GENERAL_MANAGER.'</option>
-						<option '.($filter=="afname"?'selected':'').' value="afname">'._NAME.'</option>
-						<option '.($filter=="alname"?'selected':'').' value="alname">'._FAMILI.'</option>
-						<option onclick="alert(\'  '._WOMAN.': 1 / '._MAN.' : 0\')" '.($filter=="agender"?'selected':'').' value="agender">'._GENDER.'</option>
-						<option '.($filter=="atel"?'selected':'').' value="atel">'._PHONE_NUMBER.'</option>
-						<option '.($filter=="aemail"?'selected':'').' value="aemail">'._EMAIL.'</option>
+						<option '.($filter=="ausername"?'selected':'').' value="ausername">'.$_USERNAME.'</option>
+						<option onclick="alert(\'  '.$_ACTIVE.': 1 / '.$_INACTIVE.' : 0\')" '.($filter=="aactive"?'selected':'').' value="aactive">'.$_CONDITION.'؟</option>
+						<option onclick="alert(\'  '.$_GENERAL_MANAGER.': 1 / '.$_ADMIN.' : 0\')" '.($filter=="asuper_admin"?'selected':'').' value="asuper_admin">'.$_GENERAL_MANAGER.'</option>
+						<option '.($filter=="afname"?'selected':'').' value="afname">'.$_NAME.'</option>
+						<option '.($filter=="alname"?'selected':'').' value="alname">'.$_FAMILI.'</option>
+						<option onclick="alert(\'  '.$_WOMAN.': 1 / '.$_MAN.' : 0\')" '.($filter=="agender"?'selected':'').' value="agender">'.$_GENDER.'</option>
+						<option '.($filter=="atel"?'selected':'').' value="atel">'.$_PHONE_NUMBER.'</option>
+						<option '.($filter=="aemail"?'selected':'').' value="aemail">'.$_EMAIL.'</option>
 					</select>';
 					if ($num_of_pages>1) {
-						echo' '._PAGE_NUMBER.':<select name="page" class="form-control">';
+						echo' '.$_PAGE_NUMBER.':<select name="page" class="form-control">';
 						for ($i=0; $i < $num_of_pages; $i++) { 
 							echo'
 							<option value="'.$i.'"'.($i==$page?'selected':'').'>'.($i+1).'</option>
@@ -500,7 +500,7 @@ switch ($op) {
 							</select>';
 					}
 					echo'
-				'._NUMBER_OF_ADMINS_PER_PAGE.':
+				'.$_NUMBER_OF_ADMINS_PER_PAGE.':
 				<select class="form-control" id="page_limit" name="page_limit">
 					<option '.($page_limit=="5"?'selected':'').' value="5">5</option>
 					<option '.($page_limit=="10"?'selected':'').' value="10">10</option>
@@ -508,100 +508,100 @@ switch ($op) {
 					<option '.($page_limit=="50"?'selected':'').' value="50">50</option>
 					<option '.($page_limit=="100"?'selected':'').' value="100">100</option>
 				</select>
-				 <button type="submit" name="search" class="btn btn-default">'._SEARCH.'</button>
+				 <button type="submit" name="search" class="btn btn-default">'.$_SEARCH.'</button>
 				</form><br>
 			  </div>
 		  	</div>
 			<div class="table-responsive" width="1500px">
 				<table class="table table-bordered table-hover table-striped">
 					<tr class="table_header info">
-						<th width="30px">'._TOOLS.'</th>
+						<th width="30px">'.$_TOOLS.'</th>
 						<th width="300px">
-							<a href="?op=list&order=ausername'.(isset($_GET['desc'])?'':'&desc').'">'._USERNAME.'
+							<a href="?op=list&order=ausername'.(isset($_GET['desc'])?'':'&desc').'">'.$_USERNAME.'
 								<span class="fas fa-collapse'.($_GET['order']=='ausername' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=aactive'.(isset($_GET['desc'])?'':'&desc').'">'._CONDITION.'؟
+							<a href="?op=list&order=aactive'.(isset($_GET['desc'])?'':'&desc').'">'.$_CONDITION.'؟
 								<span class="fas fa-collapse'.($_GET['order']=='aactive' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=asuper_admin'.(isset($_GET['desc'])?'':'&desc').'">'._GENERAL_MANAGER.'
+							<a href="?op=list&order=asuper_admin'.(isset($_GET['desc'])?'':'&desc').'">'.$_GENERAL_MANAGER.'
 								<span class="fas fa-collapse'.($_GET['order']=='asuper_admin' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="100px">
-							<a href="?op=list&order=afname'.(isset($_GET['desc'])?'':'&desc').'">'._NAME.'
+							<a href="?op=list&order=afname'.(isset($_GET['desc'])?'':'&desc').'">'.$_NAME.'
 								<span class="fas fa-collapse'.($_GET['order']=='afname' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="100px">
-							<a href="?op=list&order=alname'.(isset($_GET['desc'])?'':'&desc').'">'._FAMILI.'
+							<a href="?op=list&order=alname'.(isset($_GET['desc'])?'':'&desc').'">'.$_FAMILI.'
 								<span class="fas fa-collapse'.($_GET['order']=='alname' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=agender'.(isset($_GET['desc'])?'':'&desc').'">'._GENDER.'
+							<a href="?op=list&order=agender'.(isset($_GET['desc'])?'':'&desc').'">'.$_GENDER.'
 								<span class="fas fa-collapse'.($_GET['order']=='agender' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="100px">
-							<a href="?op=list&order=atel'.(isset($_GET['desc'])?'':'&desc').'">'._PHONE_NUMBER.'
+							<a href="?op=list&order=atel'.(isset($_GET['desc'])?'':'&desc').'">'.$_PHONE_NUMBER.'
 								<span class="fas fa-collapse'.($_GET['order']=='atel' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="100px">
-							<a href="?op=list&order=aemail'.(isset($_GET['desc'])?'':'&desc').'">'._EMAIL.'
+							<a href="?op=list&order=aemail'.(isset($_GET['desc'])?'':'&desc').'">'.$_EMAIL.'
 								<span class="fas fa-collapse'.($_GET['order']=='aemail' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=apic'.(isset($_GET['desc'])?'':'&desc').'">'._AVATAR.'
+							<a href="?op=list&order=apic'.(isset($_GET['desc'])?'':'&desc').'">'.$_AVATAR.'
 								<span class="fas fa-collapse'.($_GET['order']=='apic' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="200px">
-							<a href="?op=list&order=acomments'.(isset($_GET['desc'])?'':'&desc').'">'._COMMENTS.'
+							<a href="?op=list&order=acomments'.(isset($_GET['desc'])?'':'&desc').'">'.$_COMMENTS.'
 								<span class="fas fa-collapse'.($_GET['order']=='acomments' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=allow_add_project'.(isset($_GET['desc'])?'':'&desc').'">'._ADD.' '._PROJECT.'
+							<a href="?op=list&order=allow_add_project'.(isset($_GET['desc'])?'':'&desc').'">'.$_ADD.' '.$_PROJECT.'
 								<span class="fas fa-collapse'.($_GET['order']=='allow_add_project' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=allow_edit_project'.(isset($_GET['desc'])?'':'&desc').'">'._EDIT.' '._PROJECT.'
+							<a href="?op=list&order=allow_edit_project'.(isset($_GET['desc'])?'':'&desc').'">'.$_EDIT.' '.$_PROJECT.'
 								<span class="fas fa-collapse'.($_GET['order']=='allow_edit_project' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=allow_list_project'.(isset($_GET['desc'])?'':'&desc').'">'._LIST.' '._PROJECT.'
+							<a href="?op=list&order=allow_list_project'.(isset($_GET['desc'])?'':'&desc').'">'.$_LIST.' '.$_PROJECT.'
 								<span class="fas fa-collapse'.($_GET['order']=='allow_list_project' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=allow_delete_project'.(isset($_GET['desc'])?'':'&desc').'">'._DELETE.' '._PROJECT.'
+							<a href="?op=list&order=allow_delete_project'.(isset($_GET['desc'])?'':'&desc').'">'.$_DELETE.' '.$_PROJECT.'
 								<span class="fas fa-collapse'.($_GET['order']=='allow_delete_project' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=allow_add_issues'.(isset($_GET['desc'])?'':'&desc').'">'._ADD.' '._ISSUE.'
+							<a href="?op=list&order=allow_add_issues'.(isset($_GET['desc'])?'':'&desc').'">'.$_ADD.' '.$_ISSUE.'
 								<span class="fas fa-collapse'.($_GET['order']=='allow_add_issues' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=allow_edit_issues'.(isset($_GET['desc'])?'':'&desc').'">'._EDIT.' '._ISSUE.'
+							<a href="?op=list&order=allow_edit_issues'.(isset($_GET['desc'])?'':'&desc').'">'.$_EDIT.' '.$_ISSUE.'
 								<span class="fas fa-collapse'.($_GET['order']=='allow_edit_issues' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=allow_list_issues'.(isset($_GET['desc'])?'':'&desc').'">'._LIST.' '._ISSUE.'
+							<a href="?op=list&order=allow_list_issues'.(isset($_GET['desc'])?'':'&desc').'">'.$_LIST.' '.$_ISSUE.'
 								<span class="fas fa-collapse'.($_GET['order']=='allow_list_issues' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=allow_delete_issues'.(isset($_GET['desc'])?'':'&desc').'">'._DELETE.' '._ISSUE.'
+							<a href="?op=list&order=allow_delete_issues'.(isset($_GET['desc'])?'':'&desc').'">'.$_DELETE.' '.$_ISSUE.'
 								<span class="fas fa-collapse'.($_GET['order']=='allow_delete_issues' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=allow_add_task'.(isset($_GET['desc'])?'':'&desc').'">'._ADD.' '._TASK.'
+							<a href="?op=list&order=allow_add_task'.(isset($_GET['desc'])?'':'&desc').'">'.$_ADD.' '.$_TASK.'
 								<span class="fas fa-collapse'.($_GET['order']=='allow_add_task' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=allow_list_task'.(isset($_GET['desc'])?'':'&desc').'"> '._LIST.' '._TASK.'
+							<a href="?op=list&order=allow_list_task'.(isset($_GET['desc'])?'':'&desc').'"> '.$_LIST.' '.$_TASK.'
 								<span class="fas fa-collapse'.($_GET['order']=='allow_list_task' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=allow_edit_task'.(isset($_GET['desc'])?'':'&desc').'">'._EDIT.' '._TASK.'
+							<a href="?op=list&order=allow_edit_task'.(isset($_GET['desc'])?'':'&desc').'">'.$_EDIT.' '.$_TASK.'
 								<span class="fas fa-collapse'.($_GET['order']=='allow_edit_task' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 						<th width="30px">
-							<a href="?op=list&order=allow_delete_task'.(isset($_GET['desc'])?'':'&desc').'">'._DELETE.' '._TASK.'
+							<a href="?op=list&order=allow_delete_task'.(isset($_GET['desc'])?'':'&desc').'">'.$_DELETE.' '.$_TASK.'
 								<span class="fas fa-collapse'.($_GET['order']=='allow_delete_task' && isset($_GET['desc'])?'-up':'-down').'" aria-hidden="true"></span>
 							</a></th>
 					</tr>
@@ -620,19 +620,19 @@ switch ($op) {
 										';
 										if ($adminInfo['aid'] != 1 || $permissions[0]['aid']==1) {
 											echo'
-											<a  class="dropdown-item" href="?op=add&aid='.$adminInfo['aid'].'">'._EDIT.'</a>
+											<a  class="dropdown-item" href="?op=add&aid='.$adminInfo['aid'].'">'.$_EDIT.'</a>
 											';
 										}
 										if ($adminInfo['aid'] != 1 && $permissions[0]['aid']!=$adminInfo['aid']) {
 											echo'
-											<a  class="dropdown-item" onclick="return Sure();" style="color: red;" href="?op=delete&aid='.$adminInfo['aid'].'">'._DELETE.'</a>
+											<a  class="dropdown-item" onclick="return Sure();" style="color: red;" href="?op=delete&aid='.$adminInfo['aid'].'">'.$_DELETE.'</a>
 											';
 										}
 										echo'
 										';
 										if ($adminInfo['aid'] != 1 || $permissions[0]['aid']==1) {
 											echo'
-											<a  class="dropdown-item" href="javascript:reset_password('.$adminInfo['aid'].')"> '._CHANGE.' '._PASSWORD.'</a>
+											<a  class="dropdown-item" href="javascript:reset_password('.$adminInfo['aid'].')"> '.$_CHANGE.' '.$_PASSWORD.'</a>
 											';
 										}
 										echo'
@@ -654,16 +654,16 @@ switch ($op) {
 								        <form action="?op=reset" method="post" name="reset_student_pass">
 									      <div class="modal-header">
 									        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									        <h4 class="modal-title">'._CHANGE.' '._PASSWORD.'</h4>
+									        <h4 class="modal-title">'.$_CHANGE.' '.$_PASSWORD.'</h4>
 									      </div>
 									      <div class="modal-body">
-												'._NEW_PASSWORD.':<br>
+												'.$_NEW_PASSWORD.':<br>
 												<center><input type="password" name="new_pass" class="input" id="new_pass" style="direction:ltr;"><br>
 												<input type="hidden" class="form-control" name="new_pass_aid" id="new_pass_aid" value="">
 									      </div>
 									      <div class="modal-footer">
 									        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-									        <button type="submit" class="btn btn-primary">'._UPDATE.'</button>
+									        <button type="submit" class="btn btn-primary">'.$_UPDATE.'</button>
 									      </div>
 									    </div><!-- /.modal-content -->
 										</form>
@@ -680,7 +680,7 @@ switch ($op) {
 						</td>
 						<td>'.$adminInfo['afname'].'</td>
 						<td>'.$adminInfo['alname'].'</td>
-						<td style="text-align:center;">'.($adminInfo['agender']==1?''._WOMAN.'':''._MAN.'').'</td>
+						<td style="text-align:center;">'.($adminInfo['agender']==1?''.$_WOMAN.'':''.$_MAN.'').'</td>
 						<td style="text-align: left;">'.$adminInfo['atel'].'</td>
 						<td style="text-align: left;">'.$adminInfo['aemail'].'</td>';
 						if(file_exists('img/admins/'.$pic_prefix.$adminInfo['apic'].''))
@@ -731,7 +731,7 @@ switch ($op) {
 				}
 			}
 		else{
-		   	Failure(_ACCESS_DENIED);
+		   	Failure($_ACCESS_DENIED);
 		}
 		break;
 		case 'delete':
@@ -743,21 +743,21 @@ switch ($op) {
 					if ($adminInfo['aid'] !=1) {
 						if ($admin->Delete($_GET['aid'])) 
 						{
-							Success(_RECORD_DELETED_SUCCESSFULLI);
+							Success($_RECORD_DELETED_SUCCESSFULLI);
 						}
 						else
 						{
-							Failure(_DELETING_RECORD_FAILED);
+							Failure($_DELETING_RECORD_FAILED);
 						}
 					}
 					else{
-						Failure(_ACCESS_DENIED);
+						Failure($_ACCESS_DENIED);
 					}
 				}
 				else{
-						Toast('error', 'خطا',  _ACCESS_DENIED);
+						Toast('error', 'خطا', $_ACCESS_DENIED);
 				}
-				echo '<a href="admins.php?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'._BACK_TO_LIST.'"></a>';
+				echo '<a href="admins.php?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'.$_BACK_TO_LIST.'"></a>';
 			}
 			break;
 		case 'reset':
@@ -770,22 +770,22 @@ switch ($op) {
 				$adminInfo = $admin->GetAdminInfo($aid);
 				$adminId = $adminInfo['aid'];
 				if ($aid==1 && $adminid==1) {
-					Failure(_CHANGING_PASSWORD_FAILED);
+					Failure($_CHANGING_PASSWORD_FAILED);
 				}
 				else{
 					if ($admin->ResetPassword($aid,$apass)==1) {
-						Success(_CHANGED_PASSWORD_SUCCESSFULLI);
+						Success($_CHANGED_PASSWORD_SUCCESSFULLI);
 					}
 					else{
-						Failure(_INSERT_NEW_PASSWORD);
+						Failure($_INSERT_NEW_PASSWORD);
 					}
 
 				}
 			}
 			else{
-				Failure(_ACCESS_DENIED);
+				Failure($_ACCESS_DENIED);
 			}
-		echo '<a href="admins.php?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'._BACK_TO_LIST.'"></a>';
+		echo '<a href="admins.php?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'.$_BACK_TO_LIST.'"></a>';
 		echo'</div>';
 			break;
 	

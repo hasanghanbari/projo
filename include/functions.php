@@ -117,42 +117,42 @@ function Failure($message)
 	</div>
 	';
 }
-function AddLogo($message)
+function AddLogo($message, $_NEW)
 {
 	echo'
 	<a class="btn btn-primary" href="'.$message.'" role="button">
 		<i class="fas fa-pen" aria-hidden="true"></i>
-		'._NEW.'
+		'.$_NEW.'
 	</a>
 	';
 }
-function ListLogo($message)
+function ListLogo($message, $_LIST)
 {
 	echo'
 	<a class="btn btn-primary" href="'.$message.'" role="button">
 		<i class="fas fa-th-list" aria-hidden="true"></i>
-		'._LIST.'
+		'.$_LIST.'
 	</a>
 	';
 }
-function ChartLogo($message)
+function ChartLogo($message, $_CHART)
 {
 	echo'
 	<a class="btn btn-primary" href="'.$message.'" role="button">
 		<i class="fas fa-th-large" aria-hidden="true"></i>
-		'._CHART.'
+		'.$_CHART.'
 	</a>
 	';
 }
-function AddForm($message)
+function AddForm($message, $_ADD)
 {
 	echo '
-		<button type="submit" name="'.$message.'" class="btn btn-success" style="width: 100px;">'._ADD.'</button>
+		<button type="submit" name="'.$message.'" class="btn btn-success" style="width: 100px;">'.$_ADD.'</button>
 	';
 }
-function UpdateForm($message)
+function UpdateForm($message, $_UPDATE)
 {
-	echo'<button type="submit" name="'.$message.'" class="btn btn-success" style="width: 100px;">'._UPDATE.'</button>';
+	echo'<button type="submit" name="'.$message.'" class="btn btn-success" style="width: 100px;">'.$_UPDATE.'</button>';
 }
 
 

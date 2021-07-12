@@ -13,7 +13,7 @@ if (isset($_GET['op'])) {
 	switch ($_GET['op']) {
 		case 'settings':
 			$manage_settings = new ManageSettings();
-			$form_title = _ADMIN_MODIFY_SYSTEM_SETTINGS;
+			$form_title = $_ADMIN_MODIFY_SYSTEM_SETTINGS;
 			if (isset($_POST['update_settings'])) {
 				$system_title = $_POST['system_title'];
 				$language = $_POST['language'];
@@ -24,12 +24,12 @@ if (isset($_GET['op'])) {
 				if($admin->AdminPermission($cookie_admin[0],"asuper_admin"))
 				{
 					if($manage_settings->UpdateSettings($system_title,$language,$direction,$theme)!=1)
-						Toast('error', 'خطا', _SETTINGS_UPDATING_FAILED);
+						Toast('error', 'خطا', $_SETTINGS_UPDATING_FAILED);
 					else
-						Toast('success', 'موفق', _SETTINGS_UPDATED_SUCCESSFULLY);
+						Toast('success', 'موفق', $_SETTINGS_UPDATED_SUCCESSFULLY);
 				}
 				else{
-					Toast('error', 'خطا', _ADMIN_YOU_DO_NOT_HAVE_NECCESSARY_PERMISSIONS);
+					Toast('error', 'خطا', $_ADMIN_YOU_DO_NOT_HAVE_NECCESSARY_PERMISSIONS);
 				}
 			}
 			$id = '1';
@@ -45,16 +45,16 @@ if (isset($_GET['op'])) {
 			<div class="row">
 			  <div class="col-md-6">
 					<fieldset>
-						<legend class="label label-default">'._ADMIN_GENERAL_INFORMATION.'</legend>
+						<legend class="label label-default">'.$_ADMIN_GENERAL_INFORMATION.'</legend>
 						<div class="control-group">
-							<label class="control-label" for="system_title">'._SYSTEM_TITLE._REQUIRED.':</label>
+							<label class="control-label" for="system_title">'.$_SYSTEM_TITLE.$_REQUIRED.':</label>
 							<div class="controls">
 								<input value="'.$system_title.'" type="text" class="form-control input" autocomplete="off" id="system_title" name="system_title" style="direction:'.$direction.';">
 							</div><br>
 						</div>
 						
 						<div class="control-group">
-							<label class="control-label" for="language">'._LANG.':</label>
+							<label class="control-label" for="language">'.$_LANG.':</label>
 							<div class="controls">
 								<select name="language" class="form-control style="width:150px; direction:ltr;">
 						';
@@ -76,15 +76,15 @@ if (isset($_GET['op'])) {
 								</div>
 							</div><br>
 							<div class="control-group">
-								<label class="control-label">'._DIR.':</label>
+								<label class="control-label">'.$_DIR.':</label>
 								<div class="controls">
-									<input type="radio" name="dir" id="dir1" value="1" '.($direction=='1'?'checked':'').'> <label for="dir1">'._RTLS.'</label> 
-									<input type="radio" name="dir" id="dir2" value="0" '.($direction=='0'?'checked':'').'> <label for="dir2">'._LTRS.'</label> 
+									<input type="radio" name="dir" id="dir1" value="1" '.($direction=='1'?'checked':'').'> <label for="dir1">'.$_RTLS.'</label> 
+									<input type="radio" name="dir" id="dir2" value="0" '.($direction=='0'?'checked':'').'> <label for="dir2">'.$_LTRS.'</label> 
 								</div>
 							</div>
 							<br>
 							<div class="control-group">
-									<label class="control-label" for="theme">'._THEME.':</label>
+									<label class="control-label" for="theme">'.$_THEME.':</label>
 									<div class="controls">
 										<select name="theme" class="form-control style="width:150px; direction:ltr;">
 								';
@@ -111,7 +111,7 @@ if (isset($_GET['op'])) {
 						
 						echo'
 						<center>
-						'.UpdateForm('update_settings').'
+						'.UpdateForm('update_settings', $_UPDATE).'
 						</center>
 							</form>
 						</p>
@@ -123,21 +123,21 @@ if (isset($_GET['op'])) {
 		case "about":
 		echo '
 			<div class="col-sm-12 col-md-12 jumbotron" id="content">';
-			$form_title = _ABOUT_PROJA;
+			$form_title = $_ABOUT_PROJA;
 			
 			echo '
 			<div class="hero-unit main-container" style="margin-'.$align2.':0px; '.$align2.':20%;">';
 			echo '
 				<img width="200px" src="themes/'.$themes.'/img/logo.png" />
 				<h3>'.$form_title.'</h3>
-				'._ABOUT_PROJA_SYSTEM_NAME.': '._ABOUT_PROJA_SYSTEM_NAME2.'<br />
-				'._ABOUT_PROJA_SYSTEM_DESIGNER.': '._ABOUT_PROJA_SYSTEM_DESIGNER2.' (<a href="https://ghanbari1.ir" target="_blank">https://ghanbari1.ir</a>)<br />
-				'._ABOUT_PROJA_SYSTEM_LICENSE.': '._ABOUT_PROJA_SYSTEM_LICENSE2.'<br />
-				'._ABOUT_PROJA_SYSTEM_VERSION.': '._ABOUT_PROJA_SYSTEM_VERSION2.' (<a href="https://roubah.ir/proja/update.php?version='._ABOUT_PROJA_SYSTEM_VERSION2.'" target="_blank">'._ABOUT_PROJA_SYSTEM_CHECK_FOR_UPDATE.'</a>)<br />
-				'._ABOUT_PROJA_OFFICIAL_WEBSITE.': <a href="https://proja.ir" target="_blank">https://proja.ir</a><br />
-				'._ABOUT_PROJA_PUBLISHED_AT.': '._ABOUT_PROJA_PUBLISHED_AT2.' (<a href="https://roubah.ir" target="_blank">https://roubah.ir</a>)<br />
-				'._ABOUT_PROJA_DOCUMENTS.': <a href="https://help.proja.ir" target="_blank">https://help.proja.ir</a><br />
-				'._ABOUT_PROJA_SUPPORT_FORUMS.': <a href="https://roubah.ir/proja_forums" target="_blank">https://roubah.ir/proja_forums</a><br />
+				'.$_ABOUT_PROJA_SYSTEM_NAME.': '.$_ABOUT_PROJA_SYSTEM_NAME2.'<br />
+				'.$_ABOUT_PROJA_SYSTEM_DESIGNER.': '.$_ABOUT_PROJA_SYSTEM_DESIGNER2.' (<a href="https://ghanbari1.ir" target="_blank">https://ghanbari1.ir</a>)<br />
+				'.$_ABOUT_PROJA_SYSTEM_LICENSE.': '.$_ABOUT_PROJA_SYSTEM_LICENSE2.'<br />
+				'.$_ABOUT_PROJA_SYSTEM_VERSION.': '.$_ABOUT_PROJA_SYSTEM_VERSION2.' (<a href="https://roubah.ir/proja/update.php?version='.$_ABOUT_PROJA_SYSTEM_VERSION2.'" target="_blank">'.$_ABOUT_PROJA_SYSTEM_CHECK_FOR_UPDATE.'</a>)<br />
+				'.$_ABOUT_PROJA_OFFICIAL_WEBSITE.': <a href="https://proja.ir" target="_blank">https://proja.ir</a><br />
+				'.$_ABOUT_PROJA_PUBLISHED_AT.': '.$_ABOUT_PROJA_PUBLISHED_AT2.' (<a href="https://roubah.ir" target="_blank">https://roubah.ir</a>)<br />
+				'.$_ABOUT_PROJA_DOCUMENTS.': <a href="https://help.proja.ir" target="_blank">https://help.proja.ir</a><br />
+				'.$_ABOUT_PROJA_SUPPORT_FORUMS.': <a href="https://roubah.ir/proja_forums" target="_blank">https://roubah.ir/proja_forums</a><br />
 			';
 				
 			echo'
@@ -188,18 +188,18 @@ if (isset($_GET['op'])) {
 				
 				if(!in_array(substr(basename($_FILES['apic']['name']),-3), $whitelist))
 				{
-					Toast('error', 'خطا', _ADMIN_PIC_EXTENSION_ERROR);
+					Toast('error', 'خطا', $_ADMIN_PIC_EXTENSION_ERROR);
 				}
 				else
 				{
 					$imageinfo = getimagesize($_FILES['apic']['tmp_name']);
 					if($imageinfo['mime'] != 'image/gif' && $imageinfo['mime'] != 'image/jpeg' && $imageinfo['mime'] != 'image/png')
 					{
-						Toast('error', 'خطا', _ADMIN_PIC_CONTENT_ERROR);
+						Toast('error', 'خطا', $_ADMIN_PIC_CONTENT_ERROR);
 					}
 					else
 					{
-						if($_FILES['apic']['size']<(_IMAGE_SIZE*1024))
+						if($_FILES['apic']['size']<($_IMAGE_SIZE*1024))
 						{
 							$uploaddir = 'img/admins/';
 							$pic_name = $pic_prefix;
@@ -211,13 +211,13 @@ if (isset($_GET['op'])) {
 							}
 							else
 							{
-								Failure(_ADMIN_PIC_UPLOAD_ERROR); 
+								Failure($_ADMIN_PIC_UPLOAD_ERROR);
 								$apic = "";
 							}
 						}
 						else
 						{
-							Failure(_IMAGE_SIZE_ERROR);
+							Failure($_IMAGE_SIZE_ERROR);
 							$apic = $apic2 = $_REQUEST['apic_temp'];
 						}
 					}
@@ -233,48 +233,48 @@ if (isset($_GET['op'])) {
 			$aemail = $_POST['aemail'];
 			$acomments = $_POST['acomments'];
 			if($admin->UpdateProfile($aid, $afname, $alname, $agender, $atel, $aemail, $apic, $acomments)==1){
-				Toast('success', 'موفق', _RECORD_EDITED_SUCCESSFULLI);
+				Toast('success', 'موفق', $_RECORD_EDITED_SUCCESSFULLI);
 			}
 			else{
-				Toast('error', 'خطا', EDITING_RECORD_FAILED.'('._NOT_CHANGED_RECORD.')');
+				Toast('error', 'خطا', $_EDITING_RECORD_FAILED.'('.$_NOT_CHANGED_RECORD.')');
 			}
 		}
 		echo '
 		<form method="post" enctype="multipart/form-data">
-		<legend>'._EDIT.' '._PROFILE.'</legend>
+		<legend>'.$_EDIT.' '.$_PROFILE.'</legend>
 		<div class="row">
 		  <div class="col-md-6">
 		  	<div class="card card-default">
 		  	  <div class="card-body">
 				<div class="form-group">
-					<label for="ausername">'._USERNAME.': </label><small> '._USERNAME_CANNOT_BE_CHANGED.'</small><br>
+					<label for="ausername">'.$_USERNAME.': </label><small> '.$_USERNAME_CANNOT_BE_CHANGED.'</small><br>
 					<input autofocus="" type="text" class="form-control" id="ausername" name="ausername" value="'.$ausername.'" style="direction: ltr;" disabled>
 				</div>
-				<a href="#change_pass" role="button" data-toggle="modal"><span class="fas fa-refresh" aria-hidden="true"></span> '._CHANGE.' '._PASSWORD.'</a><br><br>
+				<a href="#change_pass" role="button" data-toggle="modal"><span class="fas fa-refresh" aria-hidden="true"></span> '.$_CHANGE.' '.$_PASSWORD.'</a><br><br>
 				
 				<div class="form-group">
-					<label for="afname">'._NAME.': </label><br>
+					<label for="afname">'.$_NAME.': </label><br>
 					<input type="text" class="form-control" id="afname" name="afname" value="'.$afname.'">
 				</div>
 				<div class="form-group">
-					<label for="alname">'._FAMILI.': </label><br>
+					<label for="alname">'.$_FAMILI.': </label><br>
 					<input type="text" class="form-control" id="alname" name="alname" value="'.$alname.'">
 				</div>
 				<div class="form-group">
-					<label for="agender">'._GENDER.': </label><br>
+					<label for="agender">'.$_GENDER.': </label><br>
 					<label class="radio-inline">
-					<input type="radio" name="agender" id="agender0" value="0" '.($agender==0?'checked':'').'> '._MAN.'
+					<input type="radio" name="agender" id="agender0" value="0" '.($agender==0?'checked':'').'> '.$_MAN.'
 					</label>
 					<label class="radio-inline">
-					<input type="radio" name="agender" id="agender1" value="1" '.($agender==1?'checked':'').'> '._WOMAN.'
+					<input type="radio" name="agender" id="agender1" value="1" '.($agender==1?'checked':'').'> '.$_WOMAN.'
 					</label>
 				</div>
 				<div class="form-group">
-					<label for="atel">'._PHONE_NUMBER.': </label><br>
+					<label for="atel">'.$_PHONE_NUMBER.': </label><br>
 					<input type="tel" class="form-control" id="atel" name="atel" value="'.$atel.'" style="direction: ltr;">
 				</div>
 				<div class="form-group">
-					<label for="aemail">'._EMAIL.': </label><br>
+					<label for="aemail">'.$_EMAIL.': </label><br>
 					<input type="email" class="form-control" id="aemail" name="aemail" value="'.$aemail.'" style="direction: ltr;">
 				</div>
 		  	  </div>
@@ -284,14 +284,14 @@ if (isset($_GET['op'])) {
 			  <div class="card card-default">
 				<div class="card-body">
 					<div class="form-group">
-						<label for="apic">'._AVATAR.':</label>';
+						<label for="apic">'.$_AVATAR.':</label>';
 							if(file_exists('img/admins/'.$pic_prefix.$apic.''))
 							{
 								echo '
 								<br>
 								<img src="img/admins/'.$pic_prefix.$apic.'" style="height:100px;">
 								<br>
-								<input type="checkbox" name="delpic" value="yes" id="delpic"><label for="delpic"> '._DELETE_IMAGE.'</label>
+								<input type="checkbox" name="delpic" value="yes" id="delpic"><label for="delpic"> '.$_DELETE_IMAGE.'</label>
 								';
 							}
 							else
@@ -302,12 +302,12 @@ if (isset($_GET['op'])) {
 						<input type="file" id="apic" name="apic" value="'.$apic.'" style="direction: ltr;">
 						<input type="hidden" name="apic_temp" value="'.$apic2.'">
 					</div>
-					<label for="acomments">'._COMMENTS.': </label><br>
+					<label for="acomments">'.$_COMMENTS.': </label><br>
 					<textarea name="acomments" class="form-control editor" rows="3">'.$acomments.'</textarea><br>
 				</div>
 			  </div>
 			<div style="text-align:left;">
-				<button type="submit" name="edit" class="btn btn-success" style="width: 100px;">'._UPDATE.'</button>
+				<button type="submit" name="edit" class="btn btn-success" style="width: 100px;">'.$_UPDATE.'</button>
 			</div>
 		  </div>
 		</div>
@@ -318,21 +318,21 @@ if (isset($_GET['op'])) {
 		          <form action="?op=reset" method="post">
 		            <div class="modal-header">
 		              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		              <h4 class="modal-title">'._CHANGE.' '._PASSWORD.'</h4>
+		              <h4 class="modal-title">'.$_CHANGE.' '.$_PASSWORD.'</h4>
 		            </div>
 		            <div class="modal-body">
-		                '._CURRENT_PASSWORD.'<span class="required">*</span>:<br>
+		                '.$_CURRENT_PASSWORD.'<span class="required">*</span>:<br>
 		                <input type="password" name="current_pass" class="form-control" id="current_pass" style="direction:ltr;"><br>
-		                '._NEW_PASSWORD.'<span class="required">*</span>:<br>
+		                '.$_NEW_PASSWORD.'<span class="required">*</span>:<br>
 		                <input type="password" name="new_pass" class="form-control" id="new_pass" style="direction:ltr;"><br>
-		                '._REPEAT_THE_NEW_PASSWORD.'<span class="required">*</span>:<br>
+		                '.$_REPEAT_THE_NEW_PASSWORD.'<span class="required">*</span>:<br>
 		                <input type="password" name="confirm_pass" class="form-control" id="confirm_pass" style="direction:ltr;"><br>
 		                <div id="pass_result">
 		                </div>
 		            </div>
 		            <div class="modal-footer">
 		              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		              <button type="submit" class="btn btn-primary">'._SAVE.'</button>
+		              <button type="submit" class="btn btn-primary">'.$_SAVE.'</button>
 		            </div>
 		          </form>
 		      </div><!-- /.modal-content -->
@@ -355,31 +355,31 @@ if (isset($_GET['op'])) {
 				$adminInfo = $admin->GetAdminInfo($aid);
 				$adminId = $adminInfo['aid'];
 					if ($aid==1 && $adminId==1) {
-						Failure(_CHANGING_PASSWORD_FAILED);
+						Failure($_CHANGING_PASSWORD_FAILED);
 					}
 					else{
 						if ($admin->ResetPassword($aid,$apass)==1) {
 							header("Location: logout.php");
-							Success(_CHANGED_PASSWORD_SUCCESSFULLI);
-							echo '<a href="admins.php?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'._BACK_TO_LIST.'"></a>';
+							Success($_CHANGED_PASSWORD_SUCCESSFULLI);
+							echo '<a href="admins.php?op=list"><input type="submit" name="backlist" class="btn btn-primary" value="'.$_BACK_TO_LIST.'"></a>';
 						}
 						else{
-							Failure(_INSERT_NEW_PASSWORD);
+							Failure($_INSERT_NEW_PASSWORD);
 						}
 					}
 				}
 				else{
-				  Failure (_NEW_PASSWORD_NOT_MATCH_CONFIRMATION);
+				  Failure ($_NEW_PASSWORD_NOT_MATCH_CONFIRMATION);
 				}
 			}
 			else{
-				Failure (_CURRENT_PASSWORD_IS_NOT_CORRECT);
+				Failure ($_CURRENT_PASSWORD_IS_NOT_CORRECT);
 			}
 			echo'</div>';
 			break;
 		default:
 			echo '
-				<h1>'._SETTINGS.'</h1>
+				<h1>'.$_SETTINGS.'</h1>
 				';
 			break;
 	}
